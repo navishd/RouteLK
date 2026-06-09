@@ -21,7 +21,6 @@
             android:textColor="#000000"
             android:layout_marginBottom="25dp"/>
 
-        <!-- Top Driver Area -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,12 +45,10 @@
                 android:background="@drawable/seat_bg"/>
         </LinearLayout>
 
-        <!-- Seat Rows 1 - 44 -->
         <TableLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <!-- row template -->
             <TableRow>
                 <Button android:text="1" style="@style/SeatButton"/>
                 <Button android:text="2" style="@style/SeatButton"/>
@@ -142,7 +139,6 @@
 
         </TableLayout>
 
-        <!-- Last Row 45 - 50 -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -158,5 +154,17 @@
 
         </LinearLayout>
 
+        <Button
+            android:id="@+id/continueButton"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="Continue"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#2563EB"
+            android:layout_marginTop="25dp"/>
+
     </LinearLayout>
+
 </ScrollView>

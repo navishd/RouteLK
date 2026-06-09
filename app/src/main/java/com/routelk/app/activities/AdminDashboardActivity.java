@@ -2,7 +2,7 @@ package com.routelk.app.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,7 +10,7 @@ import com.routelk.app.R;
 
 public class AdminDashboardActivity extends AppCompatActivity {
 
-    Button manageBusesBtn, manageRoutesBtn, viewBookingsBtn, manageUsersBtn, reportsBtn;
+    LinearLayout manageBusesBtn, manageRoutesBtn, viewBookingsBtn, manageUsersBtn, reportsBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
