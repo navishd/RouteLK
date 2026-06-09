@@ -15,7 +15,7 @@ import java.util.List;
 
 public class BusAdapter extends RecyclerView.Adapter<BusAdapter.BusViewHolder> {
 
-    private List<Bus> busList;
+    private final List<Bus> busList;
 
     public BusAdapter(List<Bus> busList) {
         this.busList = busList;
@@ -42,7 +42,7 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.BusViewHolder> {
         return busList.size();
     }
 
-    static class BusViewHolder extends RecyclerView.ViewHolder {
+    public static class BusViewHolder extends RecyclerView.ViewHolder {
         TextView busName, busTime, busType, busPrice;
 
         public BusViewHolder(@NonNull View itemView) {

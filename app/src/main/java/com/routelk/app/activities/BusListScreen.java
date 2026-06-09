@@ -19,9 +19,6 @@ import java.util.List;
 
 public class BusListScreen extends AppCompatActivity {
 
-    private RecyclerView busRecyclerView;
-    private BusAdapter busAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +31,7 @@ public class BusListScreen extends AppCompatActivity {
         });
 
         // Initialize RecyclerView
-        busRecyclerView = findViewById(R.id.busRecyclerView);
+        RecyclerView busRecyclerView = findViewById(R.id.busRecyclerView);
         busRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Create dummy data
@@ -45,7 +42,7 @@ public class BusListScreen extends AppCompatActivity {
         busList.add(new Bus("A/C Express", "01:00 PM - 04:30 PM", "E10", "LKR 1,300"));
 
         // Set adapter
-        busAdapter = new BusAdapter(busList);
+        BusAdapter busAdapter = new BusAdapter(busList);
         busRecyclerView.setAdapter(busAdapter);
 
         // Back button click listener
