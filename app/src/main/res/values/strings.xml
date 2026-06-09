@@ -1,6 +1,23 @@
 <resources>
     <string name="app_name">RouteLK</string>
-    <string name="_25_may_2024">25 May 2024</string>
-    <string name="colombo_kandy">Colombo → Kandy</string>
     <string name="back">Back</string>
+    <string name="passenger_details">Passenger Details</string>
+    <string name="passenger_1">Passenger 1</string>
+    <string name="full_name">Full Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="email">Email</string>
+    <string name="id_type">ID Type</string>
+    <string name="id_number">ID Number</string>
+    <string name="add_another_passenger">+ Add Another Passenger</string>
+    <string name="next">Next</string>
+    <string name="nic">NIC</string>
+    <string name="tharindu_silva">Tharindu Silva</string>
+    <string name="_071_234_5678">071 234 5678</string>
+    <string name="tharindu_gmail_com">tharindu@gmail.com</string>
+    <string name="_199812345678">199812345678</string>
+    <string name="colombo_kandy">Colombo → Kandy</string>
+    <string name="_25_may_2024">25 May 2024</string>
+    <string name="deshantharindu63_gmail_com">deshantharindu63@gmail.com</string>
+    <string name="_0702720757">0702720757</string>
+    <string name="tharindu_deshan">tharindu deshan</string>
 </resources>
