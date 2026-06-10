@@ -9,4 +9,8 @@
     </style>
 
     <style name="Theme.RouteLK" parent="Base.Theme.RouteLK" />
+
+    <style name="ShapeAppearance.Circle" parent="">
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>
