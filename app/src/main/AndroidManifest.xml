@@ -27,17 +27,46 @@
             android:name=".activities.OnboardingActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.PassengerDetailsScreen"
+            android:exported="false" />
+
+        <activity
+            android:name=".activities.BusListScreen"
+            android:exported="false" />
+
+        <activity
             android:name=".activities.SearchBusActivity"
             android:exported="false" />
-        <activity
-            android:name=".RegisterActivity"
-            android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".activities.LoginActivity"
             android:exported="false" />
+            android:name=".activities.AdminDashboardActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activities.LoginActivity"
+            android:exported="false" />
+
+        <activity android:name=".activities.RegisterActivity" android:exported="false" />
+        <activity android:name=".activities.SearchBusActivity" android:exported="false" />
+        <activity android:name=".activities.SeatSelectionActivity" android:exported="false" />
+        <activity android:name=".activities.MyBookingsActivity" android:exported="false" />
+
+        <activity android:name=".activities.ManageBusesActivity" android:exported="false" />
+        <activity android:name=".activities.ManageRoutesActivity" android:exported="false" />
+        <activity android:name=".activities.ManageUsersActivity" android:exported="false" />
+        <activity android:name=".activities.ViewBookingsActivity" android:exported="false" />
+        <activity android:name=".activities.ReportsActivity" android:exported="false" />
+
     </application>
 
 </manifest>
