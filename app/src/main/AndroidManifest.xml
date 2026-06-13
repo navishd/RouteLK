@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RouteLK">
         <activity
-            android:name=".Home"
+            android:name=".activities.Home"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,10 +18,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".BusDetails"
+            android:name=".activities.BusDetails"
             android:exported="false" />
         <activity
-            android:name=".NotificationsActivity"
+            android:name=".activities.NotificationsActivity"
             android:exported="false" />
         <activity
             android:name=".activities.OnboardingActivity"
@@ -44,7 +44,7 @@
         <activity
             android:name=".activities.LoginActivity"
             android:exported="false" />
-            android:name=".activities.AdminDashboardActivity"
+
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,7 +53,7 @@
         </activity>
 
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".activities.AdminDashboardActivity"
             android:exported="false" />
 
         <activity android:name=".activities.RegisterActivity" android:exported="false" />

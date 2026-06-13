@@ -1,4 +1,4 @@
-package com.routelk.app.activities;
+package com.routelk.app.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;

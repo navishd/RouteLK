@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.routelk.app.R;
+import com.routelk.app.adapters.BusAdapter;
 import com.routelk.app.models.Bus;
 
 import java.util.ArrayList;
