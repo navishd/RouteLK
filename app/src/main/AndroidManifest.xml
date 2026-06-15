@@ -11,7 +11,7 @@
 
         <!-- Launcher Activity -->
         <activity
-            android:name=".Payment"
+            android:name=".activities.Payment"
             android:name=".activities.Home"
             android:exported="true">
 

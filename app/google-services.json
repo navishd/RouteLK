@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "572347301956",
+    "project_id": "routelk-6dc9a",
+    "storage_bucket": "routelk-6dc9a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:572347301956:android:6db11840888ecb7d0dfc11",
+        "android_client_info": {
+          "package_name": "com.routelk.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBAI2lNnjaHcl_h_PqlTw-XxFm9BHwvlM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,4 +1,4 @@
-package com.routelk.app;
+package com.routelk.app.activities;
 
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.routelk.app.R;
 
 public class Payment extends AppCompatActivity {
 
