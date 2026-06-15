@@ -11,6 +11,7 @@
 
         <!-- Launcher Activity -->
         <activity
+            android:name=".Payment"
             android:name=".activities.Home"
             android:exported="true">
 
@@ -22,6 +23,10 @@
         </activity>
 
         <activity
+            android:name=".Home"
+            android:exported="false" />
+        <activity
+            android:name=".BusDetails"
             android:name=".MainActivity"
             android:exported="false" />
 
