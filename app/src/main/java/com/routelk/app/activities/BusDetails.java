@@ -1,4 +1,4 @@
-package com.routelk.app;
+package com.routelk.app.activities;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
+import com.routelk.app.R;
 
 import java.util.Calendar;
 import java.util.Locale;

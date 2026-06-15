@@ -8,19 +8,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.routelk.app.R;
 
-public class SearchBusActivity extends AppCompatActivity {
+public class SeatSelectionActivity extends AppCompatActivity {
 
-    Button searchButton;
+    Button continueButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_bus);
+        setContentView(R.layout.activity_seat_selection);
 
-        searchButton = findViewById(R.id.searchButton);
+        continueButton = findViewById(R.id.continueButton);
 
-        searchButton.setOnClickListener(v -> {
-            Intent intent = new Intent(SearchBusActivity.this, SeatSelectionActivity.class);
+        continueButton.setOnClickListener(v -> {
+            Intent intent = new Intent(SeatSelectionActivity.this, MyBookingsActivity.class);
             startActivity(intent);
         });
     }
