@@ -1,4 +1,4 @@
-package com.routelk.app;
+package com.routelk.app.activities;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,6 +13,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.routelk.app.R;
 
 public class RegisterActivity extends AppCompatActivity {
 
