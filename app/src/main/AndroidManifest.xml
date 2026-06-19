@@ -11,7 +11,7 @@
 
         <!-- Launcher Activity -->
         <activity
-            android:name=".activities.Home"
+            android:name=".activities.OnboardingActivity"
             android:exported="true">
 
             <intent-filter>
@@ -24,8 +24,7 @@
         <activity android:name=".activities.Payment" android:exported="false" />
         <activity android:name=".activities.NotificationsActivity" android:exported="false" />
         <activity android:name=".activities.BusDetails" android:exported="false" />
-        <activity android:name=".activities.OnboardingActivity" android:exported="false" />
-
+        <activity android:name=".activities.Home" android:exported="false" />
         <activity android:name=".activities.LoginActivity" android:exported="false" />
         <activity android:name=".activities.RegisterActivity" android:exported="false" />
         <activity android:name=".activities.SearchBusActivity" android:exported="false" />
