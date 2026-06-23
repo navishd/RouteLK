@@ -102,13 +102,29 @@ public class Home extends AppCompatActivity {
 
         // Search Button
         btnSearch.setOnClickListener(v -> {
+
             String from = etFrom.getText().toString().trim();
             String to = etTo.getText().toString().trim();
-            
+
             if (from.isEmpty() || to.isEmpty()) {
-                Toast.makeText(this, "Please enter both origin and destination", Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(
+                        Home.this,
+                        "Please enter both origin and destination",
+                        Toast.LENGTH_SHORT
+                ).show();
+
             } else {
-                Toast.makeText(this, "Searching buses from " + from + " to " + to, Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(Home.this, SearchBusActivity.class);
+
+                // Send data to SearchBusActivity
+                intent.putExtra("FROM", from);
+                intent.putExtra("TO", to);
+                intent.putExtra("DATE", tvDate.getText().toString());
+                intent.putExtra("TIME", tvTime.getText().toString());
+
+                startActivity(intent);
             }
         });
     }

@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
 import com.routelk.app.R;
+import android.content.Intent;
 
 public class BusDetails extends AppCompatActivity {
 
@@ -25,7 +26,10 @@ public class BusDetails extends AppCompatActivity {
 
         if (btnSelectSeats != null) {
             btnSelectSeats.setOnClickListener(v -> {
-                Toast.makeText(this, "Opening Seat Selection...", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(BusDetails.this, SeatSelectionActivity.class);
+
+                startActivity(intent);
             });
         }
     }

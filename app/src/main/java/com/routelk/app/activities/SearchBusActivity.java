@@ -20,7 +20,7 @@ public class SearchBusActivity extends AppCompatActivity {
         searchButton = findViewById(R.id.searchButton);
 
         searchButton.setOnClickListener(v -> {
-            Intent intent = new Intent(SearchBusActivity.this, SeatSelectionActivity.class);
+            Intent intent = new Intent(SearchBusActivity.this, BusListScreen.class);
             startActivity(intent);
         });
     }

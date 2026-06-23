@@ -43,8 +43,7 @@ public class BusListScreen extends AppCompatActivity {
         busList.add(new Bus("A/C Express", "01:00 PM - 04:30 PM", "E10", "LKR 1,300"));
 
         // Set adapter
-        BusAdapter busAdapter = new BusAdapter(busList);
-        busRecyclerView.setAdapter(busAdapter);
+        BusAdapter busAdapter = new BusAdapter(this, busList);        busRecyclerView.setAdapter(busAdapter);
 
         // Back button click listener
         findViewById(R.id.backButton).setOnClickListener(v -> finish());
