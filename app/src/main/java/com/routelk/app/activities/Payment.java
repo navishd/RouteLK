@@ -1,6 +1,7 @@
 package com.routelk.app.activities;
 
 import android.os.Bundle;
+import android.content.Intent;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -43,7 +44,9 @@ public class Payment extends AppCompatActivity {
         if (btnPayNow != null) {
             btnPayNow.setOnClickListener(v -> {
                 Toast.makeText(this, "Processing Payment...", Toast.LENGTH_LONG).show();
-                // Later: Start Payment Success Screen
+                Intent intent = new Intent(Payment.this, BookingSuccess.class);
+                startActivity(intent);
+                finish();
             });
         }
     }
