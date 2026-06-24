@@ -1,6 +1,7 @@
 package com.routelk.app.activities;
 
 import android.os.Bundle;
+import android.content.Intent;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
@@ -36,7 +37,8 @@ public class PassengerDetailsScreen extends AppCompatActivity {
 
         // Next button click listener
         findViewById(R.id.nextButton).setOnClickListener(v -> {
-            // Logic for the next screen (e.g., Payment) goes here
+            Intent intent = new Intent(PassengerDetailsScreen.this, Payment.class);
+            startActivity(intent);
         });
     }
 }

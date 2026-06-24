@@ -20,7 +20,7 @@ public class SeatSelectionActivity extends AppCompatActivity {
         continueButton = findViewById(R.id.continueButton);
 
         continueButton.setOnClickListener(v -> {
-            Intent intent = new Intent(SeatSelectionActivity.this, MyBookingsActivity.class);
+            Intent intent = new Intent(SeatSelectionActivity.this, PassengerDetailsScreen.class);
             startActivity(intent);
         });
     }
