@@ -15,36 +15,58 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.routelk.app.R;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private TextInputEditText etFullName, etEmail, etPhone, etPassword, etConfirmPassword;
+    private TextInputEditText etFullName, etEmail, etPhone,
+            etPassword, etConfirmPassword;
+
     private Button btnRegister;
     private TextView tvLoginLink;
     private ImageView btnBack;
+
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main2);
-        
-        // Handle window insets if necessary
+
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
         if (findViewById(R.id.main) != null) {
-            ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-                Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-                v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-                return insets;
-            });
+            ViewCompat.setOnApplyWindowInsetsListener(
+                    findViewById(R.id.main),
+                    (v, insets) -> {
+                        Insets systemBars =
+                                insets.getInsets(
+                                        WindowInsetsCompat.Type.systemBars());
+
+                        v.setPadding(
+                                systemBars.left,
+                                systemBars.top,
+                                systemBars.right,
+                                systemBars.bottom);
+
+                        return insets;
+                    });
         }
 
-        // Initialize UI components
         etFullName = findViewById(R.id.etFullName);
         etEmail = findViewById(R.id.etEmail);
         etPhone = findViewById(R.id.etPhone);
         etPassword = findViewById(R.id.etPassword);
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
+
         btnRegister = findViewById(R.id.btnRegister);
         tvLoginLink = findViewById(R.id.tvLoginLink);
         btnBack = findViewById(R.id.btnBack);
@@ -53,23 +75,35 @@ public class RegisterActivity extends AppCompatActivity {
             btnBack.setOnClickListener(v -> finish());
         }
 
-        btnRegister.setOnClickListener(v -> {
-            performRegistration();
-        });
+        btnRegister.setOnClickListener(v -> performRegistration());
 
         tvLoginLink.setOnClickListener(v -> {
-            finish(); // Go back to Login
+            Intent intent =
+                    new Intent(RegisterActivity.this,
+                            LoginActivity.class);
+
+            startActivity(intent);
+            finish();
         });
     }
 
     private void performRegistration() {
-        String fullName = etFullName.getText().toString().trim();
-        String email = etEmail.getText().toString().trim();
-        String phone = etPhone.getText().toString().trim();
-        String password = etPassword.getText().toString().trim();
-        String confirmPassword = etConfirmPassword.getText().toString().trim();
 
-        // Basic Validation
+        String fullName =
+                etFullName.getText().toString().trim();
+
+        String email =
+                etEmail.getText().toString().trim();
+
+        String phone =
+                etPhone.getText().toString().trim();
+
+        String password =
+                etPassword.getText().toString().trim();
+
+        String confirmPassword =
+                etConfirmPassword.getText().toString().trim();
+
         if (TextUtils.isEmpty(fullName)) {
             etFullName.setError("Full Name is required");
             return;
@@ -91,22 +125,66 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         if (password.length() < 6) {
-            etPassword.setError("Password must be at least 6 characters");
+            etPassword.setError(
+                    "Password must be at least 6 characters");
             return;
         }
 
         if (!password.equals(confirmPassword)) {
-            etConfirmPassword.setError("Passwords do not match");
+            etConfirmPassword.setError(
+                    "Passwords do not match");
             return;
         }
 
-        // If all validations pass
-        Toast.makeText(this, "Registration Successful!", Toast.LENGTH_SHORT).show();
-        
-        // Redirect to Home after registration
-        Intent intent = new Intent(RegisterActivity.this, Home.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+        mAuth.createUserWithEmailAndPassword(
+                        email,
+                        password)
+                .addOnCompleteListener(task -> {
+
+                    if (task.isSuccessful()) {
+
+                        String userId =
+                                mAuth.getCurrentUser().getUid();
+
+                        Map<String, Object> user =
+                                new HashMap<>();
+
+                        user.put("fullName", fullName);
+                        user.put("email", email);
+                        user.put("phone", phone);
+
+                        db.collection("users")
+                                .document(userId)
+                                .set(user)
+                                .addOnSuccessListener(unused -> {
+
+                                    Toast.makeText(
+                                            RegisterActivity.this,
+                                            "Registration Successful",
+                                            Toast.LENGTH_SHORT
+                                    ).show();
+
+                                    Intent intent =
+                                            new Intent(
+                                                    RegisterActivity.this,
+                                                    Home.class);
+
+                                    intent.setFlags(
+                                            Intent.FLAG_ACTIVITY_NEW_TASK
+                                                    | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                                    startActivity(intent);
+                                    finish();
+                                });
+
+                    } else {
+
+                        Toast.makeText(
+                                RegisterActivity.this,
+                                task.getException().getMessage(),
+                                Toast.LENGTH_LONG
+                        ).show();
+                    }
+                });
     }
 }
