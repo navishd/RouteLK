@@ -11,6 +11,9 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.widget.TextView;
+import android.content.Intent;
+
 import com.routelk.app.R;
 import com.routelk.app.adapters.BusAdapter;
 import com.routelk.app.models.Bus;
@@ -34,6 +37,21 @@ public class BusListScreen extends AppCompatActivity {
         // Initialize RecyclerView
         RecyclerView busRecyclerView = findViewById(R.id.busRecyclerView);
         busRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Get Search Details
+        String from = getIntent().getStringExtra("FROM");
+        String to = getIntent().getStringExtra("TO");
+        String date = getIntent().getStringExtra("DATE");
+
+        TextView routeTitle = findViewById(R.id.routeTitle);
+        TextView dateSubtitle = findViewById(R.id.dateSubtitle);
+
+        if (from != null && to != null) {
+            routeTitle.setText(from + " → " + to);
+        }
+        if (date != null) {
+            dateSubtitle.setText(date);
+        }
 
         // Create dummy data
         List<Bus> busList = new ArrayList<>();
