@@ -114,7 +114,11 @@
             </TableRow>
 
             <TableRow>
-                <Button android:text="33" style="@style/SeatButton"/>
+
+                <Button
+                    style="@style/SeatButton"
+                    android:layout_height="49dp"
+                    android:text="33" />
                 <Button android:text="34" style="@style/SeatButton"/>
                 <Space android:layout_width="70dp"/>
                 <Button android:text="35" style="@style/SeatButton"/>

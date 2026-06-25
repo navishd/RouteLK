@@ -37,16 +37,15 @@ android {
 
 dependencies {
 
-    implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
-
-    implementation("com.google.firebase:firebase-auth")
-    implementation("com.google.firebase:firebase-firestore")
-
     implementation(libs.activity.ktx)
     implementation(libs.appcompat)
     implementation(libs.cardview)
     implementation(libs.constraintlayout)
     implementation(libs.material)
+
+    implementation(platform("com.google.firebase:firebase-bom:34.1.0"))
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.espresso.core)

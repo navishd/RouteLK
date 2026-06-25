@@ -75,6 +75,7 @@
         <activity
             android:name=".activities.PassengerDetailsScreen"
             android:exported="false" />
+
         <activity
             android:name=".activities.MyBookingsActivity"
             android:exported="false" /> <!-- Admin Panel -->
@@ -96,6 +97,7 @@
         <activity
             android:name=".activities.ReportsActivity"
             android:exported="false" />
+
     </application>
 
 </manifest>
