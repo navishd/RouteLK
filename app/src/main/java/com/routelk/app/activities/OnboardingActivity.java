@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.routelk.app.R;
 
 public class OnboardingActivity extends AppCompatActivity {
@@ -44,6 +45,14 @@ public class OnboardingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Check if user is already logged in
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            startActivity(new Intent(OnboardingActivity.this, Home.class));
+            finish();
+            return;
+        }
+
         setContentView(R.layout.activity_onboarding);
 
         ivIllustration = findViewById(R.id.ivIllustration);

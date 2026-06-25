@@ -15,7 +15,12 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.routelk.app.R;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -23,6 +28,9 @@ public class RegisterActivity extends AppCompatActivity {
     private Button btnRegister;
     private TextView tvLoginLink;
     private ImageView btnBack;
+
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +46,10 @@ public class RegisterActivity extends AppCompatActivity {
                 return insets;
             });
         }
+
+        // Initialize Firebase
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         // Initialize UI components
         etFullName = findViewById(R.id.etFullName);
@@ -100,13 +112,39 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        // If all validations pass
-        Toast.makeText(this, "Registration Successful!", Toast.LENGTH_SHORT).show();
-        
-        // Redirect to Home after registration
-        Intent intent = new Intent(RegisterActivity.this, Home.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+        btnRegister.setEnabled(false);
+
+        // Firebase Authentication: Create User
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        String userId = mAuth.getCurrentUser().getUid();
+
+                        // Save user details to Firestore
+                        Map<String, Object> user = new HashMap<>();
+                        user.put("fullName", fullName);
+                        user.put("email", email);
+                        user.put("phone", phone);
+                        user.put("role", "user"); // Default role
+                        user.put("createdAt", com.google.firebase.Timestamp.now());
+
+                        db.collection("users").document(userId)
+                                .set(user)
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(RegisterActivity.this, "Registration Successful!", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(RegisterActivity.this, Home.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                    finish();
+                                })
+                                .addOnFailureListener(e -> {
+                                    btnRegister.setEnabled(true);
+                                    Toast.makeText(RegisterActivity.this, "Error saving to database: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                });
+                    } else {
+                        btnRegister.setEnabled(true);
+                        Toast.makeText(RegisterActivity.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
