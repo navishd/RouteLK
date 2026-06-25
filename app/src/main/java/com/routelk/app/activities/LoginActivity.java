@@ -35,8 +35,8 @@ public class LoginActivity extends AppCompatActivity {
         registerText = findViewById(R.id.registerText);
         btnBack = findViewById(R.id.btnBack);
 
-        etEmail = findViewById(R.id.etEmail);
-        etPassword = findViewById(R.id.etPassword);
+        etEmail = findViewById(R.id.emailEditText);
+        etPassword = findViewById(R.id.passwordEditText);
 
         if (btnBack != null) {
             btnBack.setOnClickListener(v -> finish());
@@ -44,27 +44,20 @@ public class LoginActivity extends AppCompatActivity {
 
         loginButton.setOnClickListener(v -> {
 
-            String email =
-                    etEmail.getText().toString().trim();
-
-            String password =
-                    etPassword.getText().toString().trim();
+            String email = etEmail.getText().toString().trim();
+            String password = etPassword.getText().toString().trim();
 
             if (email.isEmpty()) {
-
                 etEmail.setError("Email is required");
                 return;
             }
 
             if (password.isEmpty()) {
-
                 etPassword.setError("Password is required");
                 return;
             }
 
-            mAuth.signInWithEmailAndPassword(
-                            email,
-                            password)
+            mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(task -> {
 
                         if (task.isSuccessful()) {
@@ -75,13 +68,28 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT
                             ).show();
 
-                            Intent intent =
-                                    new Intent(
-                                            LoginActivity.this,
-                                            Home.class);
+                            // Admin Login
+                            if (email.equals("admin@routelk.com")) {
 
-                            startActivity(intent);
-                            finish();
+                                Intent intent = new Intent(
+                                        LoginActivity.this,
+                                        AdminDashboardActivity.class
+                                );
+
+                                startActivity(intent);
+                                finish();
+
+                            } else {
+
+                                // Normal User Login
+                                Intent intent = new Intent(
+                                        LoginActivity.this,
+                                        Home.class
+                                );
+
+                                startActivity(intent);
+                                finish();
+                            }
 
                         } else {
 
@@ -96,10 +104,10 @@ public class LoginActivity extends AppCompatActivity {
 
         registerText.setOnClickListener(v -> {
 
-            Intent intent =
-                    new Intent(
-                            LoginActivity.this,
-                            RegisterActivity.class);
+            Intent intent = new Intent(
+                    LoginActivity.this,
+                    RegisterActivity.class
+            );
 
             startActivity(intent);
         });
