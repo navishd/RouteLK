@@ -22,9 +22,9 @@ import java.util.Locale;
 public class Home extends AppCompatActivity {
 
     private EditText etFrom, etTo;
-    private TextView tvDate, tvTime;
+    private TextView tvDate, tvTime, tvPassengers;
     private MaterialCardView btnSwap, btnMenu, btnNotification;
-    private LinearLayout layoutDate, layoutTime;
+    private LinearLayout layoutDate, layoutTime, layoutPassengers;
     private MaterialButton btnSearch;
     private Calendar calendar;
 
@@ -43,6 +43,8 @@ public class Home extends AppCompatActivity {
         btnNotification = findViewById(R.id.btnNotification);
         layoutDate = findViewById(R.id.layoutDate);
         layoutTime = findViewById(R.id.layoutTime);
+        layoutPassengers = findViewById(R.id.layoutPassengers);
+        tvPassengers = findViewById(R.id.tvPassengers);
         btnSearch = findViewById(R.id.btnSearchBuses);
         
         calendar = Calendar.getInstance();
@@ -100,6 +102,17 @@ public class Home extends AppCompatActivity {
             timePickerDialog.show();
         });
 
+        // Passenger Selection
+        layoutPassengers.setOnClickListener(v -> {
+            String[] passengerOptions = {"1 Adult", "2 Adults", "3 Adults", "4 Adults", "5 Adults", "Group (6+)"};
+            new androidx.appcompat.app.AlertDialog.Builder(this)
+                    .setTitle("Number of Passengers")
+                    .setItems(passengerOptions, (dialog, which) -> {
+                        tvPassengers.setText(passengerOptions[which]);
+                    })
+                    .show();
+        });
+
         // Search Button
         btnSearch.setOnClickListener(v -> {
 
@@ -116,13 +129,14 @@ public class Home extends AppCompatActivity {
 
             } else {
 
-                Intent intent = new Intent(Home.this, SearchBusActivity.class);
+                Intent intent = new Intent(Home.this, BusListScreen.class);
 
-                // Send data to SearchBusActivity
+                // Send data to BusListScreen directly
                 intent.putExtra("FROM", from);
                 intent.putExtra("TO", to);
                 intent.putExtra("DATE", tvDate.getText().toString());
                 intent.putExtra("TIME", tvTime.getText().toString());
+                intent.putExtra("PASSENGERS", tvPassengers.getText().toString());
 
                 startActivity(intent);
             }
