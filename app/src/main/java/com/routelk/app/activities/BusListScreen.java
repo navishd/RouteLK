@@ -1,6 +1,7 @@
 package com.routelk.app.activities;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,9 +11,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.widget.TextView;
-import android.content.Intent;
 
 import com.routelk.app.R;
 import com.routelk.app.adapters.BusAdapter;
@@ -47,7 +45,8 @@ public class BusListScreen extends AppCompatActivity {
         TextView dateSubtitle = findViewById(R.id.dateSubtitle);
 
         if (from != null && to != null) {
-            routeTitle.setText(from + " → " + to);
+            String route = String.format("%s → %s", from, to);
+            routeTitle.setText(route);
         }
         if (date != null) {
             dateSubtitle.setText(date);
@@ -61,7 +60,8 @@ public class BusListScreen extends AppCompatActivity {
         busList.add(new Bus("A/C Express", "01:00 PM - 04:30 PM", "E10", "LKR 1,300"));
 
         // Set adapter
-        BusAdapter busAdapter = new BusAdapter(this, busList);        busRecyclerView.setAdapter(busAdapter);
+        BusAdapter busAdapter = new BusAdapter(this, busList);
+        busRecyclerView.setAdapter(busAdapter);
 
         // Back button click listener
         findViewById(R.id.backButton).setOnClickListener(v -> finish());
