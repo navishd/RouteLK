@@ -1,17 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.ManageRoutesActivity">
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Manage routes Page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Manage Routes"
         android:textSize="28sp"
-        android:gravity="center" />
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <EditText
+        android:id="@+id/etRouteName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Route Name"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/etFrom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="From"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/etTo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="To"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/etDistance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Distance (KM)"
+        android:inputType="number"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/etPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Price"
+        android:inputType="number"
+        android:layout_marginBottom="12dp"/>
+
+    <Button
+        android:id="@+id/addRouteBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Route"
+        android:backgroundTint="#2563EB"
+        android:textColor="#FFFFFF"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Available Routes"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/routesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+</LinearLayout>
