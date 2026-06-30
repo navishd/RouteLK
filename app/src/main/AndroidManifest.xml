@@ -143,7 +143,6 @@
         <activity android:name=".activities.BusListScreen" android:exported="false" />
         <activity android:name=".activities.BusDetails" android:exported="false" />
         <activity android:name=".activities.SeatSelectionActivity" android:exported="false" />
-        <activity android:name=".activities.PassengerDetailsScreen" android:exported="false" />
         <activity android:name=".activities.Payment" android:exported="false" />
         <activity android:name=".activities.BookingSuccess" android:exported="false" />
         <activity android:name=".activities.MyBookingsActivity" android:exported="false" />
