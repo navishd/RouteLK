@@ -15,7 +15,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.routelk.app.R;
 
@@ -24,7 +26,9 @@ import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private TextInputEditText etFullName, etEmail, etPhone, etPassword, etConfirmPassword;
+    private TextInputEditText etFullName, etEmail, etPhone,
+            etPassword, etConfirmPassword;
+
     private Button btnRegister;
     private TextView tvLoginLink;
     private ImageView btnBack;
@@ -37,26 +41,35 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main2);
-        
-        // Handle window insets
-        if (findViewById(R.id.main) != null) {
-            ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-                Insets bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
-                v.setPadding(bars.left, bars.top, bars.right, bars.bottom);
-                return insets;
-            });
-        }
 
-        // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        // Initialize UI components
+        if (findViewById(R.id.main) != null) {
+            ViewCompat.setOnApplyWindowInsetsListener(
+                    findViewById(R.id.main),
+                    (v, insets) -> {
+                        Insets systemBars =
+                                insets.getInsets(WindowInsetsCompat.Type.systemBars());
+
+                        v.setPadding(
+                                systemBars.left,
+                                systemBars.top,
+                                systemBars.right,
+                                systemBars.bottom
+                        );
+
+                        return insets;
+                    });
+        }
+
+        // Initialize Views
         etFullName = findViewById(R.id.etFullName);
         etEmail = findViewById(R.id.etEmail);
         etPhone = findViewById(R.id.etPhone);
         etPassword = findViewById(R.id.etPassword);
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
+
         btnRegister = findViewById(R.id.btnRegister);
         tvLoginLink = findViewById(R.id.tvLoginLink);
         btnBack = findViewById(R.id.btnBack);
@@ -65,86 +78,137 @@ public class RegisterActivity extends AppCompatActivity {
             btnBack.setOnClickListener(v -> finish());
         }
 
-        btnRegister.setOnClickListener(v -> {
-            performRegistration();
-        });
+        btnRegister.setOnClickListener(v -> performRegistration());
 
         tvLoginLink.setOnClickListener(v -> {
-            finish(); // Go back to Login
+            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+            finish();
         });
     }
 
     private void performRegistration() {
-        String fullName = etFullName.getText().toString().trim();
-        String email = etEmail.getText().toString().trim();
-        String phone = etPhone.getText().toString().trim();
-        String password = etPassword.getText().toString().trim();
-        String confirmPassword = etConfirmPassword.getText().toString().trim();
 
-        // Basic Validation
+        String fullName = String.valueOf(etFullName.getText()).trim();
+        String email = String.valueOf(etEmail.getText()).trim();
+        String phone = String.valueOf(etPhone.getText()).trim();
+        String password = String.valueOf(etPassword.getText()).trim();
+        String confirmPassword = String.valueOf(etConfirmPassword.getText()).trim();
+
+        // Validation
         if (TextUtils.isEmpty(fullName)) {
             etFullName.setError("Full Name is required");
+            etFullName.requestFocus();
             return;
         }
 
         if (TextUtils.isEmpty(email)) {
             etEmail.setError("Email is required");
+            etEmail.requestFocus();
             return;
         }
 
         if (TextUtils.isEmpty(phone)) {
             etPhone.setError("Phone Number is required");
+            etPhone.requestFocus();
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
             etPassword.setError("Password is required");
+            etPassword.requestFocus();
             return;
         }
 
         if (password.length() < 6) {
             etPassword.setError("Password must be at least 6 characters");
+            etPassword.requestFocus();
             return;
         }
 
         if (!password.equals(confirmPassword)) {
             etConfirmPassword.setError("Passwords do not match");
+            etConfirmPassword.requestFocus();
             return;
         }
 
         btnRegister.setEnabled(false);
 
-        // Firebase Authentication: Create User
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        String userId = mAuth.getCurrentUser().getUid();
 
-                        // Save user details to Firestore
+                    if (task.isSuccessful()) {
+
+                        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+
+                        if (firebaseUser == null) {
+                            btnRegister.setEnabled(true);
+                            Toast.makeText(
+                                    RegisterActivity.this,
+                                    "User creation failed",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                            return;
+                        }
+
+                        String userId = firebaseUser.getUid();
+
                         Map<String, Object> user = new HashMap<>();
                         user.put("fullName", fullName);
                         user.put("email", email);
                         user.put("phone", phone);
-                        user.put("role", "user"); // Default role
-                        user.put("createdAt", com.google.firebase.Timestamp.now());
+                        user.put("role", "user");
+                        user.put("createdAt", Timestamp.now());
 
-                        db.collection("users").document(userId)
+                        db.collection("users")
+                                .document(userId)
                                 .set(user)
-                                .addOnSuccessListener(aVoid -> {
-                                    Toast.makeText(RegisterActivity.this, "Registration Successful!", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(RegisterActivity.this, Home.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                .addOnSuccessListener(unused -> {
+
+                                    Toast.makeText(
+                                            RegisterActivity.this,
+                                            "Registration Successful",
+                                            Toast.LENGTH_SHORT
+                                    ).show();
+
+                                    Intent intent = new Intent(
+                                            RegisterActivity.this,
+                                            Home.class
+                                    );
+
+                                    intent.setFlags(
+                                            Intent.FLAG_ACTIVITY_NEW_TASK |
+                                                    Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    );
+
                                     startActivity(intent);
                                     finish();
+
                                 })
                                 .addOnFailureListener(e -> {
+
                                     btnRegister.setEnabled(true);
-                                    Toast.makeText(RegisterActivity.this, "Error saving to database: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                    Toast.makeText(
+                                            RegisterActivity.this,
+                                            "Database Error : " + e.getMessage(),
+                                            Toast.LENGTH_LONG
+                                    ).show();
+
                                 });
+
                     } else {
+
                         btnRegister.setEnabled(true);
-                        Toast.makeText(RegisterActivity.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+
+                        Exception e = task.getException();
+
+                        Toast.makeText(
+                                RegisterActivity.this,
+                                e != null ? e.getMessage() : "Registration Failed",
+                                Toast.LENGTH_LONG
+                        ).show();
                     }
+
                 });
     }
 }
