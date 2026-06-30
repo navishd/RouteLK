@@ -15,9 +15,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.routelk.app.R;
 
 import java.util.HashMap;
@@ -25,7 +26,9 @@ import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private TextInputEditText etFullName, etEmail, etPhone, etPassword, etConfirmPassword;
+    private TextInputEditText etFullName, etEmail, etPhone,
+            etPassword, etConfirmPassword;
+
     private Button btnRegister;
     private TextView tvLoginLink;
     private ImageView btnBack;
@@ -38,7 +41,6 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main2);
-        
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -48,25 +50,26 @@ public class RegisterActivity extends AppCompatActivity {
                     findViewById(R.id.main),
                     (v, insets) -> {
                         Insets systemBars =
-                                insets.getInsets(
-                                        WindowInsetsCompat.Type.systemBars());
+                                insets.getInsets(WindowInsetsCompat.Type.systemBars());
 
                         v.setPadding(
                                 systemBars.left,
                                 systemBars.top,
                                 systemBars.right,
-                                systemBars.bottom);
+                                systemBars.bottom
+                        );
 
                         return insets;
                     });
         }
 
-        // Initialize UI components
+        // Initialize Views
         etFullName = findViewById(R.id.etFullName);
         etEmail = findViewById(R.id.etEmail);
         etPhone = findViewById(R.id.etPhone);
         etPassword = findViewById(R.id.etPassword);
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
+
         btnRegister = findViewById(R.id.btnRegister);
         tvLoginLink = findViewById(R.id.tvLoginLink);
         btnBack = findViewById(R.id.btnBack);
@@ -77,49 +80,54 @@ public class RegisterActivity extends AppCompatActivity {
 
         btnRegister.setOnClickListener(v -> performRegistration());
 
-        tvLoginLink.setOnClickListener(v -> finish()); // Go back to Login
+        tvLoginLink.setOnClickListener(v -> {
+            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+            finish();
+        });
     }
 
     private void performRegistration() {
-        if (etFullName.getText() == null || etEmail.getText() == null ||
-                etPhone.getText() == null || etPassword.getText() == null ||
-                etConfirmPassword.getText() == null) return;
 
-        String fullName = etFullName.getText().toString().trim();
-        String email = etEmail.getText().toString().trim();
-        String phone = etPhone.getText().toString().trim();
-        String password = etPassword.getText().toString().trim();
-        String confirmPassword = etConfirmPassword.getText().toString().trim();
+        String fullName = String.valueOf(etFullName.getText()).trim();
+        String email = String.valueOf(etEmail.getText()).trim();
+        String phone = String.valueOf(etPhone.getText()).trim();
+        String password = String.valueOf(etPassword.getText()).trim();
+        String confirmPassword = String.valueOf(etConfirmPassword.getText()).trim();
 
-        // Basic Validation
+        // Validation
         if (TextUtils.isEmpty(fullName)) {
             etFullName.setError("Full Name is required");
+            etFullName.requestFocus();
             return;
         }
 
         if (TextUtils.isEmpty(email)) {
             etEmail.setError("Email is required");
+            etEmail.requestFocus();
             return;
         }
 
         if (TextUtils.isEmpty(phone)) {
             etPhone.setError("Phone Number is required");
+            etPhone.requestFocus();
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
             etPassword.setError("Password is required");
+            etPassword.requestFocus();
             return;
         }
 
         if (password.length() < 6) {
             etPassword.setError("Password must be at least 6 characters");
+            etPassword.requestFocus();
             return;
         }
 
-        if (!java.util.Objects.equals(password, confirmPassword)) {
         if (!password.equals(confirmPassword)) {
             etConfirmPassword.setError("Passwords do not match");
+            etConfirmPassword.requestFocus();
             return;
         }
 
@@ -127,8 +135,22 @@ public class RegisterActivity extends AppCompatActivity {
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful() && mAuth.getCurrentUser() != null) {
-                        String userId = mAuth.getCurrentUser().getUid();
+
+                    if (task.isSuccessful()) {
+
+                        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+
+                        if (firebaseUser == null) {
+                            btnRegister.setEnabled(true);
+                            Toast.makeText(
+                                    RegisterActivity.this,
+                                    "User creation failed",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                            return;
+                        }
+
+                        String userId = firebaseUser.getUid();
 
                         Map<String, Object> user = new HashMap<>();
                         user.put("fullName", fullName);
@@ -137,32 +159,56 @@ public class RegisterActivity extends AppCompatActivity {
                         user.put("role", "user");
                         user.put("createdAt", Timestamp.now());
 
-                        db.collection("users").document(userId)
+                        db.collection("users")
+                                .document(userId)
                                 .set(user)
-                                .addOnSuccessListener(aVoid -> {
-                                    Toast.makeText(RegisterActivity.this, "Registration Successful!", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(RegisterActivity.this, Home.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                .addOnSuccessListener(unused -> {
+
+                                    Toast.makeText(
+                                            RegisterActivity.this,
+                                            "Registration Successful",
+                                            Toast.LENGTH_SHORT
+                                    ).show();
+
+                                    Intent intent = new Intent(
+                                            RegisterActivity.this,
+                                            Home.class
+                                    );
+
+                                    intent.setFlags(
+                                            Intent.FLAG_ACTIVITY_NEW_TASK |
+                                                    Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    );
+
                                     startActivity(intent);
                                     finish();
+
                                 })
                                 .addOnFailureListener(e -> {
+
                                     btnRegister.setEnabled(true);
-                                    String error = e.getMessage() != null ? e.getMessage() : "Unknown error";
-                                    Toast.makeText(RegisterActivity.this, "Error saving to database: " + error, Toast.LENGTH_SHORT).show();
+
+                                    Toast.makeText(
+                                            RegisterActivity.this,
+                                            "Database Error : " + e.getMessage(),
+                                            Toast.LENGTH_LONG
+                                    ).show();
+
                                 });
+
                     } else {
+
                         btnRegister.setEnabled(true);
-                        String error = task.getException() != null && task.getException().getMessage() != null 
-                                ? task.getException().getMessage() : "Authentication failed";
-                        Toast.makeText(RegisterActivity.this, error, Toast.LENGTH_SHORT).show();
-                                    Toast.makeText(RegisterActivity.this, "Error saving user data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                });
-                    } else {
-                        btnRegister.setEnabled(true);
-                        String errorMsg = task.getException() != null ? task.getException().getMessage() : "Authentication failed";
-                        Toast.makeText(RegisterActivity.this, errorMsg, Toast.LENGTH_LONG).show();
+
+                        Exception e = task.getException();
+
+                        Toast.makeText(
+                                RegisterActivity.this,
+                                e != null ? e.getMessage() : "Registration Failed",
+                                Toast.LENGTH_LONG
+                        ).show();
                     }
+
                 });
     }
 }
