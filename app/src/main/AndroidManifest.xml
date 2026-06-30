@@ -25,12 +25,15 @@
         </activity>
 
         <!-- Auth -->
-        <activity android:name=".activities.LoginActivity" android:exported="false" />
-        <activity android:name=".activities.RegisterActivity" android:exported="false" />
+        <activity android:name=".activities.LoginActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".activities.RegisterActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
 
         <!-- User Flow -->
         <activity android:name=".activities.Home" android:exported="false" />
-        <activity android:name=".activities.SearchBusActivity" android:exported="false" />
         <activity android:name=".activities.BusListScreen" android:exported="false" />
         <activity android:name=".activities.BusDetails" android:exported="false" />
         <activity android:name=".activities.SeatSelectionActivity" android:exported="false" />

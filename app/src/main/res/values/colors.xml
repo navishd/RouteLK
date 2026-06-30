@@ -6,4 +6,13 @@
     <color name="text_primary">#1E293B</color>
     <color name="text_secondary">#64748B</color>
     <color name="bg_light">#F8FAFC</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_variant">#F1F5F9</color>
+    <color name="divider">#E2E8F0</color>
+    <color name="card_stroke">#F1F5F9</color>
+    <color name="logo_bg">#EFF6FF</color>
+    <color name="rating_bg">#FFFBEB</color>
+    <color name="rating_text">#F59E0B</color>
+    <color name="badge_bg">#EEF2FF</color>
+    <color name="success_text">#059669</color>
 </resources>

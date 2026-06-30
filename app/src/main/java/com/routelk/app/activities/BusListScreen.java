@@ -42,15 +42,20 @@ public class BusListScreen extends AppCompatActivity {
         String from = getIntent().getStringExtra("FROM");
         String to = getIntent().getStringExtra("TO");
         String date = getIntent().getStringExtra("DATE");
+        String passengers = getIntent().getStringExtra("PASSENGERS");
 
         TextView routeTitle = findViewById(R.id.routeTitle);
         TextView dateSubtitle = findViewById(R.id.dateSubtitle);
+        TextView tvPassengersCount = findViewById(R.id.tvPassengersCount);
 
         if (from != null && to != null) {
             routeTitle.setText(from + " → " + to);
         }
         if (date != null) {
             dateSubtitle.setText(date);
+        }
+        if (passengers != null) {
+            tvPassengersCount.setText(passengers);
         }
 
         // Create dummy data
