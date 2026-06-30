@@ -2,6 +2,7 @@ package com.routelk.app.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +19,8 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginButton;
     private TextView registerText;
     private ImageView btnBack;
+    private TextInputEditText emailEditText, passwordEditText;
+    private FirebaseAuth mAuth;
 
     private TextInputEditText etEmail;
     private TextInputEditText etPassword;
@@ -31,9 +34,15 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+        // Initialize Firebase
+        mAuth = FirebaseAuth.getInstance();
+
+        // Initialize Views
         loginButton = findViewById(R.id.loginButton);
         registerText = findViewById(R.id.registerText);
         btnBack = findViewById(R.id.btnBack);
+        emailEditText = findViewById(R.id.emailEditText);
+        passwordEditText = findViewById(R.id.passwordEditText);
 
         etEmail = findViewById(R.id.emailEditText);
         etPassword = findViewById(R.id.passwordEditText);
@@ -100,6 +109,7 @@ public class LoginActivity extends AppCompatActivity {
                             ).show();
                         }
                     });
+            performLogin();
         });
 
         registerText.setOnClickListener(v -> {
@@ -108,6 +118,39 @@ public class LoginActivity extends AppCompatActivity {
                     LoginActivity.this,
                     RegisterActivity.class
             );
+    private void performLogin() {
+        String email = emailEditText.getText().toString().trim();
+        String password = passwordEditText.getText().toString().trim();
+
+        if (TextUtils.isEmpty(email)) {
+            emailEditText.setError("Email is required");
+            return;
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            passwordEditText.setError("Password is required");
+            return;
+        }
+
+        loginButton.setEnabled(false);
+
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
+                        goToHomeScreen();
+                    } else {
+                        loginButton.setEnabled(true);
+                        Toast.makeText(LoginActivity.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void goToHomeScreen() {
+        Intent intent = new Intent(LoginActivity.this, Home.class);
+        startActivity(intent);
+        finish();
+    }
 
             startActivity(intent);
         });

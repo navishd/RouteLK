@@ -61,6 +61,11 @@ public class RegisterActivity extends AppCompatActivity {
                     });
         }
 
+        // Initialize Firebase
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
+        // Initialize UI components
         etFullName = findViewById(R.id.etFullName);
         etEmail = findViewById(R.id.etEmail);
         etPhone = findViewById(R.id.etPhone);
@@ -184,6 +189,38 @@ public class RegisterActivity extends AppCompatActivity {
                                 task.getException().getMessage(),
                                 Toast.LENGTH_LONG
                         ).show();
+        btnRegister.setEnabled(false);
+
+        // Firebase Authentication: Create User
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        String userId = mAuth.getCurrentUser().getUid();
+
+                        // Save user details to Firestore
+                        Map<String, Object> user = new HashMap<>();
+                        user.put("fullName", fullName);
+                        user.put("email", email);
+                        user.put("phone", phone);
+                        user.put("role", "user"); // Default role
+                        user.put("createdAt", com.google.firebase.Timestamp.now());
+
+                        db.collection("users").document(userId)
+                                .set(user)
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(RegisterActivity.this, "Registration Successful!", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(RegisterActivity.this, Home.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                    finish();
+                                })
+                                .addOnFailureListener(e -> {
+                                    btnRegister.setEnabled(true);
+                                    Toast.makeText(RegisterActivity.this, "Error saving to database: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                });
+                    } else {
+                        btnRegister.setEnabled(true);
+                        Toast.makeText(RegisterActivity.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
