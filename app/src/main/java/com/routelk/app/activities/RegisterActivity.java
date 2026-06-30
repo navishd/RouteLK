@@ -61,10 +61,6 @@ public class RegisterActivity extends AppCompatActivity {
                     });
         }
 
-        // Initialize Firebase
-        mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
-
         // Initialize UI components
         etFullName = findViewById(R.id.etFullName);
         etEmail = findViewById(R.id.etEmail);
@@ -85,26 +81,10 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void performRegistration() {
-        if (etFullName.getText() == null || etEmail.getText() == null || 
-            etPhone.getText() == null || etPassword.getText() == null || 
-            etConfirmPassword.getText() == null) return;
+        if (etFullName.getText() == null || etEmail.getText() == null ||
+                etPhone.getText() == null || etPassword.getText() == null ||
+                etConfirmPassword.getText() == null) return;
 
-        String fullName = etFullName.getText().toString().trim();
-        String email = etEmail.getText().toString().trim();
-        String phone = etPhone.getText().toString().trim();
-        String password = etPassword.getText().toString().trim();
-        String confirmPassword = etConfirmPassword.getText().toString().trim();
-        tvLoginLink.setOnClickListener(v -> {
-            Intent intent =
-                    new Intent(RegisterActivity.this,
-                            LoginActivity.class);
-
-            startActivity(intent);
-            finish();
-        });
-    }
-
-    private void performRegistration() {
         String fullName = etFullName.getText().toString().trim();
         String email = etEmail.getText().toString().trim();
         String phone = etPhone.getText().toString().trim();
@@ -137,8 +117,6 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        if (!Objects.equals(password, confirmPassword)) {
-            etConfirmPassword.setError("Passwords do not match");
         if (!password.equals(confirmPassword)) {
             etConfirmPassword.setError("Passwords do not match");
             return;
@@ -148,7 +126,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
+                    if (task.isSuccessful() && mAuth.getCurrentUser() != null) {
                         String userId = mAuth.getCurrentUser().getUid();
 
                         Map<String, Object> user = new HashMap<>();
@@ -173,7 +151,8 @@ public class RegisterActivity extends AppCompatActivity {
                                 });
                     } else {
                         btnRegister.setEnabled(true);
-                        Toast.makeText(RegisterActivity.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        String errorMsg = task.getException() != null ? task.getException().getMessage() : "Authentication failed";
+                        Toast.makeText(RegisterActivity.this, errorMsg, Toast.LENGTH_LONG).show();
                     }
                 });
     }
