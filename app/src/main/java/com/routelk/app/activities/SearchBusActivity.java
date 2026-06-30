@@ -12,7 +12,9 @@ import com.routelk.app.R;
 
 public class SearchBusActivity extends AppCompatActivity {
 
+    private Button searchButton;
     private TextInputEditText fromEditText, toEditText, dateEditText;
+    private ImageView btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,11 +22,11 @@ public class SearchBusActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_bus);
 
         // Initialize Views
-        Button searchButton = findViewById(R.id.searchButton);
+        searchButton = findViewById(R.id.searchButton);
         fromEditText = findViewById(R.id.fromEditText);
         toEditText = findViewById(R.id.toEditText);
         dateEditText = findViewById(R.id.dateEditText);
-        ImageView btnBack = findViewById(R.id.btnBack);
+        btnBack = findViewById(R.id.btnBack);
 
         // Pre-fill data from Home
         Intent intentFromHome = getIntent();
@@ -42,15 +44,9 @@ public class SearchBusActivity extends AppCompatActivity {
         searchButton.setOnClickListener(v -> {
             Intent intent = new Intent(SearchBusActivity.this, BusListScreen.class);
             // Pass the details to the list screen
-            if (fromEditText.getText() != null) {
-                intent.putExtra("FROM", fromEditText.getText().toString());
-            }
-            if (toEditText.getText() != null) {
-                intent.putExtra("TO", toEditText.getText().toString());
-            }
-            if (dateEditText.getText() != null) {
-                intent.putExtra("DATE", dateEditText.getText().toString());
-            }
+            intent.putExtra("FROM", fromEditText.getText().toString());
+            intent.putExtra("TO", toEditText.getText().toString());
+            intent.putExtra("DATE", dateEditText.getText().toString());
             startActivity(intent);
         });
     }

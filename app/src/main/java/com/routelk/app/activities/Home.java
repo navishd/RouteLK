@@ -47,11 +47,8 @@ public class Home extends AppCompatActivity {
         
         calendar = Calendar.getInstance();
 
-        // Menu Click (Now opens Profile)
-        btnMenu.setOnClickListener(v -> {
-            Intent intent = new Intent(Home.this, ProfileActivity.class);
-            startActivity(intent);
-        });
+        // Menu Click
+        btnMenu.setOnClickListener(v -> Toast.makeText(this, "Opening Menu...", Toast.LENGTH_SHORT).show());
 
         // Notification Click
         btnNotification.setOnClickListener(v -> {
