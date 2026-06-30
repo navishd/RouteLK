@@ -41,14 +41,26 @@ public class SeatSelectionActivity extends AppCompatActivity {
             collectAllSeats(root);
         }
 
+        Intent intent = getIntent();
+        String busId = intent.getStringExtra("BUS_ID");
+        String busName = intent.getStringExtra("BUS_NAME");
+        String from = intent.getStringExtra("FROM");
+        String to = intent.getStringExtra("TO");
+        String date = intent.getStringExtra("DATE");
+
         continueButton.setOnClickListener(v -> {
             if (selectedSeats.isEmpty()) {
                 Toast.makeText(this, "Please select at least one seat", Toast.LENGTH_SHORT).show();
                 return;
             }
-            Intent intent = new Intent(SeatSelectionActivity.this, Payment.class);
-            intent.putStringArrayListExtra("SELECTED_SEATS", new ArrayList<>(selectedSeats));
-            startActivity(intent);
+            Intent nextIntent = new Intent(SeatSelectionActivity.this, Payment.class);
+            nextIntent.putStringArrayListExtra("SELECTED_SEATS", new ArrayList<>(selectedSeats));
+            nextIntent.putExtra("BUS_ID", busId);
+            nextIntent.putExtra("BUS_NAME", busName);
+            nextIntent.putExtra("FROM", from);
+            nextIntent.putExtra("TO", to);
+            nextIntent.putExtra("DATE", date);
+            startActivity(nextIntent);
         });
     }
 

@@ -1,14 +1,97 @@
 package com.routelk.app.activities;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.routelk.app.R;
+import com.routelk.app.adapters.BookingAdapter;
+import com.routelk.app.models.Booking;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MyBookingsActivity extends AppCompatActivity {
+
+    private RecyclerView recyclerView;
+    private BookingAdapter adapter;
+    private List<Booking> bookingList;
+    private ProgressBar progressBar;
+    private TextView tvNoBookings;
+    
+    private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_bookings);
+
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+
+        ImageView btnBack = findViewById(R.id.btnBack);
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> finish());
+        }
+
+        recyclerView = findViewById(R.id.rvMyBookings);
+        progressBar = findViewById(R.id.progressBar);
+        tvNoBookings = findViewById(R.id.tvNoBookings);
+
+        if (recyclerView != null) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            bookingList = new ArrayList<>();
+            adapter = new BookingAdapter(bookingList);
+            recyclerView.setAdapter(adapter);
+        }
+
+        loadUserBookings();
+    }
+
+    private void loadUserBookings() {
+        if (mAuth.getCurrentUser() == null) {
+            Toast.makeText(this, "Please login to see bookings", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (progressBar != null) progressBar.setVisibility(View.VISIBLE);
+
+        String userId = mAuth.getCurrentUser().getUid();
+
+        db.collection("bookings")
+                .whereEqualTo("userId", userId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (progressBar != null) progressBar.setVisibility(View.GONE);
+                    
+                    if (task.isSuccessful()) {
+                        bookingList.clear();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Booking booking = document.toObject(Booking.class);
+                            bookingList.add(booking);
+                        }
+                        
+                        if (adapter != null) adapter.notifyDataSetChanged();
+                        
+                        if (bookingList.isEmpty()) {
+                            if (tvNoBookings != null) tvNoBookings.setVisibility(View.VISIBLE);
+                        } else {
+                            if (tvNoBookings != null) tvNoBookings.setVisibility(View.GONE);
+                        }
+                    } else {
+                        Toast.makeText(MyBookingsActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

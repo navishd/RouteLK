@@ -71,8 +71,8 @@ public class BusListScreen extends AppCompatActivity {
             tvBusCount.setText(String.valueOf(busList.size()));
         }
 
-        // Set adapter
-        BusAdapter busAdapter = new BusAdapter(this, busList);
+        // Set adapter with search details
+        BusAdapter busAdapter = new BusAdapter(this, busList, from, to, date);
         busRecyclerView.setAdapter(busAdapter);
 
         // Back button click listener
