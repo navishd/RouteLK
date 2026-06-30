@@ -22,17 +22,10 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputEditText emailEditText, passwordEditText;
     private FirebaseAuth mAuth;
 
-    private TextInputEditText etEmail;
-    private TextInputEditText etPassword;
-
-    private FirebaseAuth mAuth;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        mAuth = FirebaseAuth.getInstance();
 
         // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
@@ -44,13 +37,11 @@ public class LoginActivity extends AppCompatActivity {
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
 
-        etEmail = findViewById(R.id.emailEditText);
-        etPassword = findViewById(R.id.passwordEditText);
-
         if (btnBack != null) {
             btnBack.setOnClickListener(v -> finish());
         }
 
+        loginButton.setOnClickListener(v -> performLogin());
         loginButton.setOnClickListener(v -> {
 
             String email = etEmail.getText().toString().trim();
@@ -113,11 +104,11 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         registerText.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
+        });
+    }
 
-            Intent intent = new Intent(
-                    LoginActivity.this,
-                    RegisterActivity.class
-            );
     private void performLogin() {
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
@@ -137,8 +128,17 @@ public class LoginActivity extends AppCompatActivity {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
-                        goToHomeScreen();
+                        Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+
+                        // Admin Login Check
+                        if (email.equals("admin@routelk.com")) {
+                            Intent intent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            // Normal User Login
+                            goToHomeScreen();
+                        }
                     } else {
                         loginButton.setEnabled(true);
                         Toast.makeText(LoginActivity.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -150,9 +150,5 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(LoginActivity.this, Home.class);
         startActivity(intent);
         finish();
-    }
-
-            startActivity(intent);
-        });
     }
 }
