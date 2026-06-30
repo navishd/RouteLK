@@ -1,152 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8FAFC">
+    android:background="#F8FAFC"
+    android:orientation="vertical"
+    android:padding="20dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:text="View Bookings"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="#0F172A"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="View Bookings"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:textColor="#0F172A" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Monitor passenger reservations"
+        android:textSize="15sp"
+        android:textColor="#6B7280"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="20dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Monitor passenger reservations"
-            android:textSize="15sp"
-            android:textColor="#6B7280"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="20dp" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerBookings"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="10dp"/>
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            android:layout_marginBottom="14dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="BK001"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="#2563EB" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Navishmitha Gunawardana"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="#111827"
-                    android:layout_marginTop="4dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Colombo → Kandy"
-                    android:textSize="15sp"
-                    android:textColor="#6B7280"
-                    android:layout_marginTop="4dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Seat 12 • 2026-06-15 • 08:00 AM"
-                    android:textSize="15sp"
-                    android:textColor="#6B7280"
-                    android:layout_marginTop="4dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Confirmed"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:textColor="#22C55E"
-                    android:layout_marginTop="10dp" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            android:layout_marginBottom="14dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="BK002"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="#2563EB" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Kasun Perera"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="#111827"
-                    android:layout_marginTop="4dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Matara → Colombo"
-                    android:textSize="15sp"
-                    android:textColor="#6B7280"
-                    android:layout_marginTop="4dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Seat 08 • 2026-06-16 • 06:30 AM"
-                    android:textSize="15sp"
-                    android:textColor="#6B7280"
-                    android:layout_marginTop="4dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Pending"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:textColor="#F59E0B"
-                    android:layout_marginTop="10dp" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>
