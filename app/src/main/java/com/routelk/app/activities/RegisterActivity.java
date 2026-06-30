@@ -117,6 +117,7 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
+        if (!java.util.Objects.equals(password, confirmPassword)) {
         if (!password.equals(confirmPassword)) {
             etConfirmPassword.setError("Passwords do not match");
             return;
@@ -147,6 +148,14 @@ public class RegisterActivity extends AppCompatActivity {
                                 })
                                 .addOnFailureListener(e -> {
                                     btnRegister.setEnabled(true);
+                                    String error = e.getMessage() != null ? e.getMessage() : "Unknown error";
+                                    Toast.makeText(RegisterActivity.this, "Error saving to database: " + error, Toast.LENGTH_SHORT).show();
+                                });
+                    } else {
+                        btnRegister.setEnabled(true);
+                        String error = task.getException() != null && task.getException().getMessage() != null 
+                                ? task.getException().getMessage() : "Authentication failed";
+                        Toast.makeText(RegisterActivity.this, error, Toast.LENGTH_SHORT).show();
                                     Toast.makeText(RegisterActivity.this, "Error saving user data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                 });
                     } else {

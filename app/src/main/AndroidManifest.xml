@@ -23,6 +23,7 @@
             android:name=".MainActivity"
             android:exported="false" />
 
+        <!-- Authentication -->
         <activity
             android:name=".activities.LoginActivity"
             android:exported="false" />
@@ -31,6 +32,7 @@
             android:name=".activities.RegisterActivity"
             android:exported="false" />
 
+        <!-- User Flow -->
         <activity
             android:name=".activities.Home"
             android:exported="false" />
@@ -67,6 +69,7 @@
             android:name=".activities.MyBookingsActivity"
             android:exported="false" />
 
+        <!-- Other User Features -->
         <activity
             android:name=".activities.NotificationsActivity"
             android:exported="false" />

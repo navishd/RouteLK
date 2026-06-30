@@ -49,6 +49,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void performLogin() {
+        if (emailEditText.getText() == null || passwordEditText.getText() == null) return;
+        
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
 
@@ -80,6 +82,9 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     } else {
                         loginButton.setEnabled(true);
+                        String error = task.getException() != null && task.getException().getMessage() != null 
+                                ? task.getException().getMessage() : "Authentication failed";
+                        Toast.makeText(LoginActivity.this, error, Toast.LENGTH_SHORT).show();
                         String errorMsg = task.getException() != null ? task.getException().getMessage() : "Authentication failed";
                         Toast.makeText(LoginActivity.this, errorMsg, Toast.LENGTH_LONG).show();
                     }
