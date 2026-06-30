@@ -60,10 +60,6 @@ public class RegisterActivity extends AppCompatActivity {
                     });
         }
 
-        // Initialize Firebase
-        mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
-
         // Initialize UI components
         etFullName = findViewById(R.id.etFullName);
         etEmail = findViewById(R.id.etEmail);
@@ -93,32 +89,6 @@ public class RegisterActivity extends AppCompatActivity {
         String phone = etPhone.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
         String confirmPassword = etConfirmPassword.getText().toString().trim();
-        tvLoginLink.setOnClickListener(v -> {
-            Intent intent =
-                    new Intent(RegisterActivity.this,
-                            LoginActivity.class);
-
-            startActivity(intent);
-            finish();
-        });
-    }
-
-    private void performRegistration() {
-
-        String fullName =
-                etFullName.getText().toString().trim();
-
-        String email =
-                etEmail.getText().toString().trim();
-
-        String phone =
-                etPhone.getText().toString().trim();
-
-        String password =
-                etPassword.getText().toString().trim();
-
-        String confirmPassword =
-                etConfirmPassword.getText().toString().trim();
 
         // Basic Validation
         if (TextUtils.isEmpty(fullName)) {
@@ -146,11 +116,8 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        if (!Objects.equals(password, confirmPassword)) {
+        if (!java.util.Objects.equals(password, confirmPassword)) {
             etConfirmPassword.setError("Passwords do not match");
-        if (!password.equals(confirmPassword)) {
-            etConfirmPassword.setError(
-                    "Passwords do not match");
             return;
         }
 
@@ -159,7 +126,7 @@ public class RegisterActivity extends AppCompatActivity {
         // Firebase Authentication: Create User
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
+                    if (task.isSuccessful() && mAuth.getCurrentUser() != null) {
                         String userId = mAuth.getCurrentUser().getUid();
 
                         // Save user details to Firestore
@@ -181,11 +148,14 @@ public class RegisterActivity extends AppCompatActivity {
                                 })
                                 .addOnFailureListener(e -> {
                                     btnRegister.setEnabled(true);
-                                    Toast.makeText(RegisterActivity.this, "Error saving to database: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    String error = e.getMessage() != null ? e.getMessage() : "Unknown error";
+                                    Toast.makeText(RegisterActivity.this, "Error saving to database: " + error, Toast.LENGTH_SHORT).show();
                                 });
                     } else {
                         btnRegister.setEnabled(true);
-                        Toast.makeText(RegisterActivity.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        String error = task.getException() != null && task.getException().getMessage() != null 
+                                ? task.getException().getMessage() : "Authentication failed";
+                        Toast.makeText(RegisterActivity.this, error, Toast.LENGTH_SHORT).show();
                     }
                 });
     }

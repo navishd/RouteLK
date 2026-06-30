@@ -9,15 +9,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RouteLK">
 
-        <!-- Splash / Main -->
-        <activity
-            android:name=".models.Route"
-            android:exported="false" />
-        <activity
-            android:name=".activities.HelpSupportActivity"
-            android:name=".MainActivity"
-            android:exported="false" />
-
         <!-- Launcher: Onboarding -->
         <activity
             android:name=".activities.OnboardingActivity"
@@ -27,44 +18,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".activities.Payment"
+            android:name=".MainActivity"
             android:exported="false" />
-        <activity
-            android:name=".activities.Payment"
-            android:exported="false" />
-        <activity
-            android:name=".activities.NotificationsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.NotificationsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.BusDetails"
-            android:exported="false" />
-        <activity
-            android:name=".activities.BusDetails"
-            android:exported="false" />
-        <activity
-            android:name=".activities.Home"
-            android:exported="false" />
-        <activity
-            android:name=".activities.Home"
-            android:exported="false" />
-        <activity
-            android:name=".activities.LoginActivity"
-            android:exported="false" />
+
+        <!-- Authentication -->
         <activity
             android:name=".activities.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".activities.RegisterActivity"
             android:exported="false" />
+
+        <!-- User Flow -->
         <activity
-            android:name=".activities.RegisterActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.SearchBusActivity"
+            android:name=".activities.Home"
             android:exported="false" />
         <activity
             android:name=".activities.SearchBusActivity"
@@ -73,10 +42,7 @@
             android:name=".activities.BusListScreen"
             android:exported="false" />
         <activity
-            android:name=".activities.BusListScreen"
-            android:exported="false" />
-        <activity
-            android:name=".activities.SeatSelectionActivity"
+            android:name=".activities.BusDetails"
             android:exported="false" />
         <activity
             android:name=".activities.SeatSelectionActivity"
@@ -85,81 +51,45 @@
             android:name=".activities.PassengerDetailsScreen"
             android:exported="false" />
         <activity
-            android:name=".activities.PassengerDetailsScreen"
-            android:exported="false" />
-        <activity
-            android:name=".activities.MyBookingsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.MyBookingsActivity"
+            android:name=".activities.Payment"
             android:exported="false" />
         <activity
             android:name=".activities.BookingSuccess"
-            android:exported="false" /> <!-- Admin Panel -->
-        <activity
-            android:name=".activities.AdminDashboardActivity"
-            android:exported="false" /> <!-- Admin Panel -->
-        <activity
-            android:name=".activities.AdminDashboardActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.ManageBusesActivity"
+            android:name=".activities.MyBookingsActivity"
             android:exported="false" />
-        <activity
-            android:name=".activities.ManageBusesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.ManageRoutesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.ManageRoutesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.ManageUsersActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.ManageUsersActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.ViewBookingsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.ViewBookingsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.ReportsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.ReportsActivity"
-            android:exported="false" />
-
-        <!-- Auth -->
-        <activity android:name=".activities.LoginActivity" android:exported="false" />
-        <activity android:name=".activities.RegisterActivity" android:exported="false" />
-
-        <!-- User Flow -->
-        <activity android:name=".activities.Home" android:exported="false" />
-        <activity android:name=".activities.SearchBusActivity" android:exported="false" />
-        <activity android:name=".activities.BusListScreen" android:exported="false" />
-        <activity android:name=".activities.BusDetails" android:exported="false" />
-        <activity android:name=".activities.SeatSelectionActivity" android:exported="false" />
-        <activity android:name=".activities.PassengerDetailsScreen" android:exported="false" />
-        <activity android:name=".activities.Payment" android:exported="false" />
-        <activity android:name=".activities.BookingSuccess" android:exported="false" />
-        <activity android:name=".activities.MyBookingsActivity" android:exported="false" />
 
         <!-- Other User Features -->
-        <activity android:name=".activities.NotificationsActivity" android:exported="false" />
-        <activity android:name=".activities.ProfileActivity" android:exported="false" />
-        <activity android:name=".activities.HelpSupportActivity" android:exported="false" />
+        <activity
+            android:name=".activities.NotificationsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.HelpSupportActivity"
+            android:exported="false" />
 
         <!-- Admin Panel -->
-        <activity android:name=".activities.AdminDashboardActivity" android:exported="false" />
-        <activity android:name=".activities.ManageBusesActivity" android:exported="false" />
-        <activity android:name=".activities.ManageRoutesActivity" android:exported="false" />
-        <activity android:name=".activities.ManageUsersActivity" android:exported="false" />
-        <activity android:name=".activities.ViewBookingsActivity" android:exported="false" />
-        <activity android:name=".activities.ReportsActivity" android:exported="false" />
+        <activity
+            android:name=".activities.AdminDashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ManageBusesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ManageRoutesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ManageUsersActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ViewBookingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ReportsActivity"
+            android:exported="false" />
 
     </application>
 
