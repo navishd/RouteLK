@@ -9,6 +9,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RouteLK">
         <activity
+            android:name=".models.Route"
+            android:exported="false" />
+        <activity
             android:name=".activities.HelpSupportActivity"
             android:exported="false" />
         <activity
@@ -23,30 +26,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".activities.Payment" android:exported="false" />
-        <activity android:name=".activities.NotificationsActivity" android:exported="false" />
-        <activity android:name=".activities.BusDetails" android:exported="false" />
-        <activity android:name=".activities.Home" android:exported="false" />
-        <activity android:name=".activities.LoginActivity" android:exported="false" />
-        <activity android:name=".activities.RegisterActivity" android:exported="false" />
-        <activity android:name=".activities.SearchBusActivity" android:exported="false" />
-        <activity android:name=".activities.BusListScreen" android:exported="false" />
-        <activity android:name=".activities.SeatSelectionActivity" android:exported="false" />
-        <activity android:name=".activities.PassengerDetailsScreen" android:exported="false" />
-        <activity android:name=".activities.MyBookingsActivity" android:exported="false" />
-        <activity android:name=".activities.BookingSuccess" android:exported="false" />
-
-        <!-- Admin Panel -->
-        <activity android:name=".activities.AdminDashboardActivity" android:exported="false" />
-        <activity android:name=".activities.ManageBusesActivity" android:exported="false" />
-        <activity android:name=".activities.ManageRoutesActivity" android:exported="false" />
-        <activity android:name=".activities.ManageUsersActivity" android:exported="false" />
-        <activity android:name=".activities.ViewBookingsActivity" android:exported="false" />
-        <activity android:name=".activities.ReportsActivity" android:exported="false" />
-
         <activity
             android:name=".activities.Payment"
+            android:exported="false" />
+        <activity
+            android:name=".activities.Payment"
+            android:exported="false" />
+        <activity
+            android:name=".activities.NotificationsActivity"
             android:exported="false" />
         <activity
             android:name=".activities.NotificationsActivity"
@@ -55,7 +42,16 @@
             android:name=".activities.BusDetails"
             android:exported="false" />
         <activity
+            android:name=".activities.BusDetails"
+            android:exported="false" />
+        <activity
             android:name=".activities.Home"
+            android:exported="false" />
+        <activity
+            android:name=".activities.Home"
+            android:exported="false" />
+        <activity
+            android:name=".activities.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".activities.LoginActivity"
@@ -64,7 +60,16 @@
             android:name=".activities.RegisterActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.RegisterActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.SearchBusActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.SearchBusActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.BusListScreen"
             android:exported="false" />
         <activity
             android:name=".activities.BusListScreen"
@@ -73,11 +78,25 @@
             android:name=".activities.SeatSelectionActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.SeatSelectionActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.PassengerDetailsScreen"
             android:exported="false" />
-
+        <activity
+            android:name=".activities.PassengerDetailsScreen"
+            android:exported="false" />
         <activity
             android:name=".activities.MyBookingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.MyBookingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.BookingSuccess"
+            android:exported="false" /> <!-- Admin Panel -->
+        <activity
+            android:name=".activities.AdminDashboardActivity"
             android:exported="false" /> <!-- Admin Panel -->
         <activity
             android:name=".activities.AdminDashboardActivity"
@@ -86,7 +105,16 @@
             android:name=".activities.ManageBusesActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.ManageBusesActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.ManageRoutesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ManageRoutesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ManageUsersActivity"
             android:exported="false" />
         <activity
             android:name=".activities.ManageUsersActivity"
@@ -95,9 +123,14 @@
             android:name=".activities.ViewBookingsActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.ViewBookingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.ReportsActivity"
             android:exported="false" />
-
+        <activity
+            android:name=".activities.ReportsActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
