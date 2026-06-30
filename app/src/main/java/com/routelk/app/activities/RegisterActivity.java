@@ -187,7 +187,6 @@ public class RegisterActivity extends AppCompatActivity {
                                 .addOnFailureListener(e -> {
 
                                     btnRegister.setEnabled(true);
-
                                     Toast.makeText(
                                             RegisterActivity.this,
                                             "Database Error : " + e.getMessage(),
