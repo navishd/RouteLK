@@ -46,6 +46,7 @@ public class BusListScreen extends AppCompatActivity {
 
         TextView routeTitle = findViewById(R.id.routeTitle);
         TextView dateSubtitle = findViewById(R.id.dateSubtitle);
+        TextView tvBusCount = findViewById(R.id.tvBusCount);
         TextView tvPassengersCount = findViewById(R.id.tvPassengersCount);
 
         if (from != null && to != null) {
@@ -60,9 +61,19 @@ public class BusListScreen extends AppCompatActivity {
 
         // Create dummy data
         List<Bus> busList = new ArrayList<>();
+        busList.add(new Bus("1", "Super Line Express", "NB-1234", "Luxury AC", "45"));
+        busList.add(new Bus("2", "Kandy Metro", "NC-5678", "Super Luxury", "40"));
+        busList.add(new Bus("3", "Southern Link", "ND-9012", "Semi Luxury", "50"));
+        busList.add(new Bus("4", "Night Rider", "NE-3456", "Luxury AC", "45"));
+        busList.add(new Bus("5", "City Runner", "NF-7890", "Normal", "55"));
+
+        if (tvBusCount != null) {
+            tvBusCount.setText(String.valueOf(busList.size()));
+        }
 
         // Set adapter
-        BusAdapter busAdapter = new BusAdapter(this, busList);        busRecyclerView.setAdapter(busAdapter);
+        BusAdapter busAdapter = new BusAdapter(this, busList);
+        busRecyclerView.setAdapter(busAdapter);
 
         // Back button click listener
         findViewById(R.id.backButton).setOnClickListener(v -> finish());

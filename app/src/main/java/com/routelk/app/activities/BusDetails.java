@@ -19,6 +19,12 @@ public class BusDetails extends AppCompatActivity {
 
         ImageView btnBack = findViewById(R.id.btnBack);
         MaterialButton btnSelectSeats = findViewById(R.id.btnSelectSeats);
+        android.widget.TextView tvBusCompany = findViewById(R.id.tvBusCompany);
+
+        String busName = getIntent().getStringExtra("BUS_NAME");
+        if (busName != null && tvBusCompany != null) {
+            tvBusCompany.setText(busName);
+        }
 
         if (btnBack != null) {
             btnBack.setOnClickListener(v -> finish());

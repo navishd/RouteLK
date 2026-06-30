@@ -1,7 +1,9 @@
 package com.routelk.app.adapters;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +42,7 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.BusViewHolder> {
         return new BusViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull BusViewHolder holder, int position) {
 
@@ -49,6 +52,14 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.BusViewHolder> {
         holder.tvBusNumber.setText("Number : " + bus.getBusNumber());
         holder.tvBusType.setText("Type : " + bus.getBusType());
         holder.tvSeats.setText("Seats : " + bus.getTotalSeats());
+
+        // Item click listener for passenger flow
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, com.routelk.app.activities.BusDetails.class);
+            intent.putExtra("BUS_ID", bus.getId());
+            intent.putExtra("BUS_NAME", bus.getBusName());
+            context.startActivity(intent);
+        });
 
         // ================= EDIT ====================
 
@@ -91,7 +102,7 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.BusViewHolder> {
                                     bus.setBusType(etType.getText().toString());
                                     bus.setTotalSeats(etSeats.getText().toString());
 
-                                    notifyItemChanged(holder.getAdapterPosition());
+                                    notifyItemChanged(holder.getBindingAdapterPosition());
 
                                 });
 
@@ -104,35 +115,31 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.BusViewHolder> {
 
         // ================= DELETE ====================
 
-        holder.deleteBtn.setOnClickListener(v -> {
+        holder.deleteBtn.setOnClickListener(v -> new AlertDialog.Builder(context)
+                .setTitle("Delete Bus")
+                .setMessage("Are you sure you want to delete this bus?")
 
-            new AlertDialog.Builder(context)
-                    .setTitle("Delete Bus")
-                    .setMessage("Are you sure you want to delete this bus?")
+                .setPositiveButton("Delete", (dialog, which) -> {
 
-                    .setPositiveButton("Delete", (dialog, which) -> {
+                    FirebaseFirestore.getInstance()
+                            .collection("buses")
+                            .document(bus.getId())
+                            .delete()
+                            .addOnSuccessListener(unused -> {
 
-                        FirebaseFirestore.getInstance()
-                                .collection("buses")
-                                .document(bus.getId())
-                                .delete()
-                                .addOnSuccessListener(unused -> {
+                                int pos = holder.getBindingAdapterPosition();
 
-                                    int pos = holder.getAdapterPosition();
+                                busList.remove(pos);
 
-                                    busList.remove(pos);
+                                notifyItemRemoved(pos);
+                                notifyItemRangeChanged(pos, busList.size());
 
-                                    notifyItemRemoved(pos);
-                                    notifyItemRangeChanged(pos, busList.size());
+                            });
 
-                                });
+                })
 
-                    })
-
-                    .setNegativeButton("Cancel", null)
-                    .show();
-
-        });
+                .setNegativeButton("Cancel", null)
+                .show());
 
     }
 

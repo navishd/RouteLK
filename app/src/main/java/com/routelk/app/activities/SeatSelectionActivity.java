@@ -1,16 +1,32 @@
 package com.routelk.app.activities;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.routelk.app.R;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class SeatSelectionActivity extends AppCompatActivity {
 
-    Button continueButton;
+    private Button continueButton;
+    private Set<String> selectedSeats = new HashSet<>();
+    private List<Button> seatButtons = new ArrayList<>();
+    
+    // Static set to keep track of reserved seats across the app session
+    public static final Set<String> reservedSeats = new HashSet<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,9 +35,102 @@ public class SeatSelectionActivity extends AppCompatActivity {
 
         continueButton = findViewById(R.id.continueButton);
 
+        // Find all seat buttons in the layout
+        ViewGroup root = findViewById(R.id.seatSelectionRoot);
+        if (root != null) {
+            collectAllSeats(root);
+        }
+
         continueButton.setOnClickListener(v -> {
-            Intent intent = new Intent(SeatSelectionActivity.this, PassengerDetailsScreen.class);
+            if (selectedSeats.isEmpty()) {
+                Toast.makeText(this, "Please select at least one seat", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Intent intent = new Intent(SeatSelectionActivity.this, Payment.class);
+            intent.putStringArrayListExtra("SELECTED_SEATS", new ArrayList<>(selectedSeats));
             startActivity(intent);
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Refresh seat states whenever we return to this screen
+        refreshSeats();
+    }
+
+    private void collectAllSeats(ViewGroup viewGroup) {
+        for (int i = 0; i < viewGroup.getChildCount(); i++) {
+            View child = viewGroup.getChildAt(i);
+            if (child instanceof Button && child.getId() != R.id.continueButton) {
+                seatButtons.add((Button) child);
+            } else if (child instanceof ViewGroup) {
+                collectAllSeats((ViewGroup) child);
+            }
+        }
+    }
+
+    private void refreshSeats() {
+        // First, check for newly reserved seats that might have been selected here previously
+        for (String reserved : reservedSeats) {
+            selectedSeats.remove(reserved);
+        }
+
+        for (Button seat : seatButtons) {
+            String seatNum = seat.getText().toString();
+
+            if (reservedSeats.contains(seatNum)) {
+                setSeatReserved(seat);
+            } else if (selectedSeats.contains(seatNum)) {
+                setSeatSelected(seat);
+                seat.setEnabled(true);
+                seat.setOnClickListener(v -> toggleSeatSelection(seat, seatNum));
+            } else {
+                setSeatAvailable(seat);
+                seat.setEnabled(true);
+                seat.setOnClickListener(v -> toggleSeatSelection(seat, seatNum));
+            }
+        }
+        
+        updateContinueButton();
+    }
+
+    private void toggleSeatSelection(Button seat, String seatNum) {
+        if (selectedSeats.contains(seatNum)) {
+            selectedSeats.remove(seatNum);
+            setSeatAvailable(seat);
+        } else {
+            selectedSeats.add(seatNum);
+            setSeatSelected(seat);
+        }
+        updateContinueButton();
+    }
+
+    private void updateContinueButton() {
+        if (!selectedSeats.isEmpty()) {
+            continueButton.setText("Continue (" + selectedSeats.size() + " Seats Selected)");
+        } else {
+            continueButton.setText("Continue");
+        }
+    }
+
+    private void setSeatAvailable(Button seat) {
+        // White background for available seats
+        seat.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
+        seat.setTextColor(Color.BLACK);
+    }
+
+    private void setSeatSelected(Button seat) {
+        // Primary (Blue) color for selected seats
+        seat.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.primary)));
+        seat.setTextColor(Color.WHITE);
+    }
+
+    private void setSeatReserved(Button seat) {
+        // Darker grey for reserved seats to make them clearly distinct
+        seat.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#9CA3AF"))); 
+        seat.setTextColor(Color.WHITE);
+        seat.setEnabled(false);
+        seat.setOnClickListener(null);
     }
 }
