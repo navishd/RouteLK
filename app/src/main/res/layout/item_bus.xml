@@ -1,138 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
+
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp"
-    app:cardCornerRadius="24dp"
-    app:cardElevation="6dp">
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp">
-
-        <!-- Bus Icon -->
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/iconCard"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            app:cardCornerRadius="18dp"
-            app:cardBackgroundColor="#EFF6FF"
-            app:cardElevation="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/busImage"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_bus"
-                app:tint="@color/primary"/>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Bus Name -->
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <TextView
-            android:id="@+id/busName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="Luxury Express"
-            android:textColor="@color/text_primary"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/iconCard"
-            app:layout_constraintTop_toTopOf="@id/iconCard"
-            app:layout_constraintEnd_toStartOf="@id/busType"/>
-
-        <!-- Bus Type Badge -->
-
-        <TextView
-            android:id="@+id/busType"
+            android:id="@+id/tvBusName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/chip_bg"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="5dp"
-            android:text="Luxury"
-            android:textColor="@color/primary"
-            android:textSize="11sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-        <!-- Time -->
-
-        <TextView
-            android:id="@+id/busTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="6dp"
-            android:text="07:00 AM - 10:30 AM"
-            android:textColor="@color/text_secondary"
-            android:textSize="14sp"
-            app:layout_constraintStart_toEndOf="@id/iconCard"
-            app:layout_constraintTop_toBottomOf="@id/busName"/>
-
-        <!-- Divider -->
-
-        <View
-            android:id="@+id/divider"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="18dp"
-            android:background="#E2E8F0"
-            app:layout_constraintTop_toBottomOf="@id/iconCard"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-        <!-- Price -->
-
-        <TextView
-            android:id="@+id/busPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:text="LKR 1,250"
-            android:textColor="@color/primary"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/divider"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:textColor="#111827"/>
 
-        <!-- Seats Available -->
+        <TextView
+            android:id="@+id/tvBusNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"/>
+
+        <TextView
+            android:id="@+id/tvBusType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"/>
 
         <TextView
             android:id="@+id/tvSeats"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="32 Seats Available"
-            android:textColor="@color/text_secondary"
-            android:textSize="13sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/busPrice"/>
+            android:layout_marginTop="4dp"/>
 
-        <!-- Select Button -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSelect"
-            android:layout_width="130dp"
-            android:layout_height="48dp"
-            android:text="View Seats"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            android:textColor="@android:color/white"
-            app:backgroundTint="@color/primary"
-            app:cornerRadius="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            <Button
+                android:id="@+id/editBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#2563EB"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                android:id="@+id/deleteBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete"
+                android:textAllCaps="false"
+                android:layout_marginStart="10dp"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#DC2626"/>
 
-</com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
