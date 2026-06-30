@@ -27,7 +27,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
 
         // Initialize Views
@@ -42,66 +41,6 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         loginButton.setOnClickListener(v -> performLogin());
-        loginButton.setOnClickListener(v -> {
-
-            String email = etEmail.getText().toString().trim();
-            String password = etPassword.getText().toString().trim();
-
-            if (email.isEmpty()) {
-                etEmail.setError("Email is required");
-                return;
-            }
-
-            if (password.isEmpty()) {
-                etPassword.setError("Password is required");
-                return;
-            }
-
-            mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(task -> {
-
-                        if (task.isSuccessful()) {
-
-                            Toast.makeText(
-                                    LoginActivity.this,
-                                    "Login Successful",
-                                    Toast.LENGTH_SHORT
-                            ).show();
-
-                            // Admin Login
-                            if (email.equals("admin@routelk.com")) {
-
-                                Intent intent = new Intent(
-                                        LoginActivity.this,
-                                        AdminDashboardActivity.class
-                                );
-
-                                startActivity(intent);
-                                finish();
-
-                            } else {
-
-                                // Normal User Login
-                                Intent intent = new Intent(
-                                        LoginActivity.this,
-                                        Home.class
-                                );
-
-                                startActivity(intent);
-                                finish();
-                            }
-
-                        } else {
-
-                            Toast.makeText(
-                                    LoginActivity.this,
-                                    task.getException().getMessage(),
-                                    Toast.LENGTH_LONG
-                            ).show();
-                        }
-                    });
-            performLogin();
-        });
 
         registerText.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
@@ -110,6 +49,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void performLogin() {
+        if (emailEditText.getText() == null || passwordEditText.getText() == null) return;
+        
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
 
@@ -130,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
 
-                        // Admin Login Check
+                        // Admin Login
                         if (email.equals("admin@routelk.com")) {
                             Intent intent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
                             startActivity(intent);
@@ -141,7 +82,11 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     } else {
                         loginButton.setEnabled(true);
-                        Toast.makeText(LoginActivity.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        String error = task.getException() != null && task.getException().getMessage() != null 
+                                ? task.getException().getMessage() : "Authentication failed";
+                        Toast.makeText(LoginActivity.this, error, Toast.LENGTH_SHORT).show();
+                        String errorMsg = task.getException() != null ? task.getException().getMessage() : "Authentication failed";
+                        Toast.makeText(LoginActivity.this, errorMsg, Toast.LENGTH_LONG).show();
                     }
                 });
     }
