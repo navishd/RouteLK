@@ -17,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.Timestamp;
 import com.routelk.app.R;
 
 import java.util.HashMap;
@@ -80,9 +81,9 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void performRegistration() {
-        if (etFullName.getText() == null || etEmail.getText() == null || 
-            etPhone.getText() == null || etPassword.getText() == null || 
-            etConfirmPassword.getText() == null) return;
+        if (etFullName.getText() == null || etEmail.getText() == null ||
+                etPhone.getText() == null || etPassword.getText() == null ||
+                etConfirmPassword.getText() == null) return;
 
         String fullName = etFullName.getText().toString().trim();
         String email = etEmail.getText().toString().trim();
@@ -117,25 +118,24 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         if (!java.util.Objects.equals(password, confirmPassword)) {
+        if (!password.equals(confirmPassword)) {
             etConfirmPassword.setError("Passwords do not match");
             return;
         }
 
         btnRegister.setEnabled(false);
 
-        // Firebase Authentication: Create User
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful() && mAuth.getCurrentUser() != null) {
                         String userId = mAuth.getCurrentUser().getUid();
 
-                        // Save user details to Firestore
                         Map<String, Object> user = new HashMap<>();
                         user.put("fullName", fullName);
                         user.put("email", email);
                         user.put("phone", phone);
-                        user.put("role", "user"); // Default role
-                        user.put("createdAt", com.google.firebase.Timestamp.now());
+                        user.put("role", "user");
+                        user.put("createdAt", Timestamp.now());
 
                         db.collection("users").document(userId)
                                 .set(user)
@@ -156,6 +156,12 @@ public class RegisterActivity extends AppCompatActivity {
                         String error = task.getException() != null && task.getException().getMessage() != null 
                                 ? task.getException().getMessage() : "Authentication failed";
                         Toast.makeText(RegisterActivity.this, error, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegisterActivity.this, "Error saving user data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                });
+                    } else {
+                        btnRegister.setEnabled(true);
+                        String errorMsg = task.getException() != null ? task.getException().getMessage() : "Authentication failed";
+                        Toast.makeText(RegisterActivity.this, errorMsg, Toast.LENGTH_LONG).show();
                     }
                 });
     }

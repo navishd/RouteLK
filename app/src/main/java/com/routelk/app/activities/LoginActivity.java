@@ -27,7 +27,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
 
         // Initialize Views
@@ -72,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
 
-                        // Admin Login Check
+                        // Admin Login
                         if (email.equals("admin@routelk.com")) {
                             Intent intent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
                             startActivity(intent);
@@ -86,6 +85,8 @@ public class LoginActivity extends AppCompatActivity {
                         String error = task.getException() != null && task.getException().getMessage() != null 
                                 ? task.getException().getMessage() : "Authentication failed";
                         Toast.makeText(LoginActivity.this, error, Toast.LENGTH_SHORT).show();
+                        String errorMsg = task.getException() != null ? task.getException().getMessage() : "Authentication failed";
+                        Toast.makeText(LoginActivity.this, errorMsg, Toast.LENGTH_LONG).show();
                     }
                 });
     }
