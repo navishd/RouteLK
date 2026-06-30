@@ -52,7 +52,6 @@
                             android:layout_height="24dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_menu"
-                            android:contentDescription="@string/back"
                             app:tint="@color/white" />
                     </com.google.android.material.card.MaterialCardView>
 
@@ -60,7 +59,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="@string/app_name"
+                        android:text="RouteLK"
                         android:textColor="@color/white"
                         android:textSize="22sp"
                         android:textStyle="bold"
@@ -98,7 +97,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/hello_travelers"
+                        android:text="Hello Travelers,"
                         android:textColor="#CCFFFFFF"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -107,7 +106,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:text="@string/journey_begins"
+                        android:text="Your journey begins here"
                         android:textColor="@color/white"
                         android:textSize="28sp"
                         android:textStyle="bold" />
@@ -181,7 +180,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/departure_from"
+                                    android:text="Departure From"
                                     android:textColor="@color/text_secondary"
                                     android:textSize="11sp"
                                     android:textStyle="bold"
@@ -192,14 +191,13 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@android:color/transparent"
-                                    android:hint="@string/choose_starting_point"
+                                    android:hint="Choose Starting Point"
                                     android:inputType="textCapWords"
                                     android:paddingVertical="8dp"
-                                    android:text="@string/colombo"
+                                    android:text="Colombo"
                                     android:textColor="@color/text_primary"
                                     android:textSize="20sp"
-                                    android:textStyle="bold"
-                                    android:importantForAutofill="no" />
+                                    android:textStyle="bold" />
                             </LinearLayout>
                         </LinearLayout>
 
@@ -230,7 +228,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/going_to"
+                                    android:text="Going To"
                                     android:textColor="@color/text_secondary"
                                     android:textSize="11sp"
                                     android:textStyle="bold"
@@ -241,14 +239,13 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@android:color/transparent"
-                                    android:hint="@string/choose_destination"
+                                    android:hint="Choose Destination"
                                     android:inputType="textCapWords"
                                     android:paddingVertical="8dp"
-                                    android:text="@string/kandy"
+                                    android:text="Kandy"
                                     android:textColor="@color/text_primary"
                                     android:textSize="20sp"
-                                    android:textStyle="bold"
-                                    android:importantForAutofill="no" />
+                                    android:textStyle="bold" />
                             </LinearLayout>
                         </LinearLayout>
 
@@ -319,9 +316,9 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/date"
+                                    android:text="Date"
                                     android:textColor="@color/text_secondary"
-                                    android:textSize="11sp"
+                                    android:textSize="10sp"
                                     android:textStyle="bold"
                                     android:textAllCaps="true"/>
 
@@ -330,7 +327,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="2dp"
-                                    android:text="@string/select_date"
+                                    android:text="Select Date"
                                     android:textColor="@color/text_primary"
                                     android:textSize="14sp"
                                     android:textStyle="bold" />
@@ -368,9 +365,9 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/time"
+                                    android:text="Time"
                                     android:textColor="@color/text_secondary"
-                                    android:textSize="11sp"
+                                    android:textSize="10sp"
                                     android:textStyle="bold"
                                     android:textAllCaps="true"/>
 
@@ -379,7 +376,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="2dp"
-                                    android:text="@string/any_time"
+                                    android:text="Any Time"
                                     android:textColor="@color/text_primary"
                                     android:textSize="14sp"
                                     android:textStyle="bold" />
@@ -393,7 +390,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="64dp"
                         android:layout_marginTop="28dp"
-                        android:text="@string/search_available_buses"
+                        android:text="Search Available Buses"
                         android:textAllCaps="false"
                         android:textSize="18sp"
                         android:textStyle="bold"
@@ -414,7 +411,7 @@
                     android:id="@+id/tvPopularLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/most_visited_routes"
+                    android:text="Most Visited Routes"
                     android:textColor="@color/text_primary"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -425,7 +422,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:text="@string/explore_all"
+                    android:text="Explore All"
                     android:textColor="@color/primary"
                     android:textStyle="bold"
                     android:textSize="14sp"/>
@@ -448,7 +445,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="36dp"
                 android:paddingHorizontal="24dp"
-                android:text="@string/traveling_tips"
+                android:text="Traveling Tips"
                 android:textColor="@color/text_primary"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -496,7 +493,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/safety_guide"
+                            android:text="Smart Safety Guide"
                             android:textColor="@color/text_primary"
                             android:textSize="17sp"
                             android:textStyle="bold" />
@@ -505,7 +502,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="@string/safety_desc"
+                            android:text="Everything you need for a secure and comfortable trip."
                             android:textColor="@color/text_secondary"
                             android:textSize="14sp" />
                     </LinearLayout>
