@@ -27,7 +27,6 @@
                 android:padding="8dp"
                 android:rotation="180"
                 android:src="@drawable/ic_arrow_right"
-                android:contentDescription="@string/back"
                 app:tint="@color/white" />
 
         </androidx.appcompat.widget.Toolbar>
@@ -79,7 +78,7 @@
                         android:backgroundTint="#80000000"
                         android:paddingHorizontal="12dp"
                         android:paddingVertical="6dp"
-                        android:text="@string/interior_views"
+                        android:text="Interior Views Available"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
                 </FrameLayout>
@@ -109,7 +108,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
-                            android:text="@string/super_line_express"
+                            android:text="Super Line Express"
                             android:textColor="@color/text_primary"
                             android:textSize="24sp"
                             android:textStyle="bold" />
@@ -135,7 +134,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="6dp"
-                                android:text="@string/rating_4_9"
+                                android:text="4.9"
                                 android:textColor="#F59E0B"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
@@ -156,7 +155,7 @@
                             android:backgroundTint="#EEF2FF"
                             android:paddingHorizontal="14dp"
                             android:paddingVertical="8dp"
-                            android:text="@string/luxury_ac"
+                            android:text="Super Luxury AC"
                             android:textColor="@color/primary"
                             android:textSize="12sp"
                             android:textStyle="bold" />
@@ -169,7 +168,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/seats_left"
+                            android:text="42 Seats Left"
                             android:textColor="#059669"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -195,7 +194,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/time_07_00"
+                                android:text="07:00 AM"
                                 android:textColor="@color/text_primary"
                                 android:textSize="20sp"
                                 android:textStyle="bold" />
@@ -203,7 +202,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/colombo_fort"
+                                android:text="Colombo Fort"
                                 android:textColor="@color/text_secondary"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -225,7 +224,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
-                                android:text="@string/duration_3h_30m"
+                                android:text="3h 30m"
                                 android:textColor="@color/text_secondary"
                                 android:textSize="12sp" />
                         </LinearLayout>
@@ -240,7 +239,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/time_10_30"
+                                android:text="10:30 AM"
                                 android:textColor="@color/text_primary"
                                 android:textSize="20sp"
                                 android:textStyle="bold" />
@@ -248,7 +247,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/kandy"
+                                android:text="Kandy"
                                 android:textColor="@color/text_secondary"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -261,7 +260,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:text="@string/amenities"
+                android:text="Onboard Amenities"
                 android:textColor="@color/text_primary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -297,7 +296,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
-                            android:text="@string/wifi"
+                            android:text="WiFi"
                             android:textColor="@color/text_primary"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -329,7 +328,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
-                            android:text="@string/ac"
+                            android:text="AC"
                             android:textColor="@color/text_primary"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -361,7 +360,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
-                            android:text="@string/usb"
+                            android:text="USB"
                             android:textColor="@color/text_primary"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -393,7 +392,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
-                            android:text="@string/water"
+                            android:text="Water"
                             android:textColor="@color/text_primary"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -406,7 +405,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:text="@string/policies"
+                android:text="Booking Policies"
                 android:textColor="@color/text_primary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -415,7 +414,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="120dp"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="0dp"
                 app:strokeColor="#E2E8F0"
@@ -430,7 +429,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/policy_refund"
+                        android:text="• Full refund for cancellations made 24h prior."
                         android:textColor="@color/text_secondary"
                         android:textSize="14sp" />
 
@@ -438,93 +437,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="@string/policy_ticket"
+                        android:text="• E-ticket must be shown at the boarding point."
                         android:textColor="@color/text_secondary"
                         android:textSize="14sp" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Booking For Selection -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/who_is_traveling"
-                android:textColor="@color/text_primary"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="140dp"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="4dp"
-                app:strokeWidth="0dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-
-                    <RadioGroup
-                        android:id="@+id/rgBookingFor"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <RadioButton
-                            android:id="@+id/rbForMe"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:checked="true"
-                            android:text="@string/for_me" />
-
-                        <RadioButton
-                            android:id="@+id/rbForFriend"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/for_a_friend" />
-                    </RadioGroup>
-
-                    <LinearLayout
-                        android:id="@+id/layoutFriendDetails"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/friend_name"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/etFriendName"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:hint="@string/friend_phone"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/etFriendPhone"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="phone" />
-                        </com.google.android.material.textfield.TextInputLayout>
-                    </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -557,7 +472,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/total_fare"
+                    android:text="Total Fare"
                     android:textColor="@color/text_secondary"
                     android:textSize="13sp" />
 
@@ -565,7 +480,7 @@
                     android:id="@+id/tvPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/price_1500"
+                    android:text="LKR 1,500"
                     android:textColor="@color/primary"
                     android:textSize="26sp"
                     android:textStyle="bold" />
@@ -576,7 +491,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
                 android:paddingHorizontal="32dp"
-                android:text="@string/choose_seats"
+                android:text="Choose Seats"
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 android:textStyle="bold"

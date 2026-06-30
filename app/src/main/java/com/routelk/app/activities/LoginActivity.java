@@ -14,11 +14,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.routelk.app.R;
 
-import java.util.Objects;
-
 public class LoginActivity extends AppCompatActivity {
 
     private Button loginButton;
+    private TextView registerText;
+    private ImageView btnBack;
     private TextInputEditText emailEditText, passwordEditText;
     private FirebaseAuth mAuth;
 
@@ -39,8 +39,8 @@ public class LoginActivity extends AppCompatActivity {
 
         // Initialize Views
         loginButton = findViewById(R.id.loginButton);
-        TextView registerText = findViewById(R.id.registerText);
-        ImageView btnBack = findViewById(R.id.btnBack);
+        registerText = findViewById(R.id.registerText);
+        btnBack = findViewById(R.id.btnBack);
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
 
@@ -51,8 +51,6 @@ public class LoginActivity extends AppCompatActivity {
             btnBack.setOnClickListener(v -> finish());
         }
 
-        // Login Button
-        loginButton.setOnClickListener(v -> performLogin());
         loginButton.setOnClickListener(v -> {
 
             String email = etEmail.getText().toString().trim();
@@ -121,8 +119,6 @@ public class LoginActivity extends AppCompatActivity {
                     RegisterActivity.class
             );
     private void performLogin() {
-        if (emailEditText.getText() == null || passwordEditText.getText() == null) return;
-
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
 
@@ -145,8 +141,7 @@ public class LoginActivity extends AppCompatActivity {
                         goToHomeScreen();
                     } else {
                         loginButton.setEnabled(true);
-                        String error = task.getException() != null ? task.getException().getMessage() : "Authentication failed";
-                        Toast.makeText(LoginActivity.this, "Authentication failed: " + error, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
