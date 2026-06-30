@@ -7,11 +7,18 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.routelk.app.R;
+import com.routelk.app.adapters.BusAdapter;
+import com.routelk.app.models.Bus;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ManageBusesActivity extends AppCompatActivity {
@@ -22,7 +29,12 @@ public class ManageBusesActivity extends AppCompatActivity {
     private EditText totalSeatsEditText;
     private Button addBusBtn;
 
+    private RecyclerView busRecyclerView;
+
     private FirebaseFirestore db;
+
+    private List<Bus> busList;
+    private BusAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +48,18 @@ public class ManageBusesActivity extends AppCompatActivity {
         busTypeEditText = findViewById(R.id.busTypeEditText);
         totalSeatsEditText = findViewById(R.id.totalSeatsEditText);
         addBusBtn = findViewById(R.id.addBusBtn);
+
+        busRecyclerView = findViewById(R.id.busRecyclerView);
+
+        busRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        busList = new ArrayList<>();
+
+        adapter = new BusAdapter(this, busList);
+
+        busRecyclerView.setAdapter(adapter);
+
+        loadBuses();
 
         addBusBtn.setOnClickListener(v -> saveBus());
     }
@@ -80,6 +104,8 @@ public class ManageBusesActivity extends AppCompatActivity {
                     busTypeEditText.setText("");
                     totalSeatsEditText.setText("");
 
+                    loadBuses();
+
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(
@@ -87,5 +113,38 @@ public class ManageBusesActivity extends AppCompatActivity {
                                 e.getMessage(),
                                 Toast.LENGTH_LONG
                         ).show());
+    }
+
+    private void loadBuses() {
+
+        db.collection("buses")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+
+                    busList.clear();
+
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+
+                        Bus bus = document.toObject(Bus.class);
+
+                        bus.setId(document.getId());
+
+                        busList.add(bus);
+                    }
+
+                    adapter.notifyDataSetChanged();
+
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(this,
+                                e.getMessage(),
+                                Toast.LENGTH_SHORT).show());
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadBuses();
     }
 }
