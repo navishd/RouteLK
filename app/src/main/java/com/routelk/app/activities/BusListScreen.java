@@ -54,10 +54,6 @@ public class BusListScreen extends AppCompatActivity {
 
         // Create dummy data
         List<Bus> busList = new ArrayList<>();
-        busList.add(new Bus("Super Luxury", "07:00 AM - 10:30 AM", "L01", "LKR 1,250"));
-        busList.add(new Bus("Luxury Bus", "08:30 AM - 12:00 PM", "L02", "LKR 1,350"));
-        busList.add(new Bus("Semi Luxury", "10:15 AM - 01:45 PM", "S05", "LKR 1,150"));
-        busList.add(new Bus("A/C Express", "01:00 PM - 04:30 PM", "E10", "LKR 1,300"));
 
         // Set adapter
         BusAdapter busAdapter = new BusAdapter(this, busList);

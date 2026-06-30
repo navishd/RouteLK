@@ -12,29 +12,33 @@
         android:orientation="vertical"
         android:padding="20dp">
 
+        <!-- Title -->
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Manage Buses"
+            android:textColor="#0F172A"
             android:textSize="30sp"
-            android:textStyle="bold"
-            android:textColor="#0F172A" />
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add and manage bus details"
-            android:textSize="15sp"
-            android:textColor="#6B7280"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginBottom="20dp"
+            android:text="Add and manage bus details"
+            android:textColor="#6B7280"
+            android:textSize="15sp" />
+
+        <!-- Add Bus Card -->
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            android:layout_marginBottom="20dp">
+            app:cardElevation="4dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -45,136 +49,80 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
                     android:text="Add New Bus"
-                    android:textSize="22sp"
-                    android:textStyle="bold"
                     android:textColor="#111827"
-                    android:layout_marginBottom="16dp" />
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/busNameEditText"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
-                    android:hint="Bus Name"
+                    android:layout_marginBottom="12dp"
                     android:background="@drawable/edittext_bg"
-                    android:padding="16dp"
-                    android:layout_marginBottom="12dp" />
+                    android:hint="Bus Name"
+                    android:padding="16dp" />
 
                 <EditText
                     android:id="@+id/busNumberEditText"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
-                    android:hint="Bus Number"
+                    android:layout_marginBottom="12dp"
                     android:background="@drawable/edittext_bg"
-                    android:padding="16dp"
-                    android:layout_marginBottom="12dp" />
+                    android:hint="Bus Number"
+                    android:padding="16dp" />
 
                 <EditText
                     android:id="@+id/busTypeEditText"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
-                    android:hint="Bus Type  e.g. AC / Non-AC"
+                    android:layout_marginBottom="12dp"
                     android:background="@drawable/edittext_bg"
-                    android:padding="16dp"
-                    android:layout_marginBottom="12dp" />
+                    android:hint="Bus Type (AC / Non-AC)"
+                    android:padding="16dp" />
 
                 <EditText
                     android:id="@+id/totalSeatsEditText"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
-                    android:hint="Total Seats"
+                    android:layout_marginBottom="16dp"
                     android:background="@drawable/edittext_bg"
-                    android:padding="16dp"
+                    android:hint="Total Seats"
                     android:inputType="number"
-                    android:layout_marginBottom="16dp" />
+                    android:padding="16dp" />
 
                 <Button
                     android:id="@+id/addBusBtn"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
+                    android:backgroundTint="#2563EB"
                     android:text="Add Bus"
                     android:textAllCaps="false"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
                     android:textColor="#FFFFFF"
-                    android:backgroundTint="#2563EB" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
+
+        <!-- Current Buses -->
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
             android:text="Current Buses"
-            android:textSize="22sp"
-            android:textStyle="bold"
             android:textColor="#111827"
-            android:layout_marginBottom="12dp" />
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
-        <androidx.cardview.widget.CardView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/busRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="14dp"
-            app:cardElevation="3dp"
-            android:layout_marginBottom="12dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Luxury Express"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="#0F172A" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="NB-1234 • AC • 50 Seats"
-                    android:textColor="#6B7280"
-                    android:layout_marginTop="4dp" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="14dp"
-            app:cardElevation="3dp"
-            android:layout_marginBottom="12dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Green Line Travels"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="#0F172A" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="NC-9101 • Non-AC • 45 Seats"
-                    android:textColor="#6B7280"
-                    android:layout_marginTop="4dp" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
+            android:nestedScrollingEnabled="false"/>
 
     </LinearLayout>
 
