@@ -19,34 +19,41 @@
             android:id="@+id/tvBusName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:text="Luxury Express"
             android:textStyle="bold"
+            android:textSize="20sp"
             android:textColor="#111827"/>
 
         <TextView
             android:id="@+id/tvBusNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"/>
+            android:text="NB-1234"
+            android:layout_marginTop="4dp"
+            android:textColor="#6B7280"/>
 
         <TextView
             android:id="@+id/tvBusType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"/>
+            android:text="AC"
+            android:layout_marginTop="4dp"
+            android:textColor="#6B7280"/>
 
         <TextView
             android:id="@+id/tvSeats"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"/>
+            android:text="Seats : 50"
+            android:layout_marginTop="4dp"
+            android:textColor="#6B7280"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="end"
             android:orientation="horizontal"
-            android:layout_marginTop="15dp">
+            android:gravity="end"
+            android:layout_marginTop="16dp">
 
             <Button
                 android:id="@+id/editBtn"
@@ -61,9 +68,9 @@
                 android:id="@+id/deleteBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:text="Delete"
                 android:textAllCaps="false"
-                android:layout_marginStart="10dp"
                 android:textColor="#FFFFFF"
                 android:backgroundTint="#DC2626"/>
 

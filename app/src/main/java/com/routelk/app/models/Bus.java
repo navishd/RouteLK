@@ -24,44 +24,40 @@ public class Bus {
         this.totalSeats = totalSeats;
     }
 
-    // Getters
-
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getBusName() {
         return busName;
     }
 
-    public String getBusNumber() {
-        return busNumber;
-    }
-
-    public String getBusType() {
-        return busType;
-    }
-
-    public String getTotalSeats() {
-        return totalSeats;
-    }
-
-    // Setters
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public void setBusName(String busName) {
         this.busName = busName;
+    }
+
+    public String getBusNumber() {
+        return busNumber;
     }
 
     public void setBusNumber(String busNumber) {
         this.busNumber = busNumber;
     }
 
+    public String getBusType() {
+        return busType;
+    }
+
     public void setBusType(String busType) {
         this.busType = busType;
+    }
+
+    public String getTotalSeats() {
+        return totalSeats;
     }
 
     public void setTotalSeats(String totalSeats) {

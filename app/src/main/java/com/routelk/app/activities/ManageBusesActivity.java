@@ -6,12 +6,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.routelk.app.R;
 import com.routelk.app.adapters.BusAdapter;
 import com.routelk.app.models.Bus;
@@ -50,13 +52,10 @@ public class ManageBusesActivity extends AppCompatActivity {
         addBusBtn = findViewById(R.id.addBusBtn);
 
         busRecyclerView = findViewById(R.id.busRecyclerView);
-
         busRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         busList = new ArrayList<>();
-
         adapter = new BusAdapter(this, busList);
-
         busRecyclerView.setAdapter(adapter);
 
         loadBuses();
@@ -71,10 +70,10 @@ public class ManageBusesActivity extends AppCompatActivity {
         String busType = busTypeEditText.getText().toString().trim();
         String totalSeats = totalSeatsEditText.getText().toString().trim();
 
-        if (TextUtils.isEmpty(busName) ||
-                TextUtils.isEmpty(busNumber) ||
-                TextUtils.isEmpty(busType) ||
-                TextUtils.isEmpty(totalSeats)) {
+        if (TextUtils.isEmpty(busName)
+                || TextUtils.isEmpty(busNumber)
+                || TextUtils.isEmpty(busType)
+                || TextUtils.isEmpty(totalSeats)) {
 
             Toast.makeText(this,
                     "Please fill all fields",
@@ -123,22 +122,21 @@ public class ManageBusesActivity extends AppCompatActivity {
 
                     busList.clear();
 
-                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                    for (DocumentSnapshot document : queryDocumentSnapshots) {
 
                         Bus bus = document.toObject(Bus.class);
 
-                        bus.setId(document.getId());
+                        if (bus != null) {
 
-                        busList.add(bus);
+                            bus.setId(document.getId());
+
+                            busList.add(bus);
+                        }
                     }
 
                     adapter.notifyDataSetChanged();
 
-                })
-                .addOnFailureListener(e ->
-                        Toast.makeText(this,
-                                e.getMessage(),
-                                Toast.LENGTH_SHORT).show());
+                });
 
     }
 
