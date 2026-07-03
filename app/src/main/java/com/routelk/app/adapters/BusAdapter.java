@@ -1,7 +1,9 @@
 package com.routelk.app.adapters;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,27 +24,33 @@ import java.util.Map;
 
 public class BusAdapter extends RecyclerView.Adapter<BusAdapter.BusViewHolder> {
 
-    Context context;
-    List<Bus> busList;
+    private final Context context;
+    private final List<Bus> busList;
+    private String from, to, date;
 
     public BusAdapter(Context context, List<Bus> busList) {
         this.context = context;
         this.busList = busList;
     }
 
+    public BusAdapter(Context context, List<Bus> busList, String from, String to, String date) {
+        this.context = context;
+        this.busList = busList;
+        this.from = from;
+        this.to = to;
+        this.date = date;
+    }
+
     @NonNull
     @Override
     public BusViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        View view = LayoutInflater.from(context)
-                .inflate(R.layout.item_bus, parent, false);
-
+        View view = LayoutInflater.from(context).inflate(R.layout.item_bus, parent, false);
         return new BusViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull BusViewHolder holder, int position) {
-
         Bus bus = busList.get(position);
 
         holder.tvBusName.setText(bus.getBusName());
@@ -50,12 +58,20 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.BusViewHolder> {
         holder.tvBusType.setText("Type : " + bus.getBusType());
         holder.tvSeats.setText("Seats : " + bus.getTotalSeats());
 
+        // Item click listener for passenger flow
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, com.routelk.app.activities.BusDetails.class);
+            intent.putExtra("BUS_ID", bus.getId());
+            intent.putExtra("BUS_NAME", bus.getBusName());
+            intent.putExtra("FROM", from);
+            intent.putExtra("TO", to);
+            intent.putExtra("DATE", date);
+            context.startActivity(intent);
+        });
+
         // ================= EDIT ====================
-
         holder.editBtn.setOnClickListener(v -> {
-
-            View dialogView = LayoutInflater.from(context)
-                    .inflate(R.layout.dialog_edit_bus, null);
+            View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_edit_bus, null);
 
             EditText etName = dialogView.findViewById(R.id.etBusName);
             EditText etNumber = dialogView.findViewById(R.id.etBusNumber);
@@ -70,11 +86,8 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.BusViewHolder> {
             new AlertDialog.Builder(context)
                     .setTitle("Update Bus")
                     .setView(dialogView)
-
                     .setPositiveButton("Update", (dialog, which) -> {
-
-                        Map<String,Object> update = new HashMap<>();
-
+                        Map<String, Object> update = new HashMap<>();
                         update.put("busName", etName.getText().toString().trim());
                         update.put("busNumber", etNumber.getText().toString().trim());
                         update.put("busType", etType.getText().toString().trim());
@@ -85,55 +98,35 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.BusViewHolder> {
                                 .document(bus.getId())
                                 .update(update)
                                 .addOnSuccessListener(unused -> {
-
                                     bus.setBusName(etName.getText().toString());
                                     bus.setBusNumber(etNumber.getText().toString());
                                     bus.setBusType(etType.getText().toString());
                                     bus.setTotalSeats(etSeats.getText().toString());
-
-                                    notifyItemChanged(holder.getAdapterPosition());
-
+                                    notifyItemChanged(holder.getBindingAdapterPosition());
                                 });
-
                     })
-
                     .setNegativeButton("Cancel", null)
                     .show();
-
         });
 
         // ================= DELETE ====================
-
-        holder.deleteBtn.setOnClickListener(v -> {
-
-            new AlertDialog.Builder(context)
-                    .setTitle("Delete Bus")
-                    .setMessage("Are you sure you want to delete this bus?")
-
-                    .setPositiveButton("Delete", (dialog, which) -> {
-
-                        FirebaseFirestore.getInstance()
-                                .collection("buses")
-                                .document(bus.getId())
-                                .delete()
-                                .addOnSuccessListener(unused -> {
-
-                                    int pos = holder.getAdapterPosition();
-
-                                    busList.remove(pos);
-
-                                    notifyItemRemoved(pos);
-                                    notifyItemRangeChanged(pos, busList.size());
-
-                                });
-
-                    })
-
-                    .setNegativeButton("Cancel", null)
-                    .show();
-
-        });
-
+        holder.deleteBtn.setOnClickListener(v -> new AlertDialog.Builder(context)
+                .setTitle("Delete Bus")
+                .setMessage("Are you sure you want to delete this bus?")
+                .setPositiveButton("Delete", (dialog, which) -> {
+                    FirebaseFirestore.getInstance()
+                            .collection("buses")
+                            .document(bus.getId())
+                            .delete()
+                            .addOnSuccessListener(unused -> {
+                                int pos = holder.getBindingAdapterPosition();
+                                busList.remove(pos);
+                                notifyItemRemoved(pos);
+                                notifyItemRangeChanged(pos, busList.size());
+                            });
+                })
+                .setNegativeButton("Cancel", null)
+                .show());
     }
 
     @Override
@@ -142,23 +135,15 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.BusViewHolder> {
     }
 
     static class BusViewHolder extends RecyclerView.ViewHolder {
-
-        TextView tvBusName;
-        TextView tvBusNumber;
-        TextView tvBusType;
-        TextView tvSeats;
-
-        Button editBtn;
-        Button deleteBtn;
+        TextView tvBusName, tvBusNumber, tvBusType, tvSeats;
+        Button editBtn, deleteBtn;
 
         public BusViewHolder(@NonNull View itemView) {
             super(itemView);
-
             tvBusName = itemView.findViewById(R.id.tvBusName);
             tvBusNumber = itemView.findViewById(R.id.tvBusNumber);
             tvBusType = itemView.findViewById(R.id.tvBusType);
             tvSeats = itemView.findViewById(R.id.tvSeats);
-
             editBtn = itemView.findViewById(R.id.editBtn);
             deleteBtn = itemView.findViewById(R.id.deleteBtn);
         }

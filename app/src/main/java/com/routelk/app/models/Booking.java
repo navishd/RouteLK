@@ -3,6 +3,7 @@ package com.routelk.app.models;
 public class Booking {
 
     private String id;
+    private String userId;
     private String userName;
     private String from;
     private String to;
@@ -14,6 +15,7 @@ public class Booking {
     }
 
     public Booking(String id,
+                   String userId,
                    String userName,
                    String from,
                    String to,
@@ -22,6 +24,7 @@ public class Booking {
                    String date) {
 
         this.id = id;
+        this.userId = userId;
         this.userName = userName;
         this.from = from;
         this.to = to;
@@ -34,27 +37,63 @@ public class Booking {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     public String getUserName() {
         return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getFrom() {
         return from;
     }
 
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
     public String getTo() {
         return to;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
     }
 
     public String getBusName() {
         return busName;
     }
 
+    public void setBusName(String busName) {
+        this.busName = busName;
+    }
+
     public String getSeatNo() {
         return seatNo;
     }
 
+    public void setSeatNo(String seatNo) {
+        this.seatNo = seatNo;
+    }
+
     public String getDate() {
         return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

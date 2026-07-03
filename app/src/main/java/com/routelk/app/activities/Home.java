@@ -107,9 +107,7 @@ public class Home extends AppCompatActivity {
             String[] passengerOptions = {"1 Adult", "2 Adults", "3 Adults", "4 Adults", "5 Adults", "Group (6+)"};
             new androidx.appcompat.app.AlertDialog.Builder(this)
                     .setTitle("Number of Passengers")
-                    .setItems(passengerOptions, (dialog, which) -> {
-                        tvPassengers.setText(passengerOptions[which]);
-                    })
+                    .setItems(passengerOptions, (dialog, which) -> tvPassengers.setText(passengerOptions[which]))
                     .show();
         });
 
