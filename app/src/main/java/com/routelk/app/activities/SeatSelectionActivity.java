@@ -20,8 +20,18 @@ public class SeatSelectionActivity extends AppCompatActivity {
         continueButton = findViewById(R.id.continueButton);
 
         continueButton.setOnClickListener(v -> {
-            Intent intent = new Intent(SeatSelectionActivity.this, PassengerDetailsScreen.class);
-            startActivity(intent);
+            boolean isForOthers = getIntent().getBooleanExtra("IS_FOR_OTHERS", false);
+            
+            if (isForOthers) {
+                // If booking for someone else, go to Passenger Details page
+                Intent intent = new Intent(SeatSelectionActivity.this, PassengerDetailsScreen.class);
+                intent.putExtra("IS_FOR_OTHERS", isForOthers);
+                startActivity(intent);
+            } else {
+                // If booking for self, skip Passenger Details and go directly to Payment
+                Intent intent = new Intent(SeatSelectionActivity.this, Payment.class);
+                startActivity(intent);
+            }
         });
     }
 }

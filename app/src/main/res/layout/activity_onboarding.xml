@@ -44,7 +44,7 @@
             android:scaleType="centerCrop"
             android:src="@drawable/onboarding_image"
             app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle"
-            android:contentDescription="Onboarding Illustration" />
+            android:contentDescription="@string/onboarding_illustration" />
     </FrameLayout>
 
     <!-- Content Card -->
@@ -72,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:lineSpacingExtra="6dp"
-                android:text="Book Your Journey\nEasily &amp; Quickly"
+                android:text="@string/onboarding_title"
                 android:textColor="@color/text_primary"
                 android:textSize="28sp"
                 android:textStyle="bold" />
@@ -84,7 +84,7 @@
                 android:layout_marginTop="16dp"
                 android:gravity="center"
                 android:lineSpacingExtra="4dp"
-                android:text="Search, compare and book highway bus tickets anytime, anywhere with ease."
+                android:text="@string/onboarding_subtitle"
                 android:textColor="@color/text_secondary"
                 android:textSize="16sp" />
 
@@ -134,7 +134,7 @@
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Skip"
+            android:text="@string/skip"
             android:textAllCaps="false"
             android:textColor="@color/text_secondary"
             android:textSize="16sp"
@@ -146,7 +146,7 @@
             android:id="@+id/btnNext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="Next"
+            android:contentDescription="@string/next_cd"
             android:src="@drawable/ic_arrow_right"
             app:backgroundTint="@color/primary"
             app:fabSize="normal"

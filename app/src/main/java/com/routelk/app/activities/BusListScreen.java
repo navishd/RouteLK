@@ -43,6 +43,7 @@ public class BusListScreen extends AppCompatActivity {
         String to = getIntent().getStringExtra("TO");
         String date = getIntent().getStringExtra("DATE");
         String passengers = getIntent().getStringExtra("PASSENGERS");
+        boolean isForOthers = getIntent().getBooleanExtra("IS_FOR_OTHERS", false);
 
         TextView routeTitle = findViewById(R.id.routeTitle);
         TextView dateSubtitle = findViewById(R.id.dateSubtitle);
@@ -58,11 +59,19 @@ public class BusListScreen extends AppCompatActivity {
             tvPassengersCount.setText(passengers);
         }
 
-        // Create dummy data
-        List<Bus> busList = new ArrayList<>();
-
         // Set adapter
-        BusAdapter busAdapter = new BusAdapter(this, busList);        busRecyclerView.setAdapter(busAdapter);
+        List<Bus> busList = new ArrayList<>();
+        // Note: For actual usage, you would populate this from Firestore
+        BusAdapter busAdapter = new BusAdapter(this, busList);
+        busRecyclerView.setAdapter(busAdapter);
+
+        // Since BusAdapter is currently for Admin (Edit/Delete), 
+        // I will add a direct way to navigate to Details to test the "Booking for others" flow.
+        findViewById(R.id.headerCard).setOnClickListener(v -> {
+            Intent intent = new Intent(BusListScreen.this, BusDetails.class);
+            intent.putExtra("IS_FOR_OTHERS", isForOthers);
+            startActivity(intent);
+        });
 
         // Back button click listener
         findViewById(R.id.backButton).setOnClickListener(v -> finish());

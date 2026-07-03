@@ -9,7 +9,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
@@ -25,13 +29,21 @@ public class Home extends AppCompatActivity {
     private TextView tvDate, tvTime, tvPassengers;
     private MaterialCardView btnSwap, btnMenu, btnNotification;
     private LinearLayout layoutDate, layoutTime, layoutPassengers;
+    private com.google.android.material.switchmaterial.SwitchMaterial switchBookingForOthers;
     private MaterialButton btnSearch;
     private Calendar calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
+            v.setPadding(bars.left, bars.top, bars.right, bars.bottom);
+            return insets;
+        });
 
         // Initialize UI components
         etFrom = findViewById(R.id.etFrom);
@@ -45,6 +57,7 @@ public class Home extends AppCompatActivity {
         layoutTime = findViewById(R.id.layoutTime);
         layoutPassengers = findViewById(R.id.layoutPassengers);
         tvPassengers = findViewById(R.id.tvPassengers);
+        switchBookingForOthers = findViewById(R.id.switchBookingForOthers);
         btnSearch = findViewById(R.id.btnSearchBuses);
         
         calendar = Calendar.getInstance();
@@ -137,6 +150,7 @@ public class Home extends AppCompatActivity {
                 intent.putExtra("DATE", tvDate.getText().toString());
                 intent.putExtra("TIME", tvTime.getText().toString());
                 intent.putExtra("PASSENGERS", tvPassengers.getText().toString());
+                intent.putExtra("IS_FOR_OTHERS", switchBookingForOthers.isChecked());
 
                 startActivity(intent);
             }

@@ -27,7 +27,9 @@ public class BusDetails extends AppCompatActivity {
         if (btnSelectSeats != null) {
             btnSelectSeats.setOnClickListener(v -> {
 
+                boolean isForOthers = getIntent().getBooleanExtra("IS_FOR_OTHERS", false);
                 Intent intent = new Intent(BusDetails.this, SeatSelectionActivity.class);
+                intent.putExtra("IS_FOR_OTHERS", isForOthers);
 
                 startActivity(intent);
             });
