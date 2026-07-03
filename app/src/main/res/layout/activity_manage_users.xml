@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F8FAFC"
@@ -11,7 +10,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Manage Users"
+        android:text="@string/manage_users"
         android:textSize="30sp"
         android:textStyle="bold"
         android:textColor="#0F172A" />
@@ -19,7 +18,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View registered passengers and admins"
+        android:text="@string/manage_users_desc"
         android:textSize="15sp"
         android:textColor="#6B7280"
         android:layout_marginTop="4dp"

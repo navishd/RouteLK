@@ -19,10 +19,28 @@
             </intent-filter>
         </activity>
 
+        <!-- Auth -->
+        <activity android:name=".activities.LoginActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".activities.RegisterActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- User Flow -->
+        <activity android:name=".activities.Home" android:exported="false" />
+        <activity android:name=".activities.BusListScreen" android:exported="false" />
+        <activity android:name=".activities.BusDetails" android:exported="false" />
+        <activity android:name=".activities.SeatSelectionActivity" android:exported="false" />
+        <activity android:name=".activities.PassengerDetailsScreen" android:exported="false" />
+        <activity android:name=".activities.Payment" android:exported="false" />
+        <activity android:name=".activities.BookingSuccess" android:exported="false" />
+        <activity android:name=".activities.MyBookingsActivity" android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />
 
+        <!-- Authentication -->
         <activity
             android:name=".activities.LoginActivity"
             android:exported="false" />
@@ -31,10 +49,14 @@
             android:name=".activities.RegisterActivity"
             android:exported="false" />
 
+        <!-- User Flow -->
         <activity
             android:name=".activities.Home"
             android:exported="false" />
 
+        <activity
+            android:name=".activities.SearchBusActivity"
+            android:exported="false" />
 
         <activity
             android:name=".activities.BusListScreen"
@@ -49,6 +71,10 @@
             android:exported="false" />
 
         <activity
+            android:name=".activities.PassengerDetailsScreen"
+            android:exported="false" />
+
+        <activity
             android:name=".activities.Payment"
             android:exported="false" />
 
@@ -60,6 +86,7 @@
             android:name=".activities.MyBookingsActivity"
             android:exported="false" />
 
+        <!-- Other User Features -->
         <activity
             android:name=".activities.NotificationsActivity"
             android:exported="false" />
@@ -68,6 +95,9 @@
             android:name=".activities.ProfileActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".activities.HelpSupportActivity"
+            android:exported="false" />
 
         <!-- Admin Panel -->
         <activity
