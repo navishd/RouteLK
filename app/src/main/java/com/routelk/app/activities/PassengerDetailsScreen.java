@@ -12,6 +12,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.routelk.app.R;
+import android.widget.EditText;
+import android.widget.TextView;
 
 public class PassengerDetailsScreen extends AppCompatActivity {
 
@@ -21,10 +23,23 @@ public class PassengerDetailsScreen extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_passenger_details_screen);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            Insets bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
+            v.setPadding(bars.left, bars.top, bars.right, bars.bottom);
             return insets;
         });
+
+        // Check if booking for someone else
+        boolean isForOthers = getIntent().getBooleanExtra("IS_FOR_OTHERS", false);
+        
+        EditText fullNameEditText = findViewById(R.id.fullNameEditText);
+        EditText phoneEditText = findViewById(R.id.phoneEditText);
+        TextView passengerLabel = findViewById(R.id.passengerLabel);
+
+        if (isForOthers) {
+            passengerLabel.setText("Passenger Details");
+            fullNameEditText.setText(""); // Clear default value
+            phoneEditText.setText(""); // Clear default value
+        }
 
         // Initialize ID Type Dropdown
         String[] idTypes = {"NIC", "Passport", "Driving License"};
