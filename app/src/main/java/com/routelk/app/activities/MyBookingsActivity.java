@@ -1,5 +1,6 @@
 package com.routelk.app.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.routelk.app.R;
 import com.routelk.app.adapters.BookingAdapter;
@@ -42,7 +44,7 @@ public class MyBookingsActivity extends AppCompatActivity {
 
         ImageView btnBack = findViewById(R.id.btnBack);
         if (btnBack != null) {
-            btnBack.setOnClickListener(v -> finish());
+            btnBack.setOnClickListener(v -> navigateToHome());
         }
 
         recyclerView = findViewById(R.id.rvMyBookings);
@@ -57,6 +59,21 @@ public class MyBookingsActivity extends AppCompatActivity {
         }
 
         loadUserBookings();
+
+        // Handle system back button
+        getOnBackPressedDispatcher().addCallback(this, new androidx.activity.OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                navigateToHome();
+            }
+        });
+    }
+
+    private void navigateToHome() {
+        Intent intent = new Intent(MyBookingsActivity.this, Home.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 
     private void loadUserBookings() {
@@ -71,6 +88,7 @@ public class MyBookingsActivity extends AppCompatActivity {
 
         db.collection("bookings")
                 .whereEqualTo("userId", userId)
+                .orderBy("timestamp", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (progressBar != null) progressBar.setVisibility(View.GONE);

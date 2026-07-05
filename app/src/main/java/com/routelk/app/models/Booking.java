@@ -1,10 +1,12 @@
 package com.routelk.app.models;
 
+import com.google.firebase.Timestamp;
+
 public class Booking {
 
     private String id;
     private String userId;
-    private String userName; // The user who made the booking
+    private String userName;
     private String passengerName;
     private String passengerPhone;
     private String from;
@@ -12,6 +14,7 @@ public class Booking {
     private String busName;
     private String seatNo;
     private String date;
+    private Timestamp timestamp;
 
     public Booking() {
     }
@@ -25,7 +28,8 @@ public class Booking {
                    String to,
                    String busName,
                    String seatNo,
-                   String date) {
+                   String date,
+                   Timestamp timestamp) {
 
         this.id = id;
         this.userId = userId;
@@ -37,6 +41,7 @@ public class Booking {
         this.busName = busName;
         this.seatNo = seatNo;
         this.date = date;
+        this.timestamp = timestamp;
     }
 
     public String getId() {
@@ -117,5 +122,13 @@ public class Booking {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
     }
 }

@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -120,7 +121,7 @@ public class Payment extends AppCompatActivity {
 
         for (String seat : selectedSeats) {
             String bookingId = UUID.randomUUID().toString();
-            Booking booking = new Booking(bookingId, userId, userName, pName, pPhone, from, to, busName, seat, date);
+            Booking booking = new Booking(bookingId, userId, userName, pName, pPhone, from, to, busName, seat, date, Timestamp.now());
 
             db.collection("bookings").document(bookingId).set(booking)
                     .addOnSuccessListener(unused -> {
