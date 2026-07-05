@@ -4,7 +4,9 @@ public class Booking {
 
     private String id;
     private String userId;
-    private String userName;
+    private String userName; // The user who made the booking
+    private String passengerName;
+    private String passengerPhone;
     private String from;
     private String to;
     private String busName;
@@ -17,6 +19,8 @@ public class Booking {
     public Booking(String id,
                    String userId,
                    String userName,
+                   String passengerName,
+                   String passengerPhone,
                    String from,
                    String to,
                    String busName,
@@ -26,6 +30,8 @@ public class Booking {
         this.id = id;
         this.userId = userId;
         this.userName = userName;
+        this.passengerName = passengerName;
+        this.passengerPhone = passengerPhone;
         this.from = from;
         this.to = to;
         this.busName = busName;
@@ -55,6 +61,22 @@ public class Booking {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getPassengerName() {
+        return passengerName;
+    }
+
+    public void setPassengerName(String passengerName) {
+        this.passengerName = passengerName;
+    }
+
+    public String getPassengerPhone() {
+        return passengerPhone;
+    }
+
+    public void setPassengerPhone(String passengerPhone) {
+        this.passengerPhone = passengerPhone;
     }
 
     public String getFrom() {

@@ -27,9 +27,8 @@ public class SeatSelectionActivity extends AppCompatActivity {
     private Set<String> selectedSeats = new HashSet<>();
     private List<Button> seatButtons = new ArrayList<>();
     private FirebaseFirestore db;
-    private String busName, date;
+    private String busId, busName, from, to, date;
     
-    // Static set to keep track of reserved seats across the app session
     public static final Set<String> reservedSeats = new HashSet<>();
 
     @Override
@@ -37,21 +36,21 @@ public class SeatSelectionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seat_selection);
 
-        continueButton = findViewById(R.id.continueButton);
         db = FirebaseFirestore.getInstance();
-
-        // Find all seat buttons in the layout
-        ViewGroup root = findViewById(R.id.seatSelectionRoot);
-        if (root != null) {
-            collectAllSeats(root);
-        }
+        continueButton = findViewById(R.id.continueButton);
 
         Intent intent = getIntent();
-        String busId = intent.getStringExtra("BUS_ID");
+        busId = intent.getStringExtra("BUS_ID");
         busName = intent.getStringExtra("BUS_NAME");
-        String from = intent.getStringExtra("FROM");
-        String to = intent.getStringExtra("TO");
+        from = intent.getStringExtra("FROM");
+        to = intent.getStringExtra("TO");
         date = intent.getStringExtra("DATE");
+
+        ViewGroup root = findViewById(R.id.seatSelectionRoot);
+        if (root != null) {
+            seatButtons.clear();
+            collectAllSeats(root);
+        }
 
         fetchReservedSeats();
 
@@ -60,13 +59,24 @@ public class SeatSelectionActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please select at least one seat", Toast.LENGTH_SHORT).show();
                 return;
             }
-            Intent nextIntent = new Intent(SeatSelectionActivity.this, Payment.class);
+
+            boolean isForOthers = getIntent().getBooleanExtra("IS_FOR_OTHERS", false);
+            Intent nextIntent;
+
+            if (isForOthers) {
+                nextIntent = new Intent(SeatSelectionActivity.this, PassengerDetailsScreen.class);
+            } else {
+                nextIntent = new Intent(SeatSelectionActivity.this, Payment.class);
+            }
+
+            nextIntent.putExtra("IS_FOR_OTHERS", isForOthers);
             nextIntent.putStringArrayListExtra("SELECTED_SEATS", new ArrayList<>(selectedSeats));
             nextIntent.putExtra("BUS_ID", busId);
             nextIntent.putExtra("BUS_NAME", busName);
             nextIntent.putExtra("FROM", from);
             nextIntent.putExtra("TO", to);
             nextIntent.putExtra("DATE", date);
+            
             startActivity(nextIntent);
         });
     }
@@ -74,12 +84,14 @@ public class SeatSelectionActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Refresh seat states whenever we return to this screen
-        refreshSeats();
+        fetchReservedSeats();
     }
 
     private void fetchReservedSeats() {
-        if (busName == null) return;
+        if (busName == null) {
+            refreshSeats();
+            return;
+        }
         
         db.collection("bookings")
                 .whereEqualTo("busName", busName)
@@ -104,8 +116,14 @@ public class SeatSelectionActivity extends AppCompatActivity {
     private void collectAllSeats(ViewGroup viewGroup) {
         for (int i = 0; i < viewGroup.getChildCount(); i++) {
             View child = viewGroup.getChildAt(i);
-            if (child instanceof Button && child.getId() != R.id.continueButton) {
-                seatButtons.add((Button) child);
+            if (child instanceof Button) {
+                Button btn = (Button) child;
+                if (btn.getId() != R.id.continueButton) {
+                    String text = btn.getText().toString();
+                    if (!text.isEmpty() && !text.equalsIgnoreCase("Continue") && !text.equalsIgnoreCase("Driver") && !text.equalsIgnoreCase("TL")) {
+                        seatButtons.add(btn);
+                    }
+                }
             } else if (child instanceof ViewGroup) {
                 collectAllSeats((ViewGroup) child);
             }
@@ -113,10 +131,7 @@ public class SeatSelectionActivity extends AppCompatActivity {
     }
 
     private void refreshSeats() {
-        // First, check for newly reserved seats that might have been selected here previously
-        for (String reserved : reservedSeats) {
-            selectedSeats.remove(reserved);
-        }
+        selectedSeats.removeIf(reservedSeats::contains);
 
         for (Button seat : seatButtons) {
             String seatNum = seat.getText().toString();
@@ -125,15 +140,10 @@ public class SeatSelectionActivity extends AppCompatActivity {
                 setSeatReserved(seat);
             } else if (selectedSeats.contains(seatNum)) {
                 setSeatSelected(seat);
-                seat.setEnabled(true);
-                seat.setOnClickListener(v -> toggleSeatSelection(seat, seatNum));
             } else {
                 setSeatAvailable(seat);
-                seat.setEnabled(true);
-                seat.setOnClickListener(v -> toggleSeatSelection(seat, seatNum));
             }
         }
-        
         updateContinueButton();
     }
 
@@ -150,29 +160,38 @@ public class SeatSelectionActivity extends AppCompatActivity {
 
     private void updateContinueButton() {
         if (!selectedSeats.isEmpty()) {
-            continueButton.setText("Continue (" + selectedSeats.size() + " Seats Selected)");
+            continueButton.setText("Continue (" + selectedSeats.size() + " Selected)");
         } else {
             continueButton.setText("Continue");
         }
     }
 
     private void setSeatAvailable(Button seat) {
-        // White background for available seats
+        seat.setEnabled(true);
+        seat.setClickable(true);
+        // Explicitly set white background for available seats
         seat.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
         seat.setTextColor(Color.BLACK);
+        String seatNum = seat.getText().toString();
+        seat.setOnClickListener(v -> toggleSeatSelection(seat, seatNum));
     }
 
     private void setSeatSelected(Button seat) {
-        // Primary (Blue) color for selected seats
-        seat.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.primary)));
+        seat.setEnabled(true);
+        seat.setClickable(true);
+        // Green for selected seats to be very clear
+        seat.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
         seat.setTextColor(Color.WHITE);
+        String seatNum = seat.getText().toString();
+        seat.setOnClickListener(v -> toggleSeatSelection(seat, seatNum));
     }
 
     private void setSeatReserved(Button seat) {
-        // Darker grey for reserved seats to make them clearly distinct
-        seat.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#9CA3AF"))); 
+        // Gray for reserved/booked seats
+        seat.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#9CA3AF")));
         seat.setTextColor(Color.WHITE);
         seat.setEnabled(false);
-        seat.setOnClickListener(null);
+        seat.setClickable(false);
+        seat.setOnClickListener(v -> Toast.makeText(this, "This seat is already booked", Toast.LENGTH_SHORT).show());
     }
 }
