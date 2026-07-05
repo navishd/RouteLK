@@ -1,14 +1,14 @@
 package com.routelk.app.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
 import com.routelk.app.R;
+import android.content.Intent;
 
 public class BusDetails extends AppCompatActivity {
 
@@ -19,18 +19,6 @@ public class BusDetails extends AppCompatActivity {
 
         ImageView btnBack = findViewById(R.id.btnBack);
         MaterialButton btnSelectSeats = findViewById(R.id.btnSelectSeats);
-        TextView tvBusCompany = findViewById(R.id.tvBusCompany);
-
-        Intent intent = getIntent();
-        String busId = intent.getStringExtra("BUS_ID");
-        String busName = intent.getStringExtra("BUS_NAME");
-        String from = intent.getStringExtra("FROM");
-        String to = intent.getStringExtra("TO");
-        String date = intent.getStringExtra("DATE");
-
-        if (busName != null && tvBusCompany != null) {
-            tvBusCompany.setText(busName);
-        }
 
         if (btnBack != null) {
             btnBack.setOnClickListener(v -> finish());
@@ -38,13 +26,12 @@ public class BusDetails extends AppCompatActivity {
 
         if (btnSelectSeats != null) {
             btnSelectSeats.setOnClickListener(v -> {
-                Intent nextIntent = new Intent(BusDetails.this, SeatSelectionActivity.class);
-                nextIntent.putExtra("BUS_ID", busId);
-                nextIntent.putExtra("BUS_NAME", busName);
-                nextIntent.putExtra("FROM", from);
-                nextIntent.putExtra("TO", to);
-                nextIntent.putExtra("DATE", date);
-                startActivity(nextIntent);
+
+                boolean isForOthers = getIntent().getBooleanExtra("IS_FOR_OTHERS", false);
+                Intent intent = new Intent(BusDetails.this, SeatSelectionActivity.class);
+                intent.putExtra("IS_FOR_OTHERS", isForOthers);
+
+                startActivity(intent);
             });
         }
     }
