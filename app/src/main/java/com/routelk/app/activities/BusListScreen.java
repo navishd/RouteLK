@@ -43,10 +43,10 @@ public class BusListScreen extends AppCompatActivity {
         String to = getIntent().getStringExtra("TO");
         String date = getIntent().getStringExtra("DATE");
         String passengers = getIntent().getStringExtra("PASSENGERS");
+        boolean isForOthers = getIntent().getBooleanExtra("IS_FOR_OTHERS", false);
 
         TextView routeTitle = findViewById(R.id.routeTitle);
         TextView dateSubtitle = findViewById(R.id.dateSubtitle);
-        TextView tvBusCount = findViewById(R.id.tvBusCount);
         TextView tvPassengersCount = findViewById(R.id.tvPassengersCount);
 
         if (from != null && to != null) {
@@ -59,21 +59,19 @@ public class BusListScreen extends AppCompatActivity {
             tvPassengersCount.setText(passengers);
         }
 
-        // Create dummy data
+        // Set adapter
         List<Bus> busList = new ArrayList<>();
-        busList.add(new Bus("1", "Super Line Express", "NB-1234", "Luxury AC", "45"));
-        busList.add(new Bus("2", "Kandy Metro", "NC-5678", "Super Luxury", "40"));
-        busList.add(new Bus("3", "Southern Link", "ND-9012", "Semi Luxury", "50"));
-        busList.add(new Bus("4", "Night Rider", "NE-3456", "Luxury AC", "45"));
-        busList.add(new Bus("5", "City Runner", "NF-7890", "Normal", "55"));
-
-        if (tvBusCount != null) {
-            tvBusCount.setText(String.valueOf(busList.size()));
-        }
-
-        // Set adapter with search details
-        BusAdapter busAdapter = new BusAdapter(this, busList, from, to, date);
+        // Note: For actual usage, you would populate this from Firestore
+        BusAdapter busAdapter = new BusAdapter(this, busList);
         busRecyclerView.setAdapter(busAdapter);
+
+        // Since BusAdapter is currently for Admin (Edit/Delete), 
+        // I will add a direct way to navigate to Details to test the "Booking for others" flow.
+        findViewById(R.id.headerCard).setOnClickListener(v -> {
+            Intent intent = new Intent(BusListScreen.this, BusDetails.class);
+            intent.putExtra("IS_FOR_OTHERS", isForOthers);
+            startActivity(intent);
+        });
 
         // Back button click listener
         findViewById(R.id.backButton).setOnClickListener(v -> finish());
