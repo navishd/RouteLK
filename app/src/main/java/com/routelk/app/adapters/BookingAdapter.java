@@ -43,24 +43,19 @@ public class BookingAdapter
 
         Booking booking = bookingList.get(position);
 
-        holder.tvUserName.setText(
-                booking.getUserName());
+        holder.tvUserName.setText("Booked by: " + booking.getUserName());
+        
+        if (booking.getPassengerName() != null && !booking.getPassengerName().equals(booking.getUserName())) {
+            holder.tvPassengerName.setVisibility(View.VISIBLE);
+            holder.tvPassengerName.setText("Passenger: " + booking.getPassengerName());
+        } else {
+            holder.tvPassengerName.setVisibility(View.GONE);
+        }
 
-        holder.tvRoute.setText(
-                booking.getFrom()
-                        + " → "
-                        + booking.getTo());
-
-        holder.tvBus.setText(
-                "Bus : "
-                        + booking.getBusName());
-
-        holder.tvSeat.setText(
-                "Seat : "
-                        + booking.getSeatNo());
-
-        holder.tvDate.setText(
-                booking.getDate());
+        holder.tvRoute.setText(booking.getFrom() + " → " + booking.getTo());
+        holder.tvBus.setText("Bus: " + booking.getBusName());
+        holder.tvSeat.setText("Seat: " + booking.getSeatNo());
+        holder.tvDate.setText(booking.getDate());
     }
 
     @Override
@@ -72,6 +67,7 @@ public class BookingAdapter
             extends RecyclerView.ViewHolder {
 
         TextView tvUserName,
+                tvPassengerName,
                 tvRoute,
                 tvBus,
                 tvSeat,
@@ -82,20 +78,12 @@ public class BookingAdapter
 
             super(itemView);
 
-            tvUserName =
-                    itemView.findViewById(R.id.tvUserName);
-
-            tvRoute =
-                    itemView.findViewById(R.id.tvRoute);
-
-            tvBus =
-                    itemView.findViewById(R.id.tvBus);
-
-            tvSeat =
-                    itemView.findViewById(R.id.tvSeat);
-
-            tvDate =
-                    itemView.findViewById(R.id.tvDate);
+            tvUserName = itemView.findViewById(R.id.tvUserName);
+            tvPassengerName = itemView.findViewById(R.id.tvPassengerName);
+            tvRoute = itemView.findViewById(R.id.tvRoute);
+            tvBus = itemView.findViewById(R.id.tvBus);
+            tvSeat = itemView.findViewById(R.id.tvSeat);
+            tvDate = itemView.findViewById(R.id.tvDate);
         }
     }
 }
