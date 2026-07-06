@@ -15,6 +15,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.routelk.app.R;
@@ -27,11 +28,13 @@ public class Home extends AppCompatActivity {
 
     private EditText etFrom, etTo;
     private TextView tvDate, tvTime, tvPassengers;
-    private MaterialCardView btnSwap, btnMenu, btnNotification;
+    private MaterialCardView btnSwap, btnNotification;
     private LinearLayout layoutDate, layoutTime, layoutPassengers;
     private com.google.android.material.switchmaterial.SwitchMaterial switchBookingForOthers;
     private MaterialButton btnSearch;
     private Calendar calendar;
+    private BottomNavigationView bottomNavigationView;
+    private androidx.core.widget.NestedScrollView nestedScrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +54,6 @@ public class Home extends AppCompatActivity {
         tvDate = findViewById(R.id.tvDate);
         tvTime = findViewById(R.id.tvTime);
         btnSwap = findViewById(R.id.btnSwap);
-        btnMenu = findViewById(R.id.btnMenu);
         btnNotification = findViewById(R.id.btnNotification);
         layoutDate = findViewById(R.id.layoutDate);
         layoutTime = findViewById(R.id.layoutTime);
@@ -59,11 +61,28 @@ public class Home extends AppCompatActivity {
         tvPassengers = findViewById(R.id.tvPassengers);
         switchBookingForOthers = findViewById(R.id.switchBookingForOthers);
         btnSearch = findViewById(R.id.btnSearchBuses);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        nestedScrollView = findViewById(R.id.nestedScrollView);
         
         calendar = Calendar.getInstance();
 
-        // Menu Click
-        btnMenu.setOnClickListener(v -> Toast.makeText(this, "Opening Menu...", Toast.LENGTH_SHORT).show());
+        // Bottom Navigation
+        bottomNavigationView.setSelectedItemId(R.id.nav_home);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_home) {
+                // Scroll to top when Home is clicked while already on Home
+                nestedScrollView.smoothScrollTo(0, 0);
+                return true;
+            } else if (id == R.id.nav_activities || id == R.id.nav_tickets) {
+                startActivity(new Intent(this, MyBookingsActivity.class));
+                return true;
+            } else if (id == R.id.nav_account) {
+                startActivity(new Intent(this, ProfileActivity.class));
+                return true;
+            }
+            return false;
+        });
 
         // Notification Click
         btnNotification.setOnClickListener(v -> {
