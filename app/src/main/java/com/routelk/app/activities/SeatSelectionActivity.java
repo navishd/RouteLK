@@ -11,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.routelk.app.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SeatSelectionActivity extends AppCompatActivity {
 
     public static List<String> reservedSeats = new ArrayList<>();
