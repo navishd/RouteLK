@@ -9,6 +9,16 @@
 
     <style name="Theme.RouteLK" parent="Base.Theme.RouteLK" />
 
+    <style name="Widget.App.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="itemActiveIndicatorStyle">@style/Widget.App.BottomNavigationView.ActiveIndicator</item>
+        <item name="itemIconTint">@color/nav_item_color</item>
+        <item name="itemTextColor">@color/nav_item_color</item>
+    </style>
+
+    <style name="Widget.App.BottomNavigationView.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/surface</item>
+    </style>
+
     <style name="ShapeAppearance.Circle" parent="">
         <item name="cornerSize">50%</item>
     </style>

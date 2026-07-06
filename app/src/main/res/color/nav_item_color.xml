@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Active state: Primary Blue (shown inside bubble) -->
+    <item android:color="@color/primary" android:state_checked="true" />
+    <!-- Inactive state: Muted Text Color -->
+    <item android:color="@color/text_secondary" />
+</selector>
