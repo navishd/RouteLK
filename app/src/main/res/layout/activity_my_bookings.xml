@@ -94,11 +94,8 @@
         android:paddingBottom="12dp"
         app:backgroundTint="@null"
         app:elevation="12dp"
-        app:itemActiveIndicatorHeight="48dp"
-        app:itemActiveIndicatorWidth="48dp"
         app:itemRippleColor="@color/primary_light"
         app:labelVisibilityMode="labeled"
-        app:menu="@menu/bottom_nav_menu"
-        app:itemActiveIndicatorShapeAppearance="@style/ShapeAppearance.Circle" />
+        app:menu="@menu/bottom_nav_menu" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
