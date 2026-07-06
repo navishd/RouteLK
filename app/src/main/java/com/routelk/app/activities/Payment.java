@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -27,6 +28,8 @@ public class Payment extends AppCompatActivity {
     private MaterialButton btnPayNow;
     private ArrayList<String> selectedSeats;
     private String busId, busName, from, to, date;
+    private String passengerName, passengerPhone;
+    private boolean isForOthers;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -46,6 +49,9 @@ public class Payment extends AppCompatActivity {
         from = intent.getStringExtra("FROM");
         to = intent.getStringExtra("TO");
         date = intent.getStringExtra("DATE");
+        isForOthers = intent.getBooleanExtra("IS_FOR_OTHERS", false);
+        passengerName = intent.getStringExtra("PASSENGER_NAME");
+        passengerPhone = intent.getStringExtra("PASSENGER_PHONE");
 
         ImageView btnBack = findViewById(R.id.btnBack);
         cardCredit = findViewById(R.id.cardCredit);
@@ -84,15 +90,27 @@ public class Payment extends AppCompatActivity {
         db.collection("users").document(userId).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     String userName = documentSnapshot.getString("fullName");
+                    String userPhone = documentSnapshot.getString("phone");
                     if (userName == null) userName = "Guest";
-                    saveBookings(userId, userName);
+                    
+                    // If not booking for others, passenger is the user themselves
+                    if (!isForOthers) {
+                        passengerName = userName;
+                        passengerPhone = userPhone != null ? userPhone : "";
+                    }
+                    
+                    saveBookings(userId, userName, passengerName, passengerPhone);
                 })
                 .addOnFailureListener(e -> {
-                    saveBookings(userId, "User");
+                    if (!isForOthers && passengerName == null) {
+                        passengerName = "User";
+                        passengerPhone = "";
+                    }
+                    saveBookings(userId, "User", passengerName, passengerPhone);
                 });
     }
 
-    private void saveBookings(String userId, String userName) {
+    private void saveBookings(String userId, String userName, String pName, String pPhone) {
         if (selectedSeats == null || selectedSeats.isEmpty()) {
             finish();
             return;
@@ -103,7 +121,7 @@ public class Payment extends AppCompatActivity {
 
         for (String seat : selectedSeats) {
             String bookingId = UUID.randomUUID().toString();
-            Booking booking = new Booking(bookingId, userId, userName, from, to, busName, seat, date);
+            Booking booking = new Booking(bookingId, userId, userName, pName, pPhone, from, to, busName, seat, date, Timestamp.now());
 
             db.collection("bookings").document(bookingId).set(booking)
                     .addOnSuccessListener(unused -> {

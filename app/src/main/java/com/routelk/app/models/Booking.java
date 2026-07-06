@@ -1,15 +1,20 @@
 package com.routelk.app.models;
 
+import com.google.firebase.Timestamp;
+
 public class Booking {
 
     private String id;
     private String userId;
     private String userName;
+    private String passengerName;
+    private String passengerPhone;
     private String from;
     private String to;
     private String busName;
     private String seatNo;
     private String date;
+    private Timestamp timestamp;
 
     public Booking() {
     }
@@ -17,20 +22,26 @@ public class Booking {
     public Booking(String id,
                    String userId,
                    String userName,
+                   String passengerName,
+                   String passengerPhone,
                    String from,
                    String to,
                    String busName,
                    String seatNo,
-                   String date) {
+                   String date,
+                   Timestamp timestamp) {
 
         this.id = id;
         this.userId = userId;
         this.userName = userName;
+        this.passengerName = passengerName;
+        this.passengerPhone = passengerPhone;
         this.from = from;
         this.to = to;
         this.busName = busName;
         this.seatNo = seatNo;
         this.date = date;
+        this.timestamp = timestamp;
     }
 
     public String getId() {
@@ -55,6 +66,22 @@ public class Booking {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getPassengerName() {
+        return passengerName;
+    }
+
+    public void setPassengerName(String passengerName) {
+        this.passengerName = passengerName;
+    }
+
+    public String getPassengerPhone() {
+        return passengerPhone;
+    }
+
+    public void setPassengerPhone(String passengerPhone) {
+        this.passengerPhone = passengerPhone;
     }
 
     public String getFrom() {
@@ -95,5 +122,13 @@ public class Booking {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
     }
 }

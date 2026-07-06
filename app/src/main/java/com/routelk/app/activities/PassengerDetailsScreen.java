@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +15,8 @@ import androidx.core.view.WindowInsetsCompat;
 import com.routelk.app.R;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class PassengerDetailsScreen extends AppCompatActivity {
 
@@ -28,8 +31,15 @@ public class PassengerDetailsScreen extends AppCompatActivity {
             return insets;
         });
 
-        // Check if booking for someone else
-        boolean isForOthers = getIntent().getBooleanExtra("IS_FOR_OTHERS", false);
+        // Get data from intent
+        Intent incomingIntent = getIntent();
+        boolean isForOthers = incomingIntent.getBooleanExtra("IS_FOR_OTHERS", false);
+        ArrayList<String> selectedSeats = incomingIntent.getStringArrayListExtra("SELECTED_SEATS");
+        String busId = incomingIntent.getStringExtra("BUS_ID");
+        String busName = incomingIntent.getStringExtra("BUS_NAME");
+        String from = incomingIntent.getStringExtra("FROM");
+        String to = incomingIntent.getStringExtra("TO");
+        String date = incomingIntent.getStringExtra("DATE");
         
         EditText fullNameEditText = findViewById(R.id.fullNameEditText);
         EditText phoneEditText = findViewById(R.id.phoneEditText);
@@ -52,7 +62,24 @@ public class PassengerDetailsScreen extends AppCompatActivity {
 
         // Next button click listener
         findViewById(R.id.nextButton).setOnClickListener(v -> {
+            String pName = fullNameEditText.getText().toString().trim();
+            String pPhone = phoneEditText.getText().toString().trim();
+
+            if (pName.isEmpty() || pPhone.isEmpty()) {
+                Toast.makeText(this, "Please fill all details", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             Intent intent = new Intent(PassengerDetailsScreen.this, Payment.class);
+            intent.putExtra("IS_FOR_OTHERS", isForOthers);
+            intent.putStringArrayListExtra("SELECTED_SEATS", selectedSeats);
+            intent.putExtra("BUS_ID", busId);
+            intent.putExtra("BUS_NAME", busName);
+            intent.putExtra("FROM", from);
+            intent.putExtra("TO", to);
+            intent.putExtra("DATE", date);
+            intent.putExtra("PASSENGER_NAME", pName);
+            intent.putExtra("PASSENGER_PHONE", pPhone);
             startActivity(intent);
         });
     }
