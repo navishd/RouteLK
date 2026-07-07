@@ -16,4 +16,12 @@
     <color name="rating_text">#F59E0B</color>
     <color name="badge_bg">#EEF2FF</color>
     <color name="success_text">#059669</color>
+    <color name="logout_bg">#FFF5F5</color>
+    <color name="logout_stroke">#FFEBEB</color>
+
+    <!-- Profile Dark Theme -->
+    <color name="profile_bg">#121212</color>
+    <color name="profile_card">#1E1E1E</color>
+    <color name="profile_accent">#F59E0B</color>
+    <color name="profile_text_gray">#94A3B8</color>
 </resources>
