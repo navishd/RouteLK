@@ -3,50 +3,94 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@color/white">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
+        android:padding="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <!-- Circular Check Icon -->
+        <FrameLayout
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:src="@drawable/ic_bus"
-            app:tint="@color/primary" />
+            android:background="@drawable/circle_bg"
+            android:backgroundTint="@color/primary">
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_check"
+                app:tint="@color/white" />
+        </FrameLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Booking Successful!"
-            android:textColor="@color/primary"
+            android:layout_marginTop="32dp"
+            android:text="@string/booking_confirmed"
+            android:textColor="@color/text_primary"
             android:textSize="24sp"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Your journey has been scheduled."
+            android:layout_marginTop="12dp"
+            android:text="@string/booking_successful_msg"
             android:textColor="@color/text_secondary"
             android:textSize="16sp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnViewBookings"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:paddingStart="32dp"
-            android:paddingEnd="32dp"
-            android:text="View My Bookings"
+            android:layout_marginTop="48dp"
+            android:text="@string/booking_id_label"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvBookingId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="BBK123456"
+            android:textColor="@color/text_primary"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnViewTicket"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="64dp"
+            android:text="@string/view_ticket"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:backgroundTint="@color/primary"
             app:cornerRadius="12dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnGoHome"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/go_to_home"
+            android:textAllCaps="false"
+            android:textColor="@color/primary"
+            android:textSize="16sp"
+            app:cornerRadius="12dp"
+            app:strokeColor="@color/primary"
+            app:strokeWidth="1.5dp" />
 
     </LinearLayout>
 
