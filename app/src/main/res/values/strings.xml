@@ -68,7 +68,7 @@
     <string name="placeholder_username">User Name</string>
     <string name="placeholder_email">user@email.com</string>
     <string name="placeholder_phone">+94 77 123 4567</string>
-    <string name="edit_profile_info">Edit profile information</string>
+    <string name="edit_profile_info">Edit profile</string>
     <string name="notifications">Notifications</string>
     <string name="language">Language</string>
     <string name="security">Security</string>
@@ -85,4 +85,20 @@
     <string name="zero">0</string>
     <string name="label_preferences">Preferences</string>
     <string name="label_support">Support</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="saving">Saving&#8230;</string>
+    <string name="email_not_changeable">Email cannot be changed</string>
+    <string name="change_password">Change Password</string>
+    <string name="change_password_description">Set a strong password to protect your account</string>
+    <string name="current_password">Current Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_new_password">Confirm New Password</string>
+    <string name="update_password">Update Password</string>
+    <string name="passwords_dont_match">Passwords do not match</string>
+    <string name="password_updated">Password updated successfully</string>
+    <string name="reauth_required">Please login again to change your password</string>
+    <string name="my_activities">My Activities</string>
+    <string name="my_bookings_tab">My Bookings</string>
+    <string name="completed_tours">Completed Tours</string>
+    <string name="voice_assistant">Voice Assistant</string>
 </resources>

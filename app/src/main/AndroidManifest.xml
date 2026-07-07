@@ -57,6 +57,9 @@
         <activity
             android:name=".activities.MyBookingsActivity"
             android:exported="false" />
+        <activity
+            android:name=".activities.MyActivitiesActivity"
+            android:exported="false" />
 
         <activity
             android:name=".MainActivity"
@@ -69,6 +72,14 @@
         <activity
             android:name=".activities.ProfileActivity"
             android:exported="false" />
+        <activity
+            android:name=".activities.EditProfileActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.ChangePasswordActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activities.HelpSupportActivity"
             android:exported="false" />

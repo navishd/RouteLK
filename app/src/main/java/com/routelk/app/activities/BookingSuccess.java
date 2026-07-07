@@ -15,7 +15,7 @@ public class BookingSuccess extends AppCompatActivity {
 
         MaterialButton btnViewBookings = findViewById(R.id.btnViewBookings);
         btnViewBookings.setOnClickListener(v -> {
-            Intent intent = new Intent(BookingSuccess.this, MyBookingsActivity.class);
+            Intent intent = new Intent(BookingSuccess.this, MyActivitiesActivity.class);
             startActivity(intent);
             finish();
         });
