@@ -75,7 +75,7 @@ public class Home extends AppCompatActivity {
                 nestedScrollView.smoothScrollTo(0, 0);
                 return true;
             } else if (id == R.id.nav_activities || id == R.id.nav_tickets) {
-                startActivity(new Intent(this, MyBookingsActivity.class));
+                startActivity(new Intent(this, MyActivitiesActivity.class));
                 return true;
             } else if (id == R.id.nav_account) {
                 startActivity(new Intent(this, ProfileActivity.class));

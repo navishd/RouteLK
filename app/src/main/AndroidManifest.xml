@@ -57,6 +57,9 @@
         <activity
             android:name=".activities.MyBookingsActivity"
             android:exported="false" />
+        <activity
+            android:name=".activities.MyActivitiesActivity"
+            android:exported="false" />
 
         <activity
             android:name=".MainActivity"

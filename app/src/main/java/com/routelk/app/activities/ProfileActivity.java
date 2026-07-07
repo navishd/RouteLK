@@ -100,7 +100,7 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             } else if (id == R.id.nav_activities || id == R.id.nav_tickets) {
-                startActivity(new Intent(this, MyBookingsActivity.class));
+                startActivity(new Intent(this, MyActivitiesActivity.class));
                 return true;
             } else if (id == R.id.nav_account) {
                 if (nestedScrollView != null) {

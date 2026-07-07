@@ -97,4 +97,7 @@
     <string name="passwords_dont_match">Passwords do not match</string>
     <string name="password_updated">Password updated successfully</string>
     <string name="reauth_required">Please login again to change your password</string>
+    <string name="my_activities">My Activities</string>
+    <string name="my_bookings_tab">My Bookings</string>
+    <string name="completed_tours">Completed Tours</string>
 </resources>

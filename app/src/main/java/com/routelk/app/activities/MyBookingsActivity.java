@@ -54,6 +54,8 @@ public class MyBookingsActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             } else if (id == R.id.nav_activities || id == R.id.nav_tickets) {
+                startActivity(new Intent(this, MyActivitiesActivity.class));
+                finish();
                 return true;
             } else if (id == R.id.nav_account) {
                 startActivity(new Intent(this, ProfileActivity.class));
