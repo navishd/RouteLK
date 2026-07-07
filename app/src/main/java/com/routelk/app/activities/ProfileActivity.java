@@ -100,7 +100,7 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             } else if (id == R.id.nav_activities || id == R.id.nav_tickets) {
-                startActivity(new Intent(this, MyBookingsActivity.class));
+                startActivity(new Intent(this, MyActivitiesActivity.class));
                 return true;
             } else if (id == R.id.nav_account) {
                 if (nestedScrollView != null) {
@@ -116,9 +116,12 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void setupClickListeners() {
+        findViewById(R.id.fabVoiceAssistant).setOnClickListener(v -> 
+            Toast.makeText(this, "Voice Assistant coming soon", Toast.LENGTH_SHORT).show());
+
         menuMyBookings.setOnClickListener(v -> startActivity(new Intent(this, MyBookingsActivity.class)));
         
-        btnEditProfileCard.setOnClickListener(v -> Toast.makeText(this, "Edit profile info", Toast.LENGTH_SHORT).show());
+        btnEditProfileCard.setOnClickListener(v -> startActivity(new Intent(this, EditProfileActivity.class)));
 
         menuLogout.setOnClickListener(v -> {
             mAuth.signOut();
@@ -132,7 +135,8 @@ public class ProfileActivity extends AppCompatActivity {
         
         menuNotifications.setOnClickListener(v -> startActivity(new Intent(this, NotificationsActivity.class)));
         menuLanguage.setOnClickListener(comingSoon);
-        menuSecurity.setOnClickListener(comingSoon);
+        
+        menuSecurity.setOnClickListener(v -> startActivity(new Intent(this, ChangePasswordActivity.class)));
         
         menuTheme.setOnClickListener(v -> toggleTheme());
         
