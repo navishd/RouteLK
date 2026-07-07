@@ -118,7 +118,7 @@ public class ProfileActivity extends AppCompatActivity {
     private void setupClickListeners() {
         menuMyBookings.setOnClickListener(v -> startActivity(new Intent(this, MyBookingsActivity.class)));
         
-        btnEditProfileCard.setOnClickListener(v -> Toast.makeText(this, "Edit profile info", Toast.LENGTH_SHORT).show());
+        btnEditProfileCard.setOnClickListener(v -> startActivity(new Intent(this, EditProfileActivity.class)));
 
         menuLogout.setOnClickListener(v -> {
             mAuth.signOut();
@@ -132,7 +132,8 @@ public class ProfileActivity extends AppCompatActivity {
         
         menuNotifications.setOnClickListener(v -> startActivity(new Intent(this, NotificationsActivity.class)));
         menuLanguage.setOnClickListener(comingSoon);
-        menuSecurity.setOnClickListener(comingSoon);
+        
+        menuSecurity.setOnClickListener(v -> startActivity(new Intent(this, ChangePasswordActivity.class)));
         
         menuTheme.setOnClickListener(v -> toggleTheme());
         
