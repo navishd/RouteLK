@@ -100,4 +100,5 @@
     <string name="my_activities">My Activities</string>
     <string name="my_bookings_tab">My Bookings</string>
     <string name="completed_tours">Completed Tours</string>
+    <string name="voice_assistant">Voice Assistant</string>
 </resources>

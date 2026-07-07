@@ -66,6 +66,9 @@ public class Home extends AppCompatActivity {
         
         calendar = Calendar.getInstance();
 
+        findViewById(R.id.fabVoiceAssistant).setOnClickListener(v -> 
+            Toast.makeText(this, "Voice Assistant coming soon", Toast.LENGTH_SHORT).show());
+
         // Bottom Navigation
         bottomNavigationView.setSelectedItemId(R.id.nav_home);
         bottomNavigationView.setOnItemSelectedListener(item -> {

@@ -53,6 +53,9 @@ public class MyActivitiesActivity extends AppCompatActivity {
         setupBottomNav();
         setupTabs();
         loadBookings();
+
+        findViewById(R.id.fabVoiceAssistant).setOnClickListener(v -> 
+            Toast.makeText(this, "Voice Assistant coming soon", Toast.LENGTH_SHORT).show());
     }
 
     private void initViews() {
