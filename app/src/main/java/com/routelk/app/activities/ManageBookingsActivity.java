@@ -37,7 +37,13 @@ public class ManageBookingsActivity extends AppCompatActivity {
                 Toast.makeText(this, "Verification code sent to " + phone, Toast.LENGTH_SHORT).show();
                 
                 // For now, let's just go to MyBookingsActivity as a simulation
-                Intent intent = new Intent(this, MyBookingsActivity.class);
+                Intent intent = new Intent(this, TicketViewActivity.class);
+                intent.putExtra("booking_id", "BBK123456");
+                intent.putExtra("from", "Colombo");
+                intent.putExtra("to", "Kandy");
+                intent.putExtra("date", "25 MAY 24");
+                intent.putExtra("seat", "28");
+                intent.putExtra("bus", "EX-9821");
                 startActivity(intent);
             }
         });

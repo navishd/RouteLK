@@ -82,8 +82,15 @@ public class MyBookingsActivity extends AppCompatActivity {
             bookingList = new ArrayList<>();
             adapter = new BookingAdapter(bookingList);
             adapter.setOnViewTicketClickListener(booking -> {
-                // Navigate to tickets section
-                bottomNavigationView.setSelectedItemId(R.id.nav_tickets);
+                // Navigate to tickets view
+                Intent intent = new Intent(MyBookingsActivity.this, TicketViewActivity.class);
+                intent.putExtra("booking_id", booking.getId());
+                intent.putExtra("from", booking.getFrom());
+                intent.putExtra("to", booking.getTo());
+                intent.putExtra("date", booking.getDate());
+                intent.putExtra("seat", booking.getSeatNo());
+                intent.putExtra("bus", booking.getBusName());
+                startActivity(intent);
             });
             recyclerView.setAdapter(adapter);
         }
