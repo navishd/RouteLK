@@ -13,4 +13,6 @@
     <color name="rating_text">#fbbf24</color>
     <color name="badge_bg">#1e293b</color>
     <color name="success_text">#34d399</color>
+    <color name="logout_bg">#2D1A1A</color>
+    <color name="logout_stroke">#4A2525</color>
 </resources>
