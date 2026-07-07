@@ -82,7 +82,11 @@ public class MyActivitiesActivity extends AppCompatActivity {
                 startActivity(new Intent(this, Home.class));
                 finish();
                 return true;
-            } else if (id == R.id.nav_activities || id == R.id.nav_tickets) {
+            } else if (id == R.id.nav_activities) {
+                return true;
+            } else if (id == R.id.nav_tickets) {
+                startActivity(new Intent(this, ManageBookingsActivity.class));
+                finish();
                 return true;
             } else if (id == R.id.nav_account) {
                 startActivity(new Intent(this, ProfileActivity.class));

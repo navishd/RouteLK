@@ -13,9 +13,17 @@ public class BookingSuccess extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_success);
 
-        MaterialButton btnViewBookings = findViewById(R.id.btnViewBookings);
-        btnViewBookings.setOnClickListener(v -> {
+        MaterialButton btnViewTicket = findViewById(R.id.btnViewTicket);
+        btnViewTicket.setOnClickListener(v -> {
             Intent intent = new Intent(BookingSuccess.this, MyActivitiesActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+        MaterialButton btnGoHome = findViewById(R.id.btnGoHome);
+        btnGoHome.setOnClickListener(v -> {
+            Intent intent = new Intent(BookingSuccess.this, Home.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
             finish();
         });
