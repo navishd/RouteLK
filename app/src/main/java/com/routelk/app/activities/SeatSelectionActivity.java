@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -120,7 +119,8 @@ public class SeatSelectionActivity extends AppCompatActivity {
                 Button btn = (Button) child;
                 if (btn.getId() != R.id.continueButton) {
                     String text = btn.getText().toString();
-                    if (!text.isEmpty() && !text.equalsIgnoreCase("Continue") && !text.equalsIgnoreCase("Driver") && !text.equalsIgnoreCase("TL")) {
+                    // Identify seats by their numeric labels (1-50)
+                    if (text.matches("\\d+")) {
                         seatButtons.add(btn);
                     }
                 }
@@ -131,17 +131,30 @@ public class SeatSelectionActivity extends AppCompatActivity {
     }
 
     private void refreshSeats() {
+        // Clear selection if any previously selected seats are now reserved by someone else
         selectedSeats.removeIf(reservedSeats::contains);
 
         for (Button seat : seatButtons) {
-            String seatNum = seat.getText().toString();
+            final String seatNum = seat.getText().toString();
 
             if (reservedSeats.contains(seatNum)) {
-                setSeatReserved(seat);
+                // Booked seats: Gray and disabled
+                seat.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#9CA3AF")));
+                seat.setTextColor(Color.WHITE);
+                seat.setEnabled(false);
+                seat.setOnClickListener(v -> Toast.makeText(this, "Seat " + seatNum + " is already booked", Toast.LENGTH_SHORT).show());
             } else if (selectedSeats.contains(seatNum)) {
-                setSeatSelected(seat);
+                // Currently selected by user: Green and enabled
+                seat.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
+                seat.setTextColor(Color.WHITE);
+                seat.setEnabled(true);
+                seat.setOnClickListener(v -> toggleSeatSelection(seat, seatNum));
             } else {
-                setSeatAvailable(seat);
+                // Available seats: White and enabled
+                seat.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
+                seat.setTextColor(Color.BLACK);
+                seat.setEnabled(true);
+                seat.setOnClickListener(v -> toggleSeatSelection(seat, seatNum));
             }
         }
         updateContinueButton();
@@ -150,10 +163,14 @@ public class SeatSelectionActivity extends AppCompatActivity {
     private void toggleSeatSelection(Button seat, String seatNum) {
         if (selectedSeats.contains(seatNum)) {
             selectedSeats.remove(seatNum);
-            setSeatAvailable(seat);
+            // Revert to Available state
+            seat.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
+            seat.setTextColor(Color.BLACK);
         } else {
             selectedSeats.add(seatNum);
-            setSeatSelected(seat);
+            // Change to Selected state
+            seat.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
+            seat.setTextColor(Color.WHITE);
         }
         updateContinueButton();
     }
@@ -161,37 +178,11 @@ public class SeatSelectionActivity extends AppCompatActivity {
     private void updateContinueButton() {
         if (!selectedSeats.isEmpty()) {
             continueButton.setText("Continue (" + selectedSeats.size() + " Selected)");
+            continueButton.setEnabled(true);
         } else {
             continueButton.setText("Continue");
+            // Optionally disable continue if no seats are selected
+            // continueButton.setEnabled(false);
         }
-    }
-
-    private void setSeatAvailable(Button seat) {
-        seat.setEnabled(true);
-        seat.setClickable(true);
-        // Explicitly set white background for available seats
-        seat.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
-        seat.setTextColor(Color.BLACK);
-        String seatNum = seat.getText().toString();
-        seat.setOnClickListener(v -> toggleSeatSelection(seat, seatNum));
-    }
-
-    private void setSeatSelected(Button seat) {
-        seat.setEnabled(true);
-        seat.setClickable(true);
-        // Green for selected seats to be very clear
-        seat.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
-        seat.setTextColor(Color.WHITE);
-        String seatNum = seat.getText().toString();
-        seat.setOnClickListener(v -> toggleSeatSelection(seat, seatNum));
-    }
-
-    private void setSeatReserved(Button seat) {
-        // Gray for reserved/booked seats
-        seat.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#9CA3AF")));
-        seat.setTextColor(Color.WHITE);
-        seat.setEnabled(false);
-        seat.setClickable(false);
-        seat.setOnClickListener(v -> Toast.makeText(this, "This seat is already booked", Toast.LENGTH_SHORT).show());
     }
 }
