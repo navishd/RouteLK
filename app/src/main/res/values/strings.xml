@@ -36,7 +36,7 @@
     <string name="bus_name_placeholder">Super Line Express</string>
     <string name="rating_placeholder">4.9</string>
     <string name="bus_type_placeholder">Super Luxury AC</string>
-    <string name="seats_left_placeholder">42 Seats Left</string>
+    <string name="seats_left_placeholder">50 Seats Left</string>
     <string name="time_start_placeholder">07:00 AM</string>
     <string name="location_start_placeholder">Colombo Fort</string>
     <string name="duration_placeholder">3h 30m</string>
@@ -100,4 +100,10 @@
     <string name="my_activities">My Activities</string>
     <string name="my_bookings_tab">My Bookings</string>
     <string name="completed_tours">Completed Tours</string>
+    <string name="voice_assistant">Voice Assistant</string>
+    <string name="booking_confirmed">Booking Confirmed!</string>
+    <string name="booking_successful_msg">Your booking has been successful.</string>
+    <string name="booking_id_label">Booking ID</string>
+    <string name="view_ticket">View Ticket</string>
+    <string name="go_to_home">Go to Home</string>
 </resources>

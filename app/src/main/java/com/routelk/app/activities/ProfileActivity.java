@@ -116,6 +116,9 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void setupClickListeners() {
+        findViewById(R.id.fabVoiceAssistant).setOnClickListener(v -> 
+            Toast.makeText(this, "Voice Assistant coming soon", Toast.LENGTH_SHORT).show());
+
         menuMyBookings.setOnClickListener(v -> startActivity(new Intent(this, MyBookingsActivity.class)));
         
         btnEditProfileCard.setOnClickListener(v -> startActivity(new Intent(this, EditProfileActivity.class)));
