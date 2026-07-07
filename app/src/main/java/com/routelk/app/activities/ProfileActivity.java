@@ -99,8 +99,11 @@ public class ProfileActivity extends AppCompatActivity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
                 return true;
-            } else if (id == R.id.nav_activities || id == R.id.nav_tickets) {
+            } else if (id == R.id.nav_activities) {
                 startActivity(new Intent(this, MyActivitiesActivity.class));
+                return true;
+            } else if (id == R.id.nav_tickets) {
+                startActivity(new Intent(this, ManageBookingsActivity.class));
                 return true;
             } else if (id == R.id.nav_account) {
                 if (nestedScrollView != null) {
