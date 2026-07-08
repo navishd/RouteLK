@@ -81,6 +81,10 @@ public class MyBookingsActivity extends AppCompatActivity {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             bookingList = new ArrayList<>();
             adapter = new BookingAdapter(bookingList);
+            adapter.setOnViewTicketClickListener(booking -> {
+                // Navigate to tickets section
+                bottomNavigationView.setSelectedItemId(R.id.nav_tickets);
+            });
             recyclerView.setAdapter(adapter);
         }
 
