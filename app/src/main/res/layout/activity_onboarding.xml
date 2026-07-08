@@ -42,7 +42,7 @@
             android:layout_height="280dp"
             android:layout_gravity="center"
             android:scaleType="centerCrop"
-            android:src="@drawable/onboarding"
+            android:src="@drawable/onboarding_img"
             app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle"
             android:contentDescription="@string/onboarding_illustration" />
     </FrameLayout>

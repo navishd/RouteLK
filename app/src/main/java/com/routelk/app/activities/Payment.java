@@ -138,12 +138,17 @@ public class Payment extends AppCompatActivity {
     }
 
     private void completeBooking() {
-        // Confirm booking by adding to local reserved seats (simulating real-time update)
+        // Confirm booking by adding to local reserved seats
         if (selectedSeats != null) {
             SeatSelectionActivity.reservedSeats.addAll(selectedSeats);
         }
 
         Intent intent = new Intent(Payment.this, BookingSuccess.class);
+        intent.putStringArrayListExtra("SELECTED_SEATS", selectedSeats);
+        intent.putExtra("FROM", from);
+        intent.putExtra("TO", to);
+        intent.putExtra("DATE", date);
+        intent.putExtra("BUS_NAME", busName);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();

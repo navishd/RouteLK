@@ -66,6 +66,9 @@ public class Home extends AppCompatActivity {
         
         calendar = Calendar.getInstance();
 
+        findViewById(R.id.fabVoiceAssistant).setOnClickListener(v -> 
+            Toast.makeText(this, "Voice Assistant coming soon", Toast.LENGTH_SHORT).show());
+
         // Bottom Navigation
         bottomNavigationView.setSelectedItemId(R.id.nav_home);
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -74,8 +77,11 @@ public class Home extends AppCompatActivity {
                 // Scroll to top when Home is clicked while already on Home
                 nestedScrollView.smoothScrollTo(0, 0);
                 return true;
-            } else if (id == R.id.nav_activities || id == R.id.nav_tickets) {
+            } else if (id == R.id.nav_activities) {
                 startActivity(new Intent(this, MyActivitiesActivity.class));
+                return true;
+            } else if (id == R.id.nav_tickets) {
+                startActivity(new Intent(this, ManageBookingsActivity.class));
                 return true;
             } else if (id == R.id.nav_account) {
                 startActivity(new Intent(this, ProfileActivity.class));

@@ -105,5 +105,15 @@
     <string name="booking_successful_msg">Your booking has been successful.</string>
     <string name="booking_id_label">Booking ID</string>
     <string name="view_ticket">View Ticket</string>
+    <string name="add_review">Add Review</string>
     <string name="go_to_home">Go to Home</string>
+
+    <string name="manage_your_bookings">Manage your bookings</string>
+    <string name="enter_mobile_number">Enter Your Mobile Number</string>
+    <string name="mobile_number_verification_msg">Enter your mobile number to receive a verification code.</string>
+    <string name="mobile_number_label">Mobile Number</string>
+    <string name="continue_label">Continue</string>
+    <string name="lk_code">+94</string>
+    <string name="lk_flag">🇱🇰</string>
+    <string name="phone_hint">7XXXXXXXX</string>
 </resources>

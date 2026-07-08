@@ -20,7 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.routelk.app.R;
-import com.routelk.app.adapters.BookingAdapter;
+import com.routelk.app.adapters.ActivityAdapter;
 import com.routelk.app.models.Booking;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ import java.util.List;
 public class MyActivitiesActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private BookingAdapter adapter;
+    private ActivityAdapter adapter;
     private final List<Booking> allBookings = new ArrayList<>();
     private final List<Booking> filteredList = new ArrayList<>();
     private ProgressBar progressBar;
@@ -53,6 +53,9 @@ public class MyActivitiesActivity extends AppCompatActivity {
         setupBottomNav();
         setupTabs();
         loadBookings();
+
+        findViewById(R.id.fabVoiceAssistant).setOnClickListener(v -> 
+            Toast.makeText(this, "Voice Assistant coming soon", Toast.LENGTH_SHORT).show());
     }
 
     private void initViews() {
@@ -66,7 +69,31 @@ public class MyActivitiesActivity extends AppCompatActivity {
         btnBack.setOnClickListener(v -> finish());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new BookingAdapter(filteredList);
+        updateAdapter(0);
+    }
+
+    private void updateAdapter(int tabPosition) {
+        adapter = new ActivityAdapter(filteredList, tabPosition == 1);
+        adapter.setOnActivityClickListener(new ActivityAdapter.OnActivityClickListener() {
+            @Override
+            public void onViewTicketClick(Booking booking) {
+                Intent intent = new Intent(MyActivitiesActivity.this, TicketViewActivity.class);
+                intent.putExtra("booking_id", booking.getId());
+                intent.putExtra("from", booking.getFrom());
+                intent.putExtra("to", booking.getTo());
+                intent.putExtra("date", booking.getDate());
+                intent.putExtra("seat", booking.getSeatNo());
+                intent.putExtra("bus", booking.getBusName());
+                startActivity(intent);
+            }
+
+            @Override
+            public void onSecondaryActionClick(Booking booking) {
+                if (tabPosition == 1) {
+                    Toast.makeText(MyActivitiesActivity.this, "Rating feature coming soon", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         recyclerView.setAdapter(adapter);
     }
 
@@ -79,7 +106,11 @@ public class MyActivitiesActivity extends AppCompatActivity {
                 startActivity(new Intent(this, Home.class));
                 finish();
                 return true;
-            } else if (id == R.id.nav_activities || id == R.id.nav_tickets) {
+            } else if (id == R.id.nav_activities) {
+                return true;
+            } else if (id == R.id.nav_tickets) {
+                startActivity(new Intent(this, ManageBookingsActivity.class));
+                finish();
                 return true;
             } else if (id == R.id.nav_account) {
                 startActivity(new Intent(this, ProfileActivity.class));
@@ -137,7 +168,6 @@ public class MyActivitiesActivity extends AppCompatActivity {
 
         for (Booking booking : allBookings) {
             // My Bookings (Ongoing/Upcoming) vs Completed Tours
-            // Basic heuristic: if timestamp is within last 4 hours or in the future, it's ongoing.
             boolean isOngoing = booking.getTimestamp() != null && 
                                booking.getTimestamp().getSeconds() > (now.getSeconds() - 14400); // 4 hours ago
 
@@ -148,7 +178,7 @@ public class MyActivitiesActivity extends AppCompatActivity {
             }
         }
 
-        adapter.notifyDataSetChanged();
+        updateAdapter(tabPosition);
         
         if (filteredList.isEmpty()) {
             layoutEmpty.setVisibility(View.VISIBLE);
