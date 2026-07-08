@@ -53,13 +53,5 @@ public class BookingSuccess extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
-
-        MaterialButton btnGoHome = findViewById(R.id.btnGoHome);
-        btnGoHome.setOnClickListener(v -> {
-            Intent intent = new Intent(BookingSuccess.this, Home.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(intent);
-            finish();
-        });
     }
 }
