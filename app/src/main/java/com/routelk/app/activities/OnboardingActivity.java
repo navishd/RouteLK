@@ -36,9 +36,9 @@ public class OnboardingActivity extends AppCompatActivity {
     // Note: Reusing the same image for demo as only one exists.
     // Replace with @drawable/onboarding_image2 etc. when available.
     private final int[] images = {
-            R.drawable.onboarding_image,
-            R.drawable.onboarding_image,
-            R.drawable.onboarding_image
+            R.drawable.onboarding_img,
+            R.drawable.onboarding_img,
+            R.drawable.onboarding_img
     };
 
     @Override

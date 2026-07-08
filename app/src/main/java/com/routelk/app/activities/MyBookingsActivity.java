@@ -53,8 +53,12 @@ public class MyBookingsActivity extends AppCompatActivity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
                 return true;
-            } else if (id == R.id.nav_activities || id == R.id.nav_tickets) {
+            } else if (id == R.id.nav_activities) {
                 startActivity(new Intent(this, MyActivitiesActivity.class));
+                finish();
+                return true;
+            } else if (id == R.id.nav_tickets) {
+                startActivity(new Intent(this, ManageBookingsActivity.class));
                 finish();
                 return true;
             } else if (id == R.id.nav_account) {
@@ -77,6 +81,17 @@ public class MyBookingsActivity extends AppCompatActivity {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             bookingList = new ArrayList<>();
             adapter = new BookingAdapter(bookingList);
+            adapter.setOnViewTicketClickListener(booking -> {
+                // Navigate to tickets view
+                Intent intent = new Intent(MyBookingsActivity.this, TicketViewActivity.class);
+                intent.putExtra("booking_id", booking.getId());
+                intent.putExtra("from", booking.getFrom());
+                intent.putExtra("to", booking.getTo());
+                intent.putExtra("date", booking.getDate());
+                intent.putExtra("seat", booking.getSeatNo());
+                intent.putExtra("bus", booking.getBusName());
+                startActivity(intent);
+            });
             recyclerView.setAdapter(adapter);
         }
 

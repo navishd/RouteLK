@@ -42,7 +42,7 @@
             android:layout_height="280dp"
             android:layout_gravity="center"
             android:scaleType="centerCrop"
-            android:src="@drawable/onboarding_image"
+            android:src="@drawable/onboarding_img"
             app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle"
             android:contentDescription="@string/onboarding_illustration" />
     </FrameLayout>
@@ -58,7 +58,7 @@
         app:layout_constraintTop_toBottomOf="@id/imageContainer"
         app:layout_constraintBottom_toTopOf="@id/dotsLayout"
         app:layout_constraintVertical_bias="0.3"
-        android:backgroundTint="@color/surface">
+        android:backgroundTint="@color/bg_light">
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -52,6 +52,9 @@
             android:name=".activities.Payment"
             android:exported="false" />
         <activity
+            android:name=".activities.TicketViewActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.BookingSuccess"
             android:exported="false" />
         <activity
@@ -60,6 +63,10 @@
         <activity
             android:name=".activities.MyActivitiesActivity"
             android:exported="false" />
+        <activity
+            android:name=".activities.ManageBookingsActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".MainActivity"
