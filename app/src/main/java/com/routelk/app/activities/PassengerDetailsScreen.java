@@ -40,6 +40,7 @@ public class PassengerDetailsScreen extends AppCompatActivity {
         String from = incomingIntent.getStringExtra("FROM");
         String to = incomingIntent.getStringExtra("TO");
         String date = incomingIntent.getStringExtra("DATE");
+        String time = incomingIntent.getStringExtra("TIME");
         
         EditText fullNameEditText = findViewById(R.id.fullNameEditText);
         EditText phoneEditText = findViewById(R.id.phoneEditText);
@@ -78,6 +79,7 @@ public class PassengerDetailsScreen extends AppCompatActivity {
             intent.putExtra("FROM", from);
             intent.putExtra("TO", to);
             intent.putExtra("DATE", date);
+            intent.putExtra("TIME", time);
             intent.putExtra("PASSENGER_NAME", pName);
             intent.putExtra("PASSENGER_PHONE", pPhone);
             startActivity(intent);

@@ -26,19 +26,20 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.BusViewHolder> {
 
     private final Context context;
     private final List<Bus> busList;
-    private String from, to, date;
+    private String from, to, date, time;
 
     public BusAdapter(Context context, List<Bus> busList) {
         this.context = context;
         this.busList = busList;
     }
 
-    public BusAdapter(Context context, List<Bus> busList, String from, String to, String date) {
+    public BusAdapter(Context context, List<Bus> busList, String from, String to, String date, String time) {
         this.context = context;
         this.busList = busList;
         this.from = from;
         this.to = to;
         this.date = date;
+        this.time = time;
     }
 
     @NonNull
@@ -66,6 +67,7 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.BusViewHolder> {
             intent.putExtra("FROM", from);
             intent.putExtra("TO", to);
             intent.putExtra("DATE", date);
+            intent.putExtra("TIME", time);
             context.startActivity(intent);
         });
 

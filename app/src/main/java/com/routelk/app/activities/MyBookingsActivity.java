@@ -70,7 +70,7 @@ public class MyBookingsActivity extends AppCompatActivity {
 
         ImageView btnBack = findViewById(R.id.btnBack);
         if (btnBack != null) {
-            btnBack.setOnClickListener(v -> navigateToHome());
+            btnBack.setOnClickListener(v -> finish());
         }
 
         recyclerView = findViewById(R.id.rvMyBookings);
@@ -82,14 +82,16 @@ public class MyBookingsActivity extends AppCompatActivity {
             bookingList = new ArrayList<>();
             adapter = new BookingAdapter(bookingList);
             adapter.setOnViewTicketClickListener(booking -> {
-                // Navigate to tickets view
-                Intent intent = new Intent(MyBookingsActivity.this, TicketViewActivity.class);
+                // Navigate to ManageBookingsActivity for verification
+                Intent intent = new Intent(MyBookingsActivity.this, ManageBookingsActivity.class);
                 intent.putExtra("booking_id", booking.getId());
                 intent.putExtra("from", booking.getFrom());
                 intent.putExtra("to", booking.getTo());
                 intent.putExtra("date", booking.getDate());
+                intent.putExtra("time", booking.getTime());
                 intent.putExtra("seat", booking.getSeatNo());
                 intent.putExtra("bus", booking.getBusName());
+                intent.putExtra("passenger_phone", booking.getPassengerPhone());
                 startActivity(intent);
             });
             recyclerView.setAdapter(adapter);
@@ -101,16 +103,9 @@ public class MyBookingsActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, new androidx.activity.OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                navigateToHome();
+                finish();
             }
         });
-    }
-
-    private void navigateToHome() {
-        Intent intent = new Intent(MyBookingsActivity.this, Home.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
     }
 
     private void loadUserBookings() {

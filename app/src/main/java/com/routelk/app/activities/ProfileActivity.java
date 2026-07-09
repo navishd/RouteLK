@@ -218,14 +218,16 @@ public class ProfileActivity extends AppCompatActivity {
                     int totalSeats = queryDocumentSnapshots.size();
                     tvTotalTickets.setText(String.valueOf(totalSeats));
 
-                    // For "Trips", let's count unique timestamps or unique bus/date combinations
+                    // For "Trips", count unique bus/date/time combinations
                     java.util.HashSet<String> uniqueTrips = new java.util.HashSet<>();
                     for (com.google.firebase.firestore.DocumentSnapshot doc : queryDocumentSnapshots) {
                         String bus = doc.getString("busName");
                         String date = doc.getString("date");
-                        // We use a combination of bus name and date as a "trip"
+                        String time = doc.getString("time");
+                        // Combination of bus, date and time defines a unique trip
                         if (bus != null && date != null) {
-                            uniqueTrips.add(bus + "_" + date);
+                            String tripKey = bus + "_" + date + "_" + (time != null ? time : "");
+                            uniqueTrips.add(tripKey);
                         }
                     }
                     tvTotalTrips.setText(String.valueOf(uniqueTrips.size()));

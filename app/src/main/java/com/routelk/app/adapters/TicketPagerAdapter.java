@@ -42,6 +42,11 @@ public class TicketPagerAdapter extends RecyclerView.Adapter<TicketPagerAdapter.
         holder.tvDateDetail.setText(booking.getDate().toUpperCase());
         holder.tvSeatDetail.setText(booking.getSeatNo());
         holder.tvBusDetail.setText(booking.getBusName());
+
+        if (booking.getTime() != null && !booking.getTime().equals("N/A")) {
+            holder.tvStartTime.setText(booking.getTime());
+            holder.tvBoardingTime.setText(booking.getTime()); // Or subtract 15 mins
+        }
     }
 
     @Override
@@ -50,7 +55,7 @@ public class TicketPagerAdapter extends RecyclerView.Adapter<TicketPagerAdapter.
     }
 
     static class TicketViewHolder extends RecyclerView.ViewHolder {
-        TextView tvBookingCode, tvFromCity, tvToCity, tvDateDetail, tvSeatDetail, tvBusDetail, tvFromCode, tvToCode;
+        TextView tvBookingCode, tvFromCity, tvToCity, tvDateDetail, tvSeatDetail, tvBusDetail, tvFromCode, tvToCode, tvStartTime, tvBoardingTime;
 
         public TicketViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -62,6 +67,8 @@ public class TicketPagerAdapter extends RecyclerView.Adapter<TicketPagerAdapter.
             tvBusDetail = itemView.findViewById(R.id.tvBusDetail);
             tvFromCode = itemView.findViewById(R.id.tvFromCode);
             tvToCode = itemView.findViewById(R.id.tvToCode);
+            tvStartTime = itemView.findViewById(R.id.tvStartTime);
+            tvBoardingTime = itemView.findViewById(R.id.tvBoardingTime);
         }
     }
 }
