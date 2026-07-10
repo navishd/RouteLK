@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Schedule ID -->
+
+        <TextView
+            android:id="@+id/tvScheduleID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Schedule : S001"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#111827"/>
+
+        <!-- Bus ID -->
+
+        <TextView
+            android:id="@+id/tvBusID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Bus : B001"
+            android:textColor="#6B7280"/>
+
+        <!-- Route -->
+
+        <TextView
+            android:id="@+id/tvRouteID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Route : R001"
+            android:textColor="#6B7280"/>
+
+        <!-- Departure -->
+
+        <TextView
+            android:id="@+id/tvDeparture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Departure : 07:30 AM"
+            android:textColor="#6B7280"/>
+
+        <!-- Arrival -->
+
+        <TextView
+            android:id="@+id/tvArrival"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Arrival : 10:45 AM"
+            android:textColor="#6B7280"/>
+
+        <!-- Price -->
+
+        <TextView
+            android:id="@+id/tvPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Price : Rs.980"
+            android:textColor="#16A34A"
+            android:textStyle="bold"/>
+
+        <!-- Operating Days -->
+
+        <TextView
+            android:id="@+id/tvOperatingDays"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Monday, Tuesday, Wednesday"
+            android:textColor="#2563EB"/>
+
+        <!-- Buttons -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/editBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#2563EB"/>
+
+            <Button
+                android:id="@+id/deleteBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="Delete"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#DC2626"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
