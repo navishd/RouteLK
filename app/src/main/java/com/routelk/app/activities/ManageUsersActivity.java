@@ -2,64 +2,97 @@ package com.routelk.app.activities;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.routelk.app.R;
 import com.routelk.app.adapters.UserAdapter;
 import com.routelk.app.models.User;
+import android.app.ProgressDialog;
+import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ManageUsersActivity extends AppCompatActivity {
 
-    RecyclerView usersRecyclerView;
+    private RecyclerView usersRecyclerView;
 
-    List<User> userList;
-    UserAdapter adapter;
+    private ArrayList<User> userList;
+
+    private UserAdapter adapter;
+
+    private FirebaseFirestore db;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_users);
 
-        usersRecyclerView =
-                findViewById(R.id.usersRecyclerView);
+        usersRecyclerView = findViewById(R.id.usersRecyclerView);
 
-        usersRecyclerView.setLayoutManager(
-                new LinearLayoutManager(this));
+        usersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         userList = new ArrayList<>();
 
-        adapter =
-                new UserAdapter(this, userList);
+        adapter = new UserAdapter(this, userList);
 
         usersRecyclerView.setAdapter(adapter);
 
-        loadUsers();
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading Users...");
+        progressDialog.setCancelable(false);
+
+        db = FirebaseFirestore.getInstance();
+
+        listenUsers();
     }
 
-    private void loadUsers() {
+    private void listenUsers(){
 
-        FirebaseFirestore.getInstance()
-                .collection("users")
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
+        progressDialog.show();
+
+        db.collection("users")
+                .addSnapshotListener((value, error) -> {
+
+                    progressDialog.dismiss();
+
+                    if(error != null){
+
+                        Toast.makeText(
+                                this,
+                                "Failed to load users",
+                                Toast.LENGTH_SHORT
+                        ).show();
+
+                        return;
+                    }
 
                     userList.clear();
 
-                    for (var document : queryDocumentSnapshots) {
+                    if(value != null){
 
-                        User user =
-                                document.toObject(User.class);
+                        for(QueryDocumentSnapshot document : value){
 
-                        userList.add(user);
+                            User user = document.toObject(User.class);
+
+                            user.setDocumentId(document.getId());
+
+                            userList.add(user);
+
+                        }
+
+                        adapter.notifyDataSetChanged();
+
                     }
 
-                    adapter.notifyDataSetChanged();
                 });
+
     }
+
 }
