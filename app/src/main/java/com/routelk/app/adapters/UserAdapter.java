@@ -16,16 +16,18 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.routelk.app.R;
 import com.routelk.app.models.User;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
 
     private Context context;
-    private List<User> userList;
+    private ArrayList<User> userList;
+    private FirebaseFirestore db;
 
-    public UserAdapter(Context context, List<User> userList) {
+    public UserAdapter(Context context, ArrayList<User> userList) {
         this.context = context;
         this.userList = userList;
+        db = FirebaseFirestore.getInstance();
     }
 
     @NonNull
@@ -46,7 +48,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         holder.userName.setText(user.getFullName());
         holder.userEmail.setText(user.getEmail());
         holder.userPhone.setText(user.getPhone());
-        holder.userRole.setText(user.getRole());
 
         holder.deleteBtn.setOnClickListener(v -> {
 
@@ -55,21 +56,33 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                     .setMessage("Are you sure you want to delete this user?")
                     .setPositiveButton("Delete", (dialog, which) -> {
 
-                        FirebaseFirestore.getInstance()
-                                .collection("users")
-                                .document(user.getId())
+                        db.collection("users")
+                                .document(user.getDocumentId())
                                 .delete()
                                 .addOnSuccessListener(unused -> {
-                                    Toast.makeText(context,
-                                            "User Deleted",
-                                            Toast.LENGTH_SHORT).show();
-                                });
 
+                                    Toast.makeText(
+                                            context,
+                                            "User Deleted Successfully",
+                                            Toast.LENGTH_SHORT
+                                    ).show();
+
+                                })
+                                .addOnFailureListener(e -> {
+
+                                    Toast.makeText(
+                                            context,
+                                            e.getMessage(),
+                                            Toast.LENGTH_SHORT
+                                    ).show();
+
+                                });
                     })
                     .setNegativeButton("Cancel", null)
                     .show();
 
         });
+
     }
 
     @Override
@@ -79,7 +92,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     public static class UserViewHolder extends RecyclerView.ViewHolder {
 
-        TextView userName, userEmail, userPhone, userRole;
+        TextView userName, userEmail, userPhone;
         Button deleteBtn;
 
         public UserViewHolder(@NonNull View itemView) {
@@ -88,8 +101,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             userName = itemView.findViewById(R.id.userName);
             userEmail = itemView.findViewById(R.id.userEmail);
             userPhone = itemView.findViewById(R.id.userPhone);
-            userRole = itemView.findViewById(R.id.userRole);
+
             deleteBtn = itemView.findViewById(R.id.deleteBtn);
         }
     }
+
 }
