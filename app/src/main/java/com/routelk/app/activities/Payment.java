@@ -20,8 +20,6 @@ import com.routelk.app.models.Booking;
 import com.routelk.app.models.User;
 import com.routelk.app.services.UserService;
 
-import android.text.TextUtils;
-import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -31,7 +29,7 @@ public class Payment extends AppCompatActivity {
     private RadioButton rbCredit;
     private MaterialButton btnPayNow;
     private ArrayList<String> selectedSeats;
-    private String busId, busName, from, to, date, time;
+    private String busId, busName, from, to, date;
     private String passengerName, passengerPhone;
     private boolean isForOthers;
 
@@ -55,34 +53,9 @@ public class Payment extends AppCompatActivity {
         from = intent.getStringExtra("FROM");
         to = intent.getStringExtra("TO");
         date = intent.getStringExtra("DATE");
-        time = intent.getStringExtra("TIME");
         isForOthers = intent.getBooleanExtra("IS_FOR_OTHERS", false);
         passengerName = intent.getStringExtra("PASSENGER_NAME");
         passengerPhone = intent.getStringExtra("PASSENGER_PHONE");
-
-        // Initialize Summary Views
-        TextView tvFrom = findViewById(R.id.tvFrom);
-        TextView tvTo = findViewById(R.id.tvTo);
-        TextView tvDate = findViewById(R.id.tvDate);
-        TextView tvSeats = findViewById(R.id.tvSeats);
-        TextView tvTotalAmount = findViewById(R.id.tvTotalAmount);
-
-        if (tvFrom != null) tvFrom.setText(from != null ? from : "N/A");
-        if (tvTo != null) tvTo.setText(to != null ? to : "N/A");
-        
-        String fullDate = date != null ? date : "N/A";
-        if (time != null && !time.isEmpty()) fullDate += " • " + time;
-        if (tvDate != null) tvDate.setText(fullDate);
-
-        if (tvSeats != null && selectedSeats != null) {
-            tvSeats.setText(TextUtils.join(", ", selectedSeats));
-        }
-
-        if (tvTotalAmount != null && selectedSeats != null) {
-            // Assuming LKR 625 per seat for demonstration (1250 / 2 = 625)
-            int total = selectedSeats.size() * 625;
-            tvTotalAmount.setText("LKR " + total);
-        }
 
         ImageView btnBack = findViewById(R.id.btnBack);
         cardCredit = findViewById(R.id.cardCredit);
@@ -146,18 +119,39 @@ public class Payment extends AppCompatActivity {
             return;
         }
 
-        // Group all seats into one string (e.g., "1, 2")
-        String allSeats = android.text.TextUtils.join(", ", selectedSeats);
+        int totalSeats = selectedSeats.size();
+        final int[] savedCount = {0};
 
-        String bookingId = UUID.randomUUID().toString();
-        Booking booking = new Booking(bookingId, userId, userName, pName, pPhone, from, to, busName, allSeats, date, time, Timestamp.now());
-
-        db.collection("bookings").document(bookingId).set(booking)
-                .addOnSuccessListener(unused -> completeBooking())
-                .addOnFailureListener(e -> {
-                    Toast.makeText(Payment.this, "Failed to save booking: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    btnPayNow.setEnabled(true);
-                });
+        for (String seat : selectedSeats) {
+            String bookingId = UUID.randomUUID().toString();
+            Booking booking = new Booking(
+                    bookingId,
+                    userId,
+                    userName,
+                    pName,
+                    pPhone,
+                    from,
+                    to,
+                    busName,
+                    seat,
+                    date,
+                    Timestamp.now(),
+                    "CONFIRMED",
+                    0.0,
+                    "Credit Card"
+            );
+            db.collection("bookings").document(bookingId).set(booking)
+                    .addOnSuccessListener(unused -> {
+                        savedCount[0]++;
+                        if (savedCount[0] == totalSeats) {
+                            completeBooking();
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(Payment.this, "Failed to save booking: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        btnPayNow.setEnabled(true);
+                    });
+        }
     }
 
     private void completeBooking() {
@@ -171,7 +165,6 @@ public class Payment extends AppCompatActivity {
         intent.putExtra("FROM", from);
         intent.putExtra("TO", to);
         intent.putExtra("DATE", date);
-        intent.putExtra("TIME", time);
         intent.putExtra("BUS_NAME", busName);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

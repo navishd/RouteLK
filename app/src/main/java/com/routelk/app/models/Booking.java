@@ -12,10 +12,14 @@ public class Booking {
     private String from;
     private String to;
     private String busName;
-    private String seatNo;
+    private String seat;
     private String date;
-    private String time;
     private Timestamp timestamp;
+    private String documentId;
+    private String status;
+    private double price;
+    private String time;
+
 
     public Booking() {
     }
@@ -30,8 +34,10 @@ public class Booking {
                    String busName,
                    String seatNo,
                    String date,
-                   String time,
-                   Timestamp timestamp) {
+                   Timestamp timestamp,
+                   String status,
+                   double price,
+                   String time) {
 
         this.id = id;
         this.userId = userId;
@@ -41,10 +47,12 @@ public class Booking {
         this.from = from;
         this.to = to;
         this.busName = busName;
-        this.seatNo = seatNo;
+        this.seat = seatNo;
         this.date = date;
-        this.time = time;
         this.timestamp = timestamp;
+        this.status = status;
+        this.price = price;
+        this.time = time;
     }
 
     public String getId() {
@@ -112,11 +120,11 @@ public class Booking {
     }
 
     public String getSeatNo() {
-        return seatNo;
+        return seat;
     }
 
     public void setSeatNo(String seatNo) {
-        this.seatNo = seatNo;
+        this.seat = seatNo;
     }
 
     public String getDate() {
@@ -127,19 +135,43 @@ public class Booking {
         this.date = date;
     }
 
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
     public Timestamp getTimestamp() {
         return timestamp;
     }
 
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
+    }
+
+
+    public String getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
+    }
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

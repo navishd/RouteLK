@@ -29,7 +29,10 @@ public class ManageRoutesActivity extends AppCompatActivity {
     RouteService routeService;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(
+            Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_routes);
 
@@ -52,58 +55,127 @@ public class ManageRoutesActivity extends AppCompatActivity {
         loadRoutes();
 
         addRouteBtn.setOnClickListener(v -> {
-            String name = etRouteName.getText().toString().trim();
-            String from = etFrom.getText().toString().trim();
-            String to = etTo.getText().toString().trim();
-            String distanceStr = etDistance.getText().toString().trim();
-            String priceStr = etPrice.getText().toString().trim();
 
-            if (name.isEmpty() || from.isEmpty() || to.isEmpty() || distanceStr.isEmpty() || priceStr.isEmpty()) {
-                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+
+            String distanceText =
+                    etDistance.getText().toString().trim();
+
+            String priceText =
+                    etPrice.getText().toString().trim();
+
+
+            if(distanceText.isEmpty() || priceText.isEmpty()){
+
+                Toast.makeText(
+                        this,
+                        "Distance and Price required",
+                        Toast.LENGTH_SHORT
+                ).show();
+
                 return;
             }
 
-            int distance = Integer.parseInt(distanceStr);
-            int price = Integer.parseInt(priceStr);
-            String id = UUID.randomUUID().toString();
 
-            Route route = new Route(id, name, from, to, distance, price);
+            HashMap<String,Object> route =
+                    new HashMap<>();
 
-            routeService.addRoute(route, task -> {
-                if (task.isSuccessful()) {
-                    Toast.makeText(this, "Route Added", Toast.LENGTH_SHORT).show();
-                    clearFields();
-                    loadRoutes();
-                } else {
-                    Toast.makeText(this, "Failed to add route", Toast.LENGTH_SHORT).show();
-                }
-            });
+
+            route.put(
+                    "routeName",
+                    etRouteName.getText().toString()
+            );
+
+
+            route.put(
+                    "from",
+                    etFrom.getText().toString()
+            );
+
+
+            route.put(
+                    "to",
+                    etTo.getText().toString()
+            );
+
+
+            route.put(
+                    "distance",
+                    Double.parseDouble(distanceText)
+            );
+
+
+            route.put(
+                    "price",
+                    Double.parseDouble(priceText)
+            );
+
+
+            db.collection("routes")
+                    .add(route)
+                    .addOnSuccessListener(documentReference -> {
+
+                        Toast.makeText(
+                                this,
+                                "Route Added",
+                                Toast.LENGTH_SHORT
+                        ).show();
+
+                        loadRoutes();
+
+                    });
+
         });
     }
 
-    private void clearFields() {
-        etRouteName.setText("");
-        etFrom.setText("");
-        etTo.setText("");
-        etDistance.setText("");
-        etPrice.setText("");
-    }
 
     private void loadRoutes() {
-        routeService.getAllRoutes(task -> {
-            if (task.isSuccessful() && task.getResult() != null) {
-                routeList.clear();
-                for (DocumentSnapshot doc : task.getResult().getDocuments()) {
-                    Route route = doc.toObject(Route.class);
-                    if (route != null) {
-                        route.setId(doc.getId());
-                        routeList.add(route);
+
+        db.collection("routes")
+                .get()
+                .addOnSuccessListener(query -> {
+
+                    routeList.clear();
+
+                    Toast.makeText(
+                            this,
+                            "Firestore Count : " + query.size(),
+                            Toast.LENGTH_LONG
+                    ).show();
+
+
+                    for (DocumentSnapshot doc : query.getDocuments()) {
+
+                        Toast.makeText(
+                                this,
+                                "Doc : " + doc.getId(),
+                                Toast.LENGTH_SHORT
+                        ).show();
+
+
+                        Route route = doc.toObject(Route.class);
+
+
+                        if(route != null){
+
+                            route.setId(doc.getId());
+
+                            routeList.add(route);
+                        }
                     }
-                }
-                routeAdapter.notifyDataSetChanged();
-            } else {
-                Toast.makeText(this, "Error loading routes", Toast.LENGTH_SHORT).show();
-            }
-        });
+
+
+                    routeAdapter.notifyDataSetChanged();
+
+
+                })
+                .addOnFailureListener(e -> {
+
+                    Toast.makeText(
+                            this,
+                            "Error : " + e.getMessage(),
+                            Toast.LENGTH_LONG
+                    ).show();
+
+                });
     }
 }

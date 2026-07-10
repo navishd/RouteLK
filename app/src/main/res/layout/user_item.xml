@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardCornerRadius="12dp">
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,32 +19,38 @@
             android:id="@+id/userName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Kasun Perera"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:textSize="18sp"/>
+            android:textColor="#111827"/>
 
         <TextView
             android:id="@+id/userEmail"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="kasun@gmail.com"
+            android:textColor="#6B7280"/>
 
         <TextView
             android:id="@+id/userPhone"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/userRole"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="0771234567"
+            android:textColor="#6B7280"/>
 
         <Button
             android:id="@+id/deleteBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Delete"
-            android:textColor="#FFFFFF"
+            android:layout_gravity="end"
+            android:layout_marginTop="16dp"
             android:backgroundTint="#DC2626"
-            android:layout_marginTop="10dp"/>
+            android:text="Delete User"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"/>
+
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
