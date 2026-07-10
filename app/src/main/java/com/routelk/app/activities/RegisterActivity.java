@@ -15,14 +15,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.routelk.app.R;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.routelk.app.models.User;
+import com.routelk.app.services.UserService;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -34,7 +31,7 @@ public class RegisterActivity extends AppCompatActivity {
     private ImageView btnBack;
 
     private FirebaseAuth mAuth;
-    private FirebaseFirestore db;
+    private UserService userService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +40,13 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
+            Insets bars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(bars.left, bars.top, bars.right, bars.bottom);
             return insets;
         });
 
         mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
+        userService = new UserService();
 
         // Initialize Views
         etFullName = findViewById(R.id.etFullName);
@@ -139,49 +136,38 @@ public class RegisterActivity extends AppCompatActivity {
                         }
 
                         String userId = firebaseUser.getUid();
+                        User user = new User(userId, fullName, email, phone, "user");
 
-                        Map<String, Object> user = new HashMap<>();
-                        user.put("fullName", fullName);
-                        user.put("email", email);
-                        user.put("phone", phone);
-                        user.put("role", "user");
-                        user.put("createdAt", Timestamp.now());
+                        userService.createUser(user, dbTask -> {
+                            if (dbTask.isSuccessful()) {
+                                Toast.makeText(
+                                        RegisterActivity.this,
+                                        "Registration Successful",
+                                        Toast.LENGTH_SHORT
+                                ).show();
 
-                        db.collection("users")
-                                .document(userId)
-                                .set(user)
-                                .addOnSuccessListener(unused -> {
+                                Intent intent = new Intent(
+                                        RegisterActivity.this,
+                                        Home.class
+                                );
 
-                                    Toast.makeText(
-                                            RegisterActivity.this,
-                                            "Registration Successful",
-                                            Toast.LENGTH_SHORT
-                                    ).show();
+                                intent.setFlags(
+                                        Intent.FLAG_ACTIVITY_NEW_TASK |
+                                                Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                );
 
-                                    Intent intent = new Intent(
-                                            RegisterActivity.this,
-                                            Home.class
-                                    );
-
-                                    intent.setFlags(
-                                            Intent.FLAG_ACTIVITY_NEW_TASK |
-                                                    Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                    );
-
-                                    startActivity(intent);
-                                    finish();
-
-                                })
-                                .addOnFailureListener(e -> {
-
-                                    btnRegister.setEnabled(true);
-                                    Toast.makeText(
-                                            RegisterActivity.this,
-                                            "Database Error : " + e.getMessage(),
-                                            Toast.LENGTH_LONG
-                                    ).show();
-
-                                });
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                btnRegister.setEnabled(true);
+                                Exception e = dbTask.getException();
+                                Toast.makeText(
+                                        RegisterActivity.this,
+                                        "Database Error : " + (e != null ? e.getMessage() : "Unknown error"),
+                                        Toast.LENGTH_LONG
+                                ).show();
+                            }
+                        });
 
                     } else {
 

@@ -55,11 +55,11 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
 
         Schedule schedule = scheduleList.get(position);
 
-        holder.tvScheduleID.setText("Schedule : " + schedule.getScheduleID());
+        holder.tvScheduleID.setText("Schedule : " + schedule.getId());
 
-        holder.tvBusID.setText("Bus : " + schedule.getBusID());
+        holder.tvBusID.setText("Bus : " + schedule.getBusId());
 
-        holder.tvRouteID.setText("Route : " + schedule.getRouteID());
+        holder.tvRouteID.setText("Route : " + schedule.getRouteId());
 
         holder.tvDeparture.setText("Departure : " + schedule.getDepartureTime());
 
@@ -67,11 +67,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
 
         holder.tvPrice.setText("Price : Rs." + schedule.getPrice());
 
-        if (schedule.getOperatingDays() != null) {
-            holder.tvOperatingDays.setText(schedule.getOperatingDays().toString());
-        } else {
-            holder.tvOperatingDays.setText("");
-        }
+        holder.tvOperatingDays.setText("Date : " + schedule.getDate());
 
         // EDIT
 
@@ -93,7 +89,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
                     .setPositiveButton("Delete", (dialog, which) -> {
 
                         db.collection("schedules")
-                                .document(schedule.getScheduleID())
+                                .document(schedule.getId())
                                 .delete()
                                 .addOnSuccessListener(unused ->
 

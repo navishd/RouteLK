@@ -10,33 +10,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.routelk.app.R;
 import com.routelk.app.adapters.RouteAdapter;
 import com.routelk.app.models.Route;
+import com.routelk.app.services.RouteService;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
-public class ManageRoutesActivity
-        extends AppCompatActivity {
+public class ManageRoutesActivity extends AppCompatActivity {
 
-    EditText etRouteName,
-            etFrom,
-            etTo,
-            etDistance,
-            etPrice;
-
+    EditText etRouteName, etFrom, etTo, etDistance, etPrice;
     Button addRouteBtn;
-
     RecyclerView routesRecyclerView;
-
     List<Route> routeList;
-
     RouteAdapter routeAdapter;
-
-    FirebaseFirestore db;
+    RouteService routeService;
 
     @Override
     protected void onCreate(
@@ -44,48 +34,23 @@ public class ManageRoutesActivity
 
 
         super.onCreate(savedInstanceState);
-        setContentView(
-                R.layout.activity_manage_routes);
+        setContentView(R.layout.activity_manage_routes);
 
-        db = FirebaseFirestore.getInstance();
+        routeService = new RouteService();
 
-        etRouteName =
-                findViewById(R.id.etRouteName);
+        etRouteName = findViewById(R.id.etRouteName);
+        etFrom = findViewById(R.id.etFrom);
+        etTo = findViewById(R.id.etTo);
+        etDistance = findViewById(R.id.etDistance);
+        etPrice = findViewById(R.id.etPrice);
+        addRouteBtn = findViewById(R.id.addRouteBtn);
+        routesRecyclerView = findViewById(R.id.routesRecyclerView);
 
-        etFrom =
-                findViewById(R.id.etFrom);
+        routeList = new ArrayList<>();
+        routeAdapter = new RouteAdapter(this, routeList);
 
-        etTo =
-                findViewById(R.id.etTo);
-
-        etDistance =
-                findViewById(R.id.etDistance);
-
-        etPrice =
-                findViewById(R.id.etPrice);
-
-        addRouteBtn =
-                findViewById(R.id.addRouteBtn);
-
-        routesRecyclerView =
-                findViewById(
-                        R.id.routesRecyclerView);
-
-        routeList =
-                new ArrayList<>();
-
-        routeAdapter =
-                new RouteAdapter(
-                        this,
-                        routeList);
-
-        routesRecyclerView
-                .setLayoutManager(
-                        new LinearLayoutManager(
-                                this));
-
-        routesRecyclerView
-                .setAdapter(routeAdapter);
+        routesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        routesRecyclerView.setAdapter(routeAdapter);
 
         loadRoutes();
 

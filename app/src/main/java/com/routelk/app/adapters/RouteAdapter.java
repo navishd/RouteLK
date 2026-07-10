@@ -7,13 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.routelk.app.R;
 import com.routelk.app.models.Route;
+import com.routelk.app.services.RouteService;
 
 import java.util.List;
 
@@ -22,12 +23,14 @@ public class RouteAdapter
 
     private Context context;
     private List<Route> routeList;
+    private RouteService routeService;
 
     public RouteAdapter(Context context,
                         List<Route> routeList) {
 
         this.context = context;
         this.routeList = routeList;
+        this.routeService = new RouteService();
     }
 
     @NonNull
@@ -77,12 +80,16 @@ public class RouteAdapter
                     .setPositiveButton(
                             "Delete",
                             (dialog, which) -> {
-
-                                FirebaseFirestore
-                                        .getInstance()
-                                        .collection("routes")
-                                        .document(route.getId())
-                                        .delete();
+                                routeService.deleteRoute(route.getId(), task -> {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(context, "Route deleted", Toast.LENGTH_SHORT).show();
+                                        routeList.remove(position);
+                                        notifyItemRemoved(position);
+                                        notifyItemRangeChanged(position, routeList.size());
+                                    } else {
+                                        Toast.makeText(context, "Failed to delete route", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             })
                     .setNegativeButton(
                             "Cancel",

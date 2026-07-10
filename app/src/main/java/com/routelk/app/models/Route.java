@@ -2,7 +2,7 @@ package com.routelk.app.models;
 
 public class Route {
 
-    private String id;
+    private String routeID; // Matches your Firestore screenshot
     private String routeName;
     private String from;
     private String to;
