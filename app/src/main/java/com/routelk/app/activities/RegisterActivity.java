@@ -136,7 +136,7 @@ public class RegisterActivity extends AppCompatActivity {
                         }
 
                         String userId = firebaseUser.getUid();
-                        User user = new User(userId, fullName, email, phone, "user");
+                        User user = new User(userId, fullName, email, phone);
 
                         userService.createUser(user, dbTask -> {
                             if (dbTask.isSuccessful()) {

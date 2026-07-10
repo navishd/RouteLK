@@ -17,14 +17,14 @@ public class BusService {
 
     public void addBus(Bus bus, OnCompleteListener<Void> callback) {
         db.collection(COLLECTION_NAME)
-                .document(bus.getId())
+                .document(bus.getBusID())
                 .set(bus)
                 .addOnCompleteListener(callback);
     }
 
     public void updateBus(Bus bus, OnCompleteListener<Void> callback) {
         db.collection(COLLECTION_NAME)
-                .document(bus.getId())
+                .document(bus.getBusID())
                 .set(bus)
                 .addOnCompleteListener(callback);
     }

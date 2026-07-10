@@ -18,105 +18,222 @@ import com.routelk.app.models.Schedule;
 
 import java.util.List;
 
+
 public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder> {
+
 
     private Context context;
     private List<Schedule> scheduleList;
     private FirebaseFirestore db;
 
+
     public interface OnEditClickListener {
+
         void onEdit(Schedule schedule);
+
     }
 
+
     private OnEditClickListener listener;
+
+
 
     public ScheduleAdapter(Context context,
                            List<Schedule> scheduleList,
                            OnEditClickListener listener) {
 
+
         this.context = context;
         this.scheduleList = scheduleList;
         this.listener = listener;
+
         db = FirebaseFirestore.getInstance();
+
     }
+
+
 
     @NonNull
     @Override
-    public ScheduleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ScheduleViewHolder onCreateViewHolder(
+            @NonNull ViewGroup parent,
+            int viewType) {
+
 
         View view = LayoutInflater.from(context)
-                .inflate(R.layout.item_schedule, parent, false);
+                .inflate(
+                        R.layout.item_schedule,
+                        parent,
+                        false
+                );
+
 
         return new ScheduleViewHolder(view);
+
     }
 
+
+
+
     @Override
-    public void onBindViewHolder(@NonNull ScheduleViewHolder holder, int position) {
+    public void onBindViewHolder(
+            @NonNull ScheduleViewHolder holder,
+            int position) {
+
 
         Schedule schedule = scheduleList.get(position);
 
-        holder.tvScheduleID.setText("Schedule : " + schedule.getId());
 
-        holder.tvBusID.setText("Bus : " + schedule.getBusId());
 
-        holder.tvRouteID.setText("Route : " + schedule.getRouteId());
+        holder.tvScheduleID.setText(
+                "Schedule ID : " + schedule.getId()
+        );
 
-        holder.tvDeparture.setText("Departure : " + schedule.getDepartureTime());
 
-        holder.tvArrival.setText("Arrival : " + schedule.getArrivalTime());
+        holder.tvBusID.setText(
+                "Bus ID : " + schedule.getBusId()
+        );
 
-        holder.tvPrice.setText("Price : Rs." + schedule.getPrice());
 
-        holder.tvOperatingDays.setText("Date : " + schedule.getDate());
+        holder.tvRouteID.setText(
+                "Route ID : " + schedule.getRouteId()
+        );
 
-        // EDIT
+
+        holder.tvDeparture.setText(
+                "Departure : " + schedule.getDepartureTime()
+        );
+
+
+        holder.tvArrival.setText(
+                "Arrival : " + schedule.getArrivalTime()
+        );
+
+
+        holder.tvPrice.setText(
+                "Price : Rs." + schedule.getPrice()
+        );
+
+
+        holder.tvOperatingDays.setText(
+                "Operating Days : " + schedule.getOperatingDays()
+        );
+
+
+
+        // EDIT BUTTON
 
         holder.editBtn.setOnClickListener(v -> {
 
-            if (listener != null) {
+            if(listener != null){
+
                 listener.onEdit(schedule);
+
             }
 
         });
 
-        // DELETE
+
+
+
+        // DELETE BUTTON
 
         holder.deleteBtn.setOnClickListener(v -> {
 
+
             new AlertDialog.Builder(context)
+
                     .setTitle("Delete Schedule")
-                    .setMessage("Are you sure?")
-                    .setPositiveButton("Delete", (dialog, which) -> {
 
-                        db.collection("schedules")
-                                .document(schedule.getId())
-                                .delete()
-                                .addOnSuccessListener(unused ->
+                    .setMessage(
+                            "Are you sure you want to delete?"
+                    )
 
-                                        Toast.makeText(context,
-                                                "Schedule Deleted",
-                                                Toast.LENGTH_SHORT).show())
+                    .setPositiveButton(
+                            "Delete",
+                            (dialog, which) -> {
 
-                                .addOnFailureListener(e ->
 
-                                        Toast.makeText(context,
-                                                e.getMessage(),
-                                                Toast.LENGTH_SHORT).show());
+                                db.collection("schedules")
 
-                    })
-                    .setNegativeButton("Cancel", null)
+                                        .document(schedule.getId())
+
+                                        .delete()
+
+                                        .addOnSuccessListener(unused -> {
+
+
+                                            Toast.makeText(
+                                                    context,
+                                                    "Schedule Deleted",
+                                                    Toast.LENGTH_SHORT
+                                            ).show();
+
+
+
+                                            int index =
+                                                    holder.getBindingAdapterPosition();
+
+
+                                            if(index != RecyclerView.NO_POSITION){
+
+                                                scheduleList.remove(index);
+
+                                                notifyItemRemoved(index);
+
+                                            }
+
+
+
+                                        })
+
+                                        .addOnFailureListener(e -> {
+
+
+                                            Toast.makeText(
+                                                    context,
+                                                    e.getMessage(),
+                                                    Toast.LENGTH_SHORT
+                                            ).show();
+
+
+                                        });
+
+
+                            })
+
+
+                    .setNegativeButton(
+                            "Cancel",
+                            null
+                    )
+
+
                     .show();
+
 
         });
 
+
     }
+
+
+
 
     @Override
     public int getItemCount() {
+
         return scheduleList.size();
+
     }
 
-    public static class ScheduleViewHolder extends RecyclerView.ViewHolder {
+
+
+
+
+    public static class ScheduleViewHolder
+            extends RecyclerView.ViewHolder {
+
 
         TextView tvScheduleID;
         TextView tvBusID;
@@ -126,22 +243,76 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
         TextView tvPrice;
         TextView tvOperatingDays;
 
+
         Button editBtn;
         Button deleteBtn;
 
-        public ScheduleViewHolder(@NonNull View itemView) {
+
+
+        public ScheduleViewHolder(
+                @NonNull View itemView) {
+
+
             super(itemView);
 
-            tvScheduleID = itemView.findViewById(R.id.tvScheduleID);
-            tvBusID = itemView.findViewById(R.id.tvBusID);
-            tvRouteID = itemView.findViewById(R.id.tvRouteID);
-            tvDeparture = itemView.findViewById(R.id.tvDeparture);
-            tvArrival = itemView.findViewById(R.id.tvArrival);
-            tvPrice = itemView.findViewById(R.id.tvPrice);
-            tvOperatingDays = itemView.findViewById(R.id.tvOperatingDays);
 
-            editBtn = itemView.findViewById(R.id.editBtn);
-            deleteBtn = itemView.findViewById(R.id.deleteBtn);
+            tvScheduleID =
+                    itemView.findViewById(
+                            R.id.tvScheduleID
+                    );
+
+
+            tvBusID =
+                    itemView.findViewById(
+                            R.id.tvBusID
+                    );
+
+
+            tvRouteID =
+                    itemView.findViewById(
+                            R.id.tvRouteID
+                    );
+
+
+            tvDeparture =
+                    itemView.findViewById(
+                            R.id.tvDeparture
+                    );
+
+
+            tvArrival =
+                    itemView.findViewById(
+                            R.id.tvArrival
+                    );
+
+
+            tvPrice =
+                    itemView.findViewById(
+                            R.id.tvPrice
+                    );
+
+
+            tvOperatingDays =
+                    itemView.findViewById(
+                            R.id.tvOperatingDays
+                    );
+
+
+            editBtn =
+                    itemView.findViewById(
+                            R.id.editBtn
+                    );
+
+
+            deleteBtn =
+                    itemView.findViewById(
+                            R.id.deleteBtn
+                    );
+
+
         }
+
     }
+
+
 }

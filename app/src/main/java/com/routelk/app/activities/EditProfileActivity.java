@@ -23,7 +23,6 @@ public class EditProfileActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private UserService userService;
     private String userId;
-    private String currentRole = "user";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +66,6 @@ public class EditProfileActivity extends AppCompatActivity {
                 if (user != null) {
                     if (user.getFullName() != null) etFullName.setText(user.getFullName());
                     if (user.getPhone() != null) etPhone.setText(user.getPhone());
-                    if (user.getRole() != null) currentRole = user.getRole();
                 }
             }
         });
@@ -93,7 +91,7 @@ public class EditProfileActivity extends AppCompatActivity {
         btnSaveChanges.setEnabled(false);
         btnSaveChanges.setText(R.string.saving);
 
-        User updatedUser = new User(userId, fullName, email, phone, currentRole);
+        User updatedUser = new User(userId, fullName, email, phone);
 
         userService.updateUser(updatedUser, task -> {
             if (task.isSuccessful()) {

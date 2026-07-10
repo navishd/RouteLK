@@ -9,17 +9,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.Query;
 import com.routelk.app.R;
 import com.routelk.app.adapters.ScheduleAdapter;
 import com.routelk.app.models.Schedule;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ManageSchedulesActivity extends AppCompatActivity {
 
-    private EditText etScheduleID;
+
     private EditText etBusID;
     private EditText etRouteID;
     private EditText etDeparture;
@@ -27,28 +30,31 @@ public class ManageSchedulesActivity extends AppCompatActivity {
     private EditText etPrice;
     private EditText etOperatingDays;
 
+
     private Button btnAddSchedule;
 
+
     private RecyclerView scheduleRecyclerView;
+
 
     private ScheduleAdapter adapter;
 
     private ArrayList<Schedule> scheduleList;
 
+
     private FirebaseFirestore db;
 
-    private boolean isEdit = false;
-
-    private String currentScheduleID = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_schedules);
 
+
         db = FirebaseFirestore.getInstance();
 
-        etScheduleID = findViewById(R.id.etScheduleID);
+
         etBusID = findViewById(R.id.etBusID);
         etRouteID = findViewById(R.id.etRouteID);
         etDeparture = findViewById(R.id.etDeparture);
@@ -56,211 +62,355 @@ public class ManageSchedulesActivity extends AppCompatActivity {
         etPrice = findViewById(R.id.etPrice);
         etOperatingDays = findViewById(R.id.etOperatingDays);
 
+
         btnAddSchedule = findViewById(R.id.btnAddSchedule);
 
-        scheduleRecyclerView = findViewById(R.id.scheduleRecyclerView);
+
+        scheduleRecyclerView =
+                findViewById(R.id.scheduleRecyclerView);
+
 
         scheduleRecyclerView.setLayoutManager(
-                new LinearLayoutManager(this));
+                new LinearLayoutManager(this)
+        );
+
 
         scheduleList = new ArrayList<>();
 
-        adapter = new ScheduleAdapter(this, scheduleList, schedule -> {
 
-            isEdit = true;
+        adapter = new ScheduleAdapter(
+                this,
+                scheduleList,
+                schedule -> {
 
-            currentScheduleID = schedule.getId();
+                    Toast.makeText(
+                            this,
+                            "Selected Schedule : " + schedule.getId(),
+                            Toast.LENGTH_SHORT
+                    ).show();
 
-            etScheduleID.setText(schedule.getId());
+                }
+        );
 
-            etBusID.setText(schedule.getBusId());
-
-            etRouteID.setText(schedule.getRouteId());
-
-            etDeparture.setText(schedule.getDepartureTime());
-
-            etArrival.setText(schedule.getArrivalTime());
-
-            etPrice.setText(String.valueOf(schedule.getPrice()));
-
-            btnAddSchedule.setText("Update Schedule");
-
-        });
 
         scheduleRecyclerView.setAdapter(adapter);
 
+
+
         loadSchedules();
+
+
 
         btnAddSchedule.setOnClickListener(v -> {
 
-            if (isEdit) {
-
-                updateSchedule();
-
-            } else {
-
-                addSchedule();
-
-            }
+            addSchedule();
 
         });
 
+
     }
-    private void addSchedule() {
 
-        String scheduleID = etScheduleID.getText().toString().trim();
-        String busID = etBusID.getText().toString().trim();
-        String routeID = etRouteID.getText().toString().trim();
-        String departure = etDeparture.getText().toString().trim();
-        String arrival = etArrival.getText().toString().trim();
-        String priceText = etPrice.getText().toString().trim();
-        String daysText = etOperatingDays.getText().toString().trim();
 
-        if (scheduleID.isEmpty() ||
-                busID.isEmpty() ||
-                routeID.isEmpty() ||
-                departure.isEmpty() ||
-                arrival.isEmpty() ||
-                priceText.isEmpty() ||
-                daysText.isEmpty()) {
 
-            Toast.makeText(this,
-                    "Please fill all fields",
-                    Toast.LENGTH_SHORT).show();
+    private void addSchedule(){
+
+
+        String busID =
+                etBusID.getText()
+                        .toString()
+                        .trim();
+
+
+        String routeID =
+                etRouteID.getText()
+                        .toString()
+                        .trim();
+
+
+        String departure =
+                etDeparture.getText()
+                        .toString()
+                        .trim();
+
+
+        String arrival =
+                etArrival.getText()
+                        .toString()
+                        .trim();
+
+
+        String priceText =
+                etPrice.getText()
+                        .toString()
+                        .trim();
+
+
+        String days =
+                etOperatingDays.getText()
+                        .toString()
+                        .trim();
+
+
+
+        if(busID.isEmpty()
+                || routeID.isEmpty()
+                || departure.isEmpty()
+                || arrival.isEmpty()
+                || priceText.isEmpty()
+                || days.isEmpty()){
+
+
+            Toast.makeText(
+                    this,
+                    "Fill all fields",
+                    Toast.LENGTH_SHORT
+            ).show();
+
             return;
+
         }
 
-        int price = Integer.parseInt(priceText);
 
-        Schedule schedule = new Schedule(
-                scheduleID,
-                busID,
-                "Bus Name", // Default or fetch from Bus table
-                routeID,
-                "From",    // Default or fetch from Route table
-                "To",      // Default or fetch from Route table
-                departure,
-                arrival,
-                "Date",    // Default or implement Date picker
-                price
-        );
 
-        db.collection("schedules")
-                .document(scheduleID)
-                .set(schedule)
-                .addOnSuccessListener(unused -> {
+        int price =
+                Integer.parseInt(priceText);
 
-                    Toast.makeText(this,
-                            "Schedule Added",
-                            Toast.LENGTH_SHORT).show();
 
-                    clearFields();
 
-                    loadSchedules();
+        generateScheduleId(
+                scheduleID -> {
 
-                })
-                .addOnFailureListener(e ->
 
-                        Toast.makeText(this,
-                                e.getMessage(),
-                                Toast.LENGTH_SHORT).show());
+                    Map<String,Object> schedule =
+                            new HashMap<>();
 
-    }
 
-    private void loadSchedules() {
+                    schedule.put(
+                            "id",
+                            scheduleID
+                    );
 
-        scheduleList.clear();
 
-        db.collection("schedules")
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    schedule.put(
+                            "busId",
+                            busID
+                    );
 
-                    for (QueryDocumentSnapshot document
-                            : queryDocumentSnapshots) {
 
-                        Schedule schedule =
-                                document.toObject(Schedule.class);
+                    schedule.put(
+                            "routeId",
+                            routeID
+                    );
 
-                        scheduleList.add(schedule);
 
-                    }
+                    schedule.put(
+                            "departureTime",
+                            departure
+                    );
 
-                    adapter.notifyDataSetChanged();
+
+                    schedule.put(
+                            "arrivalTime",
+                            arrival
+                    );
+
+
+                    schedule.put(
+                            "operatingDays",
+                            days
+                    );
+
+
+                    schedule.put(
+                            "price",
+                            price
+                    );
+
+
+
+                    db.collection("schedules")
+                            .document(scheduleID)
+                            .set(schedule)
+
+
+                            .addOnSuccessListener(unused -> {
+
+
+                                Toast.makeText(
+                                        this,
+                                        "Schedule Added : "+scheduleID,
+                                        Toast.LENGTH_SHORT
+                                ).show();
+
+
+
+                                clearFields();
+
+
+                                loadSchedules();
+
+
+
+                            });
+
+
 
                 });
 
+
+
     }
 
-    private void updateSchedule() {
 
-        String scheduleID = etScheduleID.getText().toString().trim();
-        String busID = etBusID.getText().toString().trim();
-        String routeID = etRouteID.getText().toString().trim();
-        String departure = etDeparture.getText().toString().trim();
-        String arrival = etArrival.getText().toString().trim();
-        String priceText = etPrice.getText().toString().trim();
-        String daysText = etOperatingDays.getText().toString().trim();
 
-        if (scheduleID.isEmpty() ||
-                busID.isEmpty() ||
-                routeID.isEmpty() ||
-                departure.isEmpty() ||
-                arrival.isEmpty() ||
-                priceText.isEmpty() ||
-                daysText.isEmpty()) {
 
-            Toast.makeText(this,
-                    "Please fill all fields",
-                    Toast.LENGTH_SHORT).show();
-            return;
-        }
 
-        int price = Integer.parseInt(priceText);
+    private void generateScheduleId(
+            ScheduleIdCallback callback){
 
-        Schedule schedule = new Schedule(
-                scheduleID,
-                busID,
-                "Bus Name",
-                routeID,
-                "From",
-                "To",
-                departure,
-                arrival,
-                "Date",
-                price
-        );
+
 
         db.collection("schedules")
-                .document(currentScheduleID)
-                .set(schedule)
-                .addOnSuccessListener(unused -> {
+                .orderBy(
+                        "id",
+                        Query.Direction.DESCENDING
+                )
+                .limit(1)
+                .get()
 
-                    Toast.makeText(this,
-                            "Schedule Updated",
-                            Toast.LENGTH_SHORT).show();
 
-                    isEdit = false;
+                .addOnSuccessListener(snapshot -> {
 
-                    currentScheduleID = "";
 
-                    btnAddSchedule.setText("Add Schedule");
 
-                    clearFields();
+                    String nextID;
 
-                    loadSchedules();
 
-                })
-                .addOnFailureListener(e ->
 
-                        Toast.makeText(this,
-                                e.getMessage(),
-                                Toast.LENGTH_SHORT).show());
+                    if(snapshot.isEmpty()){
+
+
+                        nextID = "S001";
+
+
+                    }else{
+
+
+                        DocumentSnapshot doc =
+                                snapshot.getDocuments()
+                                        .get(0);
+
+
+
+                        String lastID =
+                                doc.getString("id");
+
+
+
+                        if(lastID == null){
+
+
+                            nextID="S001";
+
+
+                        }else{
+
+
+                            int number =
+                                    Integer.parseInt(
+                                            lastID.substring(1)
+                                    );
+
+
+                            number++;
+
+
+
+                            nextID =
+                                    String.format(
+                                            "S%03d",
+                                            number
+                                    );
+
+
+                        }
+
+                    }
+
+
+
+                    callback.onGenerated(nextID);
+
+
+
+                });
+
+
 
     }
 
-    private void clearFields() {
 
-        etScheduleID.setText("");
+
+
+
+
+    private void loadSchedules(){
+
+
+        db.collection("schedules")
+                .get()
+
+                .addOnSuccessListener(snapshot -> {
+
+
+                    scheduleList.clear();
+
+
+
+                    for(DocumentSnapshot doc : snapshot){
+
+
+                        Schedule schedule =
+                                doc.toObject(
+                                        Schedule.class
+                                );
+
+
+
+                        if(schedule != null){
+
+
+                            schedule.setId(
+                                    doc.getId()
+                            );
+
+
+                            scheduleList.add(schedule);
+
+                        }
+
+
+                    }
+
+
+
+                    adapter.notifyDataSetChanged();
+
+
+
+                });
+
+
+
+    }
+
+
+
+
+
+
+    private void clearFields(){
+
 
         etBusID.setText("");
 
@@ -274,5 +424,18 @@ public class ManageSchedulesActivity extends AppCompatActivity {
 
         etOperatingDays.setText("");
 
+
     }
+
+
+
+
+    interface ScheduleIdCallback{
+
+        void onGenerated(String scheduleID);
+
+    }
+
+
+
 }

@@ -57,8 +57,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                     .setPositiveButton("Delete", (dialog, which) -> {
 
                         db.collection("users")
-                                .document(user.getDocumentId())
-                                .delete()
+                                .document(user.getId())                                .delete()
                                 .addOnSuccessListener(unused -> {
 
                                     Toast.makeText(
