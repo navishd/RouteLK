@@ -1,7 +1,6 @@
 package com.routelk.app.activities;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -17,8 +16,6 @@ import com.routelk.app.adapters.ScheduleAdapter;
 import com.routelk.app.models.Schedule;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class ManageSchedulesActivity extends AppCompatActivity {
 
@@ -72,23 +69,19 @@ public class ManageSchedulesActivity extends AppCompatActivity {
 
             isEdit = true;
 
-            currentScheduleID = schedule.getScheduleID();
+            currentScheduleID = schedule.getId();
 
-            etScheduleID.setText(schedule.getScheduleID());
+            etScheduleID.setText(schedule.getId());
 
-            etBusID.setText(schedule.getBusID());
+            etBusID.setText(schedule.getBusId());
 
-            etRouteID.setText(schedule.getRouteID());
+            etRouteID.setText(schedule.getRouteId());
 
             etDeparture.setText(schedule.getDepartureTime());
 
             etArrival.setText(schedule.getArrivalTime());
 
             etPrice.setText(String.valueOf(schedule.getPrice()));
-
-            etOperatingDays.setText(
-                    TextUtils.join(",", schedule.getOperatingDays())
-            );
 
             btnAddSchedule.setText("Update Schedule");
 
@@ -139,17 +132,17 @@ public class ManageSchedulesActivity extends AppCompatActivity {
 
         int price = Integer.parseInt(priceText);
 
-        List<String> operatingDays =
-                Arrays.asList(daysText.split(","));
-
         Schedule schedule = new Schedule(
                 scheduleID,
                 busID,
+                "Bus Name", // Default or fetch from Bus table
                 routeID,
+                "From",    // Default or fetch from Route table
+                "To",      // Default or fetch from Route table
                 departure,
                 arrival,
-                price,
-                operatingDays
+                "Date",    // Default or implement Date picker
+                price
         );
 
         db.collection("schedules")
@@ -224,17 +217,17 @@ public class ManageSchedulesActivity extends AppCompatActivity {
 
         int price = Integer.parseInt(priceText);
 
-        List<String> operatingDays =
-                Arrays.asList(daysText.split(","));
-
         Schedule schedule = new Schedule(
                 scheduleID,
                 busID,
+                "Bus Name",
                 routeID,
+                "From",
+                "To",
                 departure,
                 arrival,
-                price,
-                operatingDays
+                "Date",
+                price
         );
 
         db.collection("schedules")
@@ -283,4 +276,3 @@ public class ManageSchedulesActivity extends AppCompatActivity {
 
     }
 }
-

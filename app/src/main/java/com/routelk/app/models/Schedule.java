@@ -1,97 +1,110 @@
 package com.routelk.app.models;
 
-import java.util.List;
-
 public class Schedule {
-
-    private String scheduleID;
-    private String busID;
-    private String routeID;
+    private String id;
+    private String busId;
+    private String busName;
+    private String routeId;
+    private String from;
+    private String to;
     private String departureTime;
     private String arrivalTime;
+    private String date;
     private int price;
-    private List<String> operatingDays;
 
-    // Empty Constructor (Firestore requires this)
     public Schedule() {
     }
 
-    // Constructor
-    public Schedule(String scheduleID,
-                    String busID,
-                    String routeID,
-                    String departureTime,
-                    String arrivalTime,
-                    int price,
-                    List<String> operatingDays) {
-
-        this.scheduleID = scheduleID;
-        this.busID = busID;
-        this.routeID = routeID;
+    public Schedule(String id, String busId, String busName, String routeId, String from, String to, String departureTime, String arrivalTime, String date, int price) {
+        this.id = id;
+        this.busId = busId;
+        this.busName = busName;
+        this.routeId = routeId;
+        this.from = from;
+        this.to = to;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
+        this.date = date;
         this.price = price;
-        this.operatingDays = operatingDays;
     }
 
-    // Getters
-
-    public String getScheduleID() {
-        return scheduleID;
+    public String getId() {
+        return id;
     }
 
-    public String getBusID() {
-        return busID;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getRouteID() {
-        return routeID;
+    public String getBusId() {
+        return busId;
+    }
+
+    public void setBusId(String busId) {
+        this.busId = busId;
+    }
+
+    public String getBusName() {
+        return busName;
+    }
+
+    public void setBusName(String busName) {
+        this.busName = busName;
+    }
+
+    public String getRouteId() {
+        return routeId;
+    }
+
+    public void setRouteId(String routeId) {
+        this.routeId = routeId;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public String getTo() {
+        return to;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
     }
 
     public String getDepartureTime() {
         return departureTime;
     }
 
-    public String getArrivalTime() {
-        return arrivalTime;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public List<String> getOperatingDays() {
-        return operatingDays;
-    }
-
-    // Setters
-
-    public void setScheduleID(String scheduleID) {
-        this.scheduleID = scheduleID;
-    }
-
-    public void setBusID(String busID) {
-        this.busID = busID;
-    }
-
-    public void setRouteID(String routeID) {
-        this.routeID = routeID;
-    }
-
     public void setDepartureTime(String departureTime) {
         this.departureTime = departureTime;
+    }
+
+    public String getArrivalTime() {
+        return arrivalTime;
     }
 
     public void setArrivalTime(String arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
     public void setPrice(int price) {
         this.price = price;
     }
-
-    public void setOperatingDays(List<String> operatingDays) {
-        this.operatingDays = operatingDays;
-    }
-
 }

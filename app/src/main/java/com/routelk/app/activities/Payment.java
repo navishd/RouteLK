@@ -17,6 +17,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.routelk.app.R;
 import com.routelk.app.models.Booking;
+import com.routelk.app.models.User;
+import com.routelk.app.services.UserService;
 
 import android.text.TextUtils;
 import android.widget.TextView;
@@ -35,6 +37,7 @@ public class Payment extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+    private UserService userService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class Payment extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        userService = new UserService();
 
         Intent intent = getIntent();
         selectedSeats = intent.getStringArrayListExtra("SELECTED_SEATS");
@@ -113,28 +117,27 @@ public class Payment extends AppCompatActivity {
 
         String userId = currentUser.getUid();
 
-        // Fetch user name first
-        db.collection("users").document(userId).get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    String userName = documentSnapshot.getString("fullName");
-                    String userPhone = documentSnapshot.getString("phone");
-                    if (userName == null) userName = "Guest";
-                    
-                    // If not booking for others, passenger is the user themselves
-                    if (!isForOthers) {
-                        passengerName = userName;
-                        passengerPhone = userPhone != null ? userPhone : "";
-                    }
-                    
-                    saveBookings(userId, userName, passengerName, passengerPhone);
-                })
-                .addOnFailureListener(e -> {
-                    if (!isForOthers && passengerName == null) {
-                        passengerName = "User";
-                        passengerPhone = "";
-                    }
-                    saveBookings(userId, "User", passengerName, passengerPhone);
-                });
+        // Fetch user details first
+        userService.getUser(userId, task -> {
+            String userName = "Guest";
+            String userPhone = "";
+            
+            if (task.isSuccessful() && task.getResult() != null) {
+                User user = task.getResult().toObject(User.class);
+                if (user != null) {
+                    if (user.getFullName() != null) userName = user.getFullName();
+                    if (user.getPhone() != null) userPhone = user.getPhone();
+                }
+            }
+
+            // If not booking for others, passenger is the user themselves
+            if (!isForOthers) {
+                passengerName = userName;
+                passengerPhone = userPhone;
+            }
+            
+            saveBookings(userId, userName, passengerName, passengerPhone);
+        });
     }
 
     private void saveBookings(String userId, String userName, String pName, String pPhone) {

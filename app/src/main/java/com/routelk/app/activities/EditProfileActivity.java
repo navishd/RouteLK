@@ -11,11 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.routelk.app.R;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.routelk.app.models.User;
+import com.routelk.app.services.UserService;
 
 public class EditProfileActivity extends AppCompatActivity {
 
@@ -23,8 +21,9 @@ public class EditProfileActivity extends AppCompatActivity {
     private MaterialButton btnSaveChanges;
     private View btnChangePassword;
     private FirebaseAuth mAuth;
-    private FirebaseFirestore db;
+    private UserService userService;
     private String userId;
+    private String currentRole = "user";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +31,7 @@ public class EditProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile);
 
         mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
+        userService = new UserService();
         
         if (mAuth.getCurrentUser() != null) {
             userId = mAuth.getCurrentUser().getUid();
@@ -62,16 +61,16 @@ public class EditProfileActivity extends AppCompatActivity {
             etEmail.setText(mAuth.getCurrentUser().getEmail());
         }
         
-        db.collection("users").document(userId).get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        String fullName = documentSnapshot.getString("fullName");
-                        String phone = documentSnapshot.getString("phone");
-                        
-                        if (fullName != null) etFullName.setText(fullName);
-                        if (phone != null) etPhone.setText(phone);
-                    }
-                });
+        userService.getUser(userId, task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                User user = task.getResult().toObject(User.class);
+                if (user != null) {
+                    if (user.getFullName() != null) etFullName.setText(user.getFullName());
+                    if (user.getPhone() != null) etPhone.setText(user.getPhone());
+                    if (user.getRole() != null) currentRole = user.getRole();
+                }
+            }
+        });
     }
 
     private void setupClickListeners() {
@@ -84,6 +83,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
         String fullName = etFullName.getText().toString().trim();
         String phone = etPhone.getText().toString().trim();
+        String email = etEmail.getText().toString().trim();
 
         if (fullName.isEmpty()) {
             etFullName.setError("Full name is required");
@@ -93,19 +93,18 @@ public class EditProfileActivity extends AppCompatActivity {
         btnSaveChanges.setEnabled(false);
         btnSaveChanges.setText(R.string.saving);
 
-        Map<String, Object> userUpdate = new HashMap<>();
-        userUpdate.put("fullName", fullName);
-        userUpdate.put("phone", phone);
+        User updatedUser = new User(userId, fullName, email, phone, currentRole);
 
-        db.collection("users").document(userId).update(userUpdate)
-                .addOnSuccessListener(unused -> {
-                    Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
-                    finish();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    btnSaveChanges.setEnabled(true);
-                    btnSaveChanges.setText(R.string.save_changes);
-                });
+        userService.updateUser(updatedUser, task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Exception e = task.getException();
+                Toast.makeText(this, "Update failed: " + (e != null ? e.getMessage() : "Unknown error"), Toast.LENGTH_SHORT).show();
+                btnSaveChanges.setEnabled(true);
+                btnSaveChanges.setText(R.string.save_changes);
+            }
+        });
     }
 }

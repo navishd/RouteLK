@@ -2,23 +2,18 @@ package com.routelk.app.models;
 
 public class Route {
 
-    private String id;
+    private String routeID; // Matches your Firestore screenshot
     private String routeName;
     private String from;
     private String to;
-    private String distance;
-    private String price;
+    private int distance;
+    private int price;
 
     public Route() {
     }
 
-    public Route(String id, String routeName,
-                 String from,
-                 String to,
-                 String distance,
-                 String price) {
-
-        this.id = id;
+    public Route(String routeID, String routeName, String from, String to, int distance, int price) {
+        this.routeID = routeID;
         this.routeName = routeName;
         this.from = from;
         this.to = to;
@@ -26,31 +21,25 @@ public class Route {
         this.price = price;
     }
 
-    public String getId() {
-        return id;
-    }
+    public String getRouteID() { return routeID; }
+    public void setRouteID(String routeID) { this.routeID = routeID; }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    // Alias methods for compatibility with Service and Activity logic
+    public String getId() { return routeID; }
+    public void setId(String id) { this.routeID = id; }
 
-    public String getRouteName() {
-        return routeName;
-    }
+    public String getRouteName() { return routeName; }
+    public void setRouteName(String routeName) { this.routeName = routeName; }
 
-    public String getFrom() {
-        return from;
-    }
+    public String getFrom() { return from; }
+    public void setFrom(String from) { this.from = from; }
 
-    public String getTo() {
-        return to;
-    }
+    public String getTo() { return to; }
+    public void setTo(String to) { this.to = to; }
 
-    public String getDistance() {
-        return distance;
-    }
+    public int getDistance() { return distance; }
+    public void setDistance(int distance) { this.distance = distance; }
 
-    public String getPrice() {
-        return price;
-    }
+    public int getPrice() { return price; }
+    public void setPrice(int price) { this.price = price; }
 }
