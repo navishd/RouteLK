@@ -23,15 +23,15 @@
         <activity
             android:name=".activities.LoginActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.RegisterActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize" /> <!-- User Flow -->
+            android:windowSoftInputMode="adjustPan" /> <!-- User Flow -->
         <activity
             android:name=".activities.Home"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.BusListScreen"
             android:exported="false" />
@@ -56,10 +56,12 @@
             android:exported="false" />
         <activity
             android:name=".activities.MyBookingsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.MyActivitiesActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.ManageBookingsActivity"
             android:exported="false"
@@ -73,7 +75,8 @@
             android:exported="false" />
         <activity
             android:name=".activities.ProfileActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.EditProfileActivity"
             android:exported="false"

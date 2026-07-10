@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -43,7 +44,7 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
+            Insets bars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(bars.left, bars.top, bars.right, bars.bottom);
             return insets;
         });
@@ -63,8 +64,18 @@ public class Home extends AppCompatActivity {
         btnSearch = findViewById(R.id.btnSearchBuses);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         nestedScrollView = findViewById(R.id.nestedScrollView);
+        com.google.android.material.appbar.AppBarLayout appBarLayout = findViewById(R.id.appBarLayout);
         
         calendar = Calendar.getInstance();
+
+        // Fix: Collapse AppBar when focusing on inputs to ensure visibility
+        View.OnFocusChangeListener focusChangeListener = (v, hasFocus) -> {
+            if (hasFocus && appBarLayout != null) {
+                appBarLayout.setExpanded(false, true);
+            }
+        };
+        etFrom.setOnFocusChangeListener(focusChangeListener);
+        etTo.setOnFocusChangeListener(focusChangeListener);
 
         findViewById(R.id.fabVoiceAssistant).setOnClickListener(v -> 
             Toast.makeText(this, "Voice Assistant coming soon", Toast.LENGTH_SHORT).show());
