@@ -72,6 +72,7 @@ public class RouteAdapter
                 "Price : Rs."
                         + route.getPrice());
 
+
         holder.deleteBtn.setOnClickListener(v -> {
 
             new AlertDialog.Builder(context)

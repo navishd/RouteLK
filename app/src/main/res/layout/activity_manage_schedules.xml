@@ -55,15 +55,6 @@
                     android:layout_marginBottom="16dp"/>
 
                 <EditText
-                    android:id="@+id/etScheduleID"
-                    android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:hint="Schedule ID (S001)"
-                    android:background="@drawable/edittext_bg"
-                    android:padding="16dp"
-                    android:layout_marginBottom="12dp"/>
-
-                <EditText
                     android:id="@+id/etBusID"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"

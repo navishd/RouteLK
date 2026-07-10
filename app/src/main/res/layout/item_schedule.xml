@@ -15,16 +15,14 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Schedule ID -->
 
         <TextView
             android:id="@+id/tvScheduleID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Schedule : S001"
+            android:text="S001"
             android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="#111827"/>
+            android:textSize="16sp"/>
 
         <!-- Bus ID -->
 

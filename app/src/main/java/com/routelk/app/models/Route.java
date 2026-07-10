@@ -2,12 +2,13 @@ package com.routelk.app.models;
 
 public class Route {
 
-    private String routeID; // Matches your Firestore screenshot
+    private String id;
     private String routeName;
     private String from;
     private String to;
     private double distance;
     private double price;
+    private String routeID;
 
 
     public Route() {
@@ -47,5 +48,8 @@ public class Route {
 
     public double getPrice() {
         return price;
+    }
+    public void setRouteID(String routeID){
+        this.routeID = routeID;
     }
 }

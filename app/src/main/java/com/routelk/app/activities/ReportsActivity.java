@@ -3,18 +3,16 @@ package com.routelk.app.activities;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.routelk.app.R;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class ReportsActivity extends AppCompatActivity {
+
 
     private TextView tvRevenue;
     private TextView tvBookings;
@@ -24,14 +22,19 @@ public class ReportsActivity extends AppCompatActivity {
     private TextView tvTodayBookings;
     private TextView tvMonthlyRevenue;
 
+
     private FirebaseFirestore db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reports);
 
+
         db = FirebaseFirestore.getInstance();
+
 
         tvRevenue = findViewById(R.id.tvRevenue);
         tvBookings = findViewById(R.id.tvBookings);
@@ -41,126 +44,252 @@ public class ReportsActivity extends AppCompatActivity {
         tvTodayBookings = findViewById(R.id.tvTodayBookings);
         tvMonthlyRevenue = findViewById(R.id.tvMonthlyRevenue);
 
-        loadReports();
-        loadPopularRoute();
-    }
 
-    private void loadReports() {
 
-        loadUsers();
-        loadBuses();
-        loadBookings();
-        loadPopularRoute();
+        listenUsers();
+
+        listenBuses();
+
+        listenBookings();
 
     }
 
-    //================ USERS =================
 
-    private void loadUsers() {
+
+    //================ USERS REAL TIME =================
+
+    private void listenUsers(){
+
 
         db.collection("users")
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
+                .addSnapshotListener((value, error) -> {
 
-                    int totalUsers = queryDocumentSnapshots.size();
 
-                    tvUsers.setText(String.valueOf(totalUsers));
+                    if(value != null){
 
-                });
 
-    }
+                        int count = value.size();
 
-    //================ BUSES =================
 
-    private void loadBuses() {
-
-        db.collection("buses")
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-
-                    int totalBuses = queryDocumentSnapshots.size();
-
-                    tvBuses.setText(String.valueOf(totalBuses));
-
-                });
-
-    }
-
-    //================ BOOKINGS =================
-
-    private void loadBookings() {
-
-        db.collection("bookings")
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-
-                    int totalBookings = queryDocumentSnapshots.size();
-
-                    double revenue = 0;
-
-                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-
-                        Double price = document.getDouble("price");
-
-                        if (price != null) {
-                            revenue += price;
-                        }
+                        tvUsers.setText(
+                                String.valueOf(count)
+                        );
 
                     }
 
-                    tvBookings.setText(String.valueOf(totalBookings));
+                });
 
-                    tvRevenue.setText("Rs. " + revenue);
 
-                    tvTodayBookings.setText("Today's Bookings : " + totalBookings);
+    }
 
-                    tvMonthlyRevenue.setText("Monthly Revenue : Rs. " + revenue);
+
+
+
+
+    //================ BUSES REAL TIME =================
+
+
+    private void listenBuses(){
+
+
+        db.collection("buses")
+                .addSnapshotListener((value, error) -> {
+
+
+                    if(value != null){
+
+
+                        int count = value.size();
+
+
+                        tvBuses.setText(
+                                String.valueOf(count)
+                        );
+
+                    }
+
 
                 });
 
+
+
     }
-    private void loadPopularRoute() {
+
+
+
+
+
+    //================ BOOKINGS REAL TIME =================
+
+
+    private void listenBookings(){
+
 
         db.collection("bookings")
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
+                .addSnapshotListener((value, error) -> {
 
-                    HashMap<String, Integer> routeCount = new HashMap<>();
 
-                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
 
-                        String route = document.getString("routeName");
+                    if(value == null)
+                        return;
 
-                        if (route != null) {
 
-                            if (routeCount.containsKey(route)) {
-                                routeCount.put(route, routeCount.get(route) + 1);
-                            } else {
-                                routeCount.put(route, 1);
+
+                    int totalBookings = value.size();
+
+
+                    double totalRevenue = 0;
+
+
+
+                    HashMap<String,Integer> routeMap =
+                            new HashMap<>();
+
+
+
+                    for(QueryDocumentSnapshot document : value){
+
+
+
+                        // Revenue
+
+                        Double price =
+                                document.getDouble("price");
+
+
+                        if(price != null){
+
+                            totalRevenue += price;
+
+                        }
+
+
+
+
+
+                        // Popular Route
+
+                        String route =
+                                document.getString("routeName");
+
+
+
+                        if(route != null){
+
+
+                            if(routeMap.containsKey(route)){
+
+
+                                routeMap.put(
+                                        route,
+                                        routeMap.get(route)+1
+                                );
+
+
+                            }else{
+
+
+                                routeMap.put(
+                                        route,
+                                        1
+                                );
+
+
                             }
 
                         }
-                    }
 
-                    String popularRoute = "No Route";
-                    int max = 0;
 
-                    for (String route : routeCount.keySet()) {
-
-                        if (routeCount.get(route) > max) {
-
-                            max = routeCount.get(route);
-                            popularRoute = route;
-
-                        }
 
                     }
 
-                    tvPopularRoute.setText(popularRoute);
+
+
+
+                    tvBookings.setText(
+                            String.valueOf(totalBookings)
+                    );
+
+
+
+                    tvRevenue.setText(
+                            "Rs. " + totalRevenue
+                    );
+
+
+
+                    tvTodayBookings.setText(
+                            "Today's Bookings : "
+                                    + totalBookings
+                    );
+
+
+
+                    tvMonthlyRevenue.setText(
+                            "Monthly Revenue : Rs. "
+                                    + totalRevenue
+                    );
+
+
+
+                    calculatePopularRoute(routeMap);
+
+
 
                 });
 
+
     }
+
+
+
+
+
+    private void calculatePopularRoute(
+            HashMap<String,Integer> routeMap){
+
+
+
+        String popularRoute =
+                "No Route";
+
+
+        int max = 0;
+
+
+
+        for(String route : routeMap.keySet()){
+
+
+
+            int count =
+                    routeMap.get(route);
+
+
+
+            if(count > max){
+
+
+                max = count;
+
+                popularRoute = route;
+
+
+            }
+
+
+        }
+
+
+
+        tvPopularRoute.setText(
+                popularRoute
+        );
+
+
+    }
+
+
 
 
 }

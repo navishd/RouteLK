@@ -90,6 +90,9 @@ public class ViewBookingsActivity
         TextView tvPrice = view.findViewById(R.id.tvPrice);
         TextView tvStatus = view.findViewById(R.id.tvStatus);
 
+        Button btnConfirmBooking =
+                view.findViewById(R.id.btnConfirmBooking);
+
         Button btnCancelBooking =
                 view.findViewById(R.id.btnCancelBooking);
 
@@ -116,29 +119,73 @@ public class ViewBookingsActivity
         tvPrice.setText("Price : Rs." + booking.getPrice());
 
         tvStatus.setText("Status : " + booking.getStatus());
-
         if (booking.getStatus() == null) {
 
             tvStatus.setText("Status : Pending");
             tvStatus.setTextColor(getResources().getColor(android.R.color.holo_orange_dark));
 
-        } else if (booking.getStatus().equals("CONFIRMED")) {
+            btnConfirmBooking.setEnabled(true);
+            btnCancelBooking.setEnabled(true);
 
+        } else if (booking.getStatus().equals("Confirmed")) {
+
+            tvStatus.setText("Status : Confirmed");
             tvStatus.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+
+            btnConfirmBooking.setEnabled(false);
+            btnCancelBooking.setEnabled(true);
 
         } else if (booking.getStatus().equals("Cancelled")) {
 
+            tvStatus.setText("Status : Cancelled");
             tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+
+            btnConfirmBooking.setEnabled(true);
+            btnCancelBooking.setEnabled(false);
 
         } else {
 
+            tvStatus.setText("Status : " + booking.getStatus());
             tvStatus.setTextColor(getResources().getColor(android.R.color.holo_orange_dark));
-        }
 
+            btnConfirmBooking.setEnabled(true);
+            btnCancelBooking.setEnabled(true);
+        }
         final AlertDialog dialog = new AlertDialog.Builder(this)
                 .setView(view)
                 .setPositiveButton("Close", null)
                 .create();
+
+        btnConfirmBooking.setOnClickListener(v -> {
+
+            FirebaseFirestore.getInstance()
+                    .collection("bookings")
+                    .document(booking.getDocumentId())
+                    .update("status", "Confirmed")
+
+                    .addOnSuccessListener(unused -> {
+
+                        Toast.makeText(
+                                ViewBookingsActivity.this,
+                                "Booking Confirmed Successfully",
+                                Toast.LENGTH_SHORT
+                        ).show();
+
+                        loadBookings();
+
+                        dialog.dismiss();
+
+                    })
+
+                    .addOnFailureListener(e ->
+
+                            Toast.makeText(
+                                    ViewBookingsActivity.this,
+                                    e.getMessage(),
+                                    Toast.LENGTH_SHORT
+                            ).show());
+
+        });
 
 
         btnCancelBooking.setOnClickListener(v -> {

@@ -2,35 +2,91 @@ package com.routelk.app.models;
 
 public class Bus {
 
-    private String id;
+    private String busID;
     private String busName;
     private String busNumber;
-    private String busType; // Matches your Firestore screenshot
-    private String totalSeats;
+    private String busType;
+    private int seatCount;
 
-    public Bus() {
+
+    // Firestore empty constructor
+    public Bus(){
+
     }
 
-    public Bus(String id, String busName, String busNumber, String busType, String totalSeats) {
-        this.id = id;
+
+    public Bus(String busID,
+               String busName,
+               String busNumber,
+               String busType,
+               int seatCount){
+
+        this.busID = busID;
         this.busName = busName;
         this.busNumber = busNumber;
         this.busType = busType;
-        this.totalSeats = totalSeats;
+        this.seatCount = seatCount;
+
     }
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
 
-    public String getBusName() { return busName; }
-    public void setBusName(String busName) { this.busName = busName; }
+    public String getBusID(){
 
-    public String getBusNumber() { return busNumber; }
-    public void setBusNumber(String busNumber) { this.busNumber = busNumber; }
+        return busID;
+    }
 
-    public String getBusType() { return busType; }
-    public void setBusType(String busType) { this.busType = busType; }
 
-    public String getTotalSeats() { return totalSeats; }
-    public void setTotalSeats(String totalSeats) { this.totalSeats = totalSeats; }
+    public void setBusID(String busID){
+
+        this.busID = busID;
+    }
+
+
+    public String getBusName(){
+
+        return busName;
+    }
+
+
+    public void setBusName(String busName){
+
+        this.busName = busName;
+    }
+
+
+    public String getBusNumber(){
+
+        return busNumber;
+    }
+
+
+    public void setBusNumber(String busNumber){
+
+        this.busNumber = busNumber;
+    }
+
+
+    public String getBusType(){
+
+        return busType;
+    }
+
+
+    public void setBusType(String busType){
+
+        this.busType = busType;
+    }
+
+
+    public int getSeatCount(){
+
+        return seatCount;
+    }
+
+
+    public void setSeatCount(int seatCount){
+
+        this.seatCount = seatCount;
+    }
+
 }
