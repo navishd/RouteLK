@@ -16,11 +16,10 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- Auth -->
+        </activity> <!-- Auth -->
         <activity
             android:name=".activities.LoginActivity"
             android:exported="false"
@@ -28,9 +27,7 @@
         <activity
             android:name=".activities.RegisterActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-
-        <!-- User Flow -->
+            android:windowSoftInputMode="adjustResize" /> <!-- User Flow -->
         <activity
             android:name=".activities.Home"
             android:exported="false"
@@ -67,12 +64,9 @@
             android:name=".activities.ManageBookingsActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
-
-        <!-- Other User Features -->
+            android:exported="false" /> <!-- Other User Features -->
         <activity
             android:name=".activities.NotificationsActivity"
             android:exported="false" />
@@ -87,10 +81,6 @@
             android:name=".activities.ChangePasswordActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".activities.HelpSupportActivity"
-            android:exported="false" />
-
         <!-- Admin Panel -->
         <activity
             android:name=".activities.AdminDashboardActivity"
@@ -107,6 +97,9 @@
         <activity
             android:name=".activities.ViewBookingsActivity"
             android:exported="false" />
+        <activity
+            android:name=".activities.ManageSchedulesActivity"
+            android:exported="false"/>
         <activity
             android:name=".activities.ReportsActivity"
             android:exported="false" />
