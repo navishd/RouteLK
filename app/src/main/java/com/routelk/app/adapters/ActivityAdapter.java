@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.routelk.app.R;
 import com.routelk.app.models.Booking;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class ActivityAdapter
         extends RecyclerView.Adapter<ActivityAdapter.ActivityViewHolder> {
@@ -45,10 +47,19 @@ public class ActivityAdapter
 
         Booking booking = activityList.get(position);
 
-        holder.tvRoute.setText(booking.getFrom() + " → " + booking.getTo());
-        holder.tvBus.setText(booking.getBusName());
+        String from = booking.getFrom() != null ? booking.getFrom() : "Origin";
+        String to = booking.getTo() != null ? booking.getTo() : "Destination";
+        holder.tvRoute.setText(from + " → " + to);
+        
+        holder.tvBus.setText(booking.getBusName() != null ? booking.getBusName() : "Bus Name");
         holder.tvSeat.setText(booking.getSeatNo());
-        holder.tvDate.setText(booking.getDate());
+        
+        String dateText = booking.getDate() != null ? booking.getDate() : "";
+        if (booking.getTime() != null && !booking.getTime().isEmpty()) {
+            dateText += " • " + booking.getTime();
+        }
+        holder.tvDate.setText(dateText.isEmpty() ? "Date & Time" : dateText);
+
         holder.tvBookingId.setText(booking.getId());
         
         if (isCompleted) {
@@ -56,14 +67,15 @@ public class ActivityAdapter
             holder.tvStatus.setBackgroundResource(R.drawable.status_confirmed_bg);
             holder.btnActionRight.setText(R.string.add_review);
             holder.btnActionRight.setVisibility(View.VISIBLE);
+            holder.btnDivider.setVisibility(View.VISIBLE);
         } else {
             holder.tvStatus.setText("Upcoming");
-            // You might want a different background for upcoming, reusing confirmed for now
             holder.tvStatus.setBackgroundResource(R.drawable.status_confirmed_bg);
             holder.btnActionRight.setVisibility(View.GONE);
-            // If hidden, the left button should probably take full width or we adjust layout
+            holder.btnDivider.setVisibility(View.GONE);
         }
 
+        holder.btnActionLeft.setVisibility(View.VISIBLE);
         holder.btnActionLeft.setOnClickListener(v -> {
             if (onActivityClickListener != null) {
                 onActivityClickListener.onViewTicketClick(booking);
@@ -104,6 +116,7 @@ public class ActivityAdapter
                 tvStatus,
                 btnActionLeft,
                 btnActionRight;
+        View btnDivider;
 
         public ActivityViewHolder(
                 @NonNull View itemView) {
@@ -118,6 +131,7 @@ public class ActivityAdapter
             tvStatus = itemView.findViewById(R.id.tvStatus);
             btnActionLeft = itemView.findViewById(R.id.btnActionLeft);
             btnActionRight = itemView.findViewById(R.id.btnActionRight);
+            btnDivider = itemView.findViewById(R.id.btnDivider);
         }
     }
 }

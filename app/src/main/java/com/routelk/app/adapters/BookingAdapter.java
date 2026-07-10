@@ -43,12 +43,22 @@ public class BookingAdapter
 
         Booking booking = bookingList.get(position);
 
-        holder.tvRoute.setText(booking.getFrom() + " → " + booking.getTo());
-        holder.tvBus.setText(booking.getBusName());
+        String from = booking.getFrom() != null ? booking.getFrom() : "Origin";
+        String to = booking.getTo() != null ? booking.getTo() : "Destination";
+        holder.tvRoute.setText(from + " → " + to);
+        
+        holder.tvBus.setText(booking.getBusName() != null ? booking.getBusName() : "Bus Name");
         holder.tvSeat.setText(booking.getSeatNo());
-        holder.tvDate.setText(booking.getDate());
+        
+        String dateText = booking.getDate() != null ? booking.getDate() : "";
+        if (booking.getTime() != null && !booking.getTime().isEmpty()) {
+            dateText += " • " + booking.getTime();
+        }
+        holder.tvDate.setText(dateText.isEmpty() ? "Date & Time" : dateText);
+
         holder.tvBookingId.setText(booking.getId());
 
+        holder.btnViewTicket.setVisibility(View.VISIBLE);
         holder.btnViewTicket.setOnClickListener(v -> {
             if (onViewTicketClickListener != null) {
                 onViewTicketClickListener.onViewTicketClick(booking);

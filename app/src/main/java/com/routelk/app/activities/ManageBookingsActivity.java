@@ -17,10 +17,23 @@ public class ManageBookingsActivity extends AppCompatActivity {
     private MaterialButton btnContinue;
     private BottomNavigationView bottomNavigationView;
 
+    private String bookingId, from, to, date, time, seat, bus, passengerPhone;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_bookings);
+
+        // Get data from Intent
+        Intent incomingIntent = getIntent();
+        bookingId = incomingIntent.getStringExtra("booking_id");
+        from = incomingIntent.getStringExtra("from");
+        to = incomingIntent.getStringExtra("to");
+        date = incomingIntent.getStringExtra("date");
+        time = incomingIntent.getStringExtra("time");
+        seat = incomingIntent.getStringExtra("seat");
+        bus = incomingIntent.getStringExtra("bus");
+        passengerPhone = incomingIntent.getStringExtra("passenger_phone");
 
         etPhoneNumber = findViewById(R.id.etPhoneNumber);
         btnContinue = findViewById(R.id.btnContinue);
@@ -29,23 +42,32 @@ public class ManageBookingsActivity extends AppCompatActivity {
         setupBottomNav();
 
         btnContinue.setOnClickListener(v -> {
-            String phone = etPhoneNumber.getText().toString().trim();
-            if (phone.isEmpty()) {
+            String enteredPhone = etPhoneNumber.getText().toString().trim();
+            if (enteredPhone.isEmpty()) {
                 Toast.makeText(this, "Please enter your mobile number", Toast.LENGTH_SHORT).show();
-            } else {
-                // Here you would typically send an OTP or lookup the booking
-                Toast.makeText(this, "Verification code sent to " + phone, Toast.LENGTH_SHORT).show();
-                
-                // For now, let's just go to MyBookingsActivity as a simulation
-                Intent intent = new Intent(this, TicketViewActivity.class);
-                intent.putExtra("booking_id", "BBK123456");
-                intent.putExtra("from", "Colombo");
-                intent.putExtra("to", "Kandy");
-                intent.putExtra("date", "25 MAY 24");
-                intent.putExtra("seat", "28");
-                intent.putExtra("bus", "EX-9821");
-                startActivity(intent);
+                return;
             }
+
+            // Verify phone number if we are coming from a specific booking
+            if (passengerPhone != null && !passengerPhone.isEmpty()) {
+                if (!enteredPhone.equals(passengerPhone)) {
+                    Toast.makeText(this, "Phone number does not match this booking", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+
+            // Navigate to TicketViewActivity for the specific booking
+            Intent intent = new Intent(this, TicketViewActivity.class);
+            intent.putExtra("booking_id", bookingId != null ? bookingId : "BBK123456");
+            intent.putExtra("from", from != null ? from : "Colombo");
+            intent.putExtra("to", to != null ? to : "Kandy");
+            intent.putExtra("date", date != null ? date : "25 MAY 24");
+            intent.putExtra("time", time != null ? time : "07:00 AM");
+            intent.putExtra("seat", seat != null ? seat : "28");
+            intent.putExtra("bus", bus != null ? bus : "EX-9821");
+            
+            startActivity(intent);
+            finish();
         });
     }
 

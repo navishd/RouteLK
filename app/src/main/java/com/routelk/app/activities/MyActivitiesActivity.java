@@ -77,13 +77,16 @@ public class MyActivitiesActivity extends AppCompatActivity {
         adapter.setOnActivityClickListener(new ActivityAdapter.OnActivityClickListener() {
             @Override
             public void onViewTicketClick(Booking booking) {
-                Intent intent = new Intent(MyActivitiesActivity.this, TicketViewActivity.class);
+                // Navigate to ManageBookingsActivity for verification
+                Intent intent = new Intent(MyActivitiesActivity.this, ManageBookingsActivity.class);
                 intent.putExtra("booking_id", booking.getId());
                 intent.putExtra("from", booking.getFrom());
                 intent.putExtra("to", booking.getTo());
                 intent.putExtra("date", booking.getDate());
+                intent.putExtra("time", booking.getTime());
                 intent.putExtra("seat", booking.getSeatNo());
                 intent.putExtra("bus", booking.getBusName());
+                intent.putExtra("passenger_phone", booking.getPassengerPhone());
                 startActivity(intent);
             }
 

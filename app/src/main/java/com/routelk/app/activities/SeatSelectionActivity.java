@@ -27,7 +27,7 @@ public class SeatSelectionActivity extends AppCompatActivity {
     private Set<String> selectedSeats = new HashSet<>();
     private List<Button> seatButtons = new ArrayList<>();
     private FirebaseFirestore db;
-    private String busId, busName, from, to, date;
+    private String busId, busName, from, to, date, time;
 
     // Static set to keep track of reserved seats across the app session
     public static final Set<String> reservedSeats = new HashSet<>();
@@ -47,6 +47,7 @@ public class SeatSelectionActivity extends AppCompatActivity {
         from = intent.getStringExtra("FROM");
         to = intent.getStringExtra("TO");
         date = intent.getStringExtra("DATE");
+        time = intent.getStringExtra("TIME");
 
         // Find all seat buttons in the layout
         ViewGroup root = findViewById(R.id.seatSelectionRoot);
@@ -78,6 +79,7 @@ public class SeatSelectionActivity extends AppCompatActivity {
             nextIntent.putExtra("FROM", from);
             nextIntent.putExtra("TO", to);
             nextIntent.putExtra("DATE", date);
+            nextIntent.putExtra("TIME", time);
 
             startActivity(nextIntent);
         });
