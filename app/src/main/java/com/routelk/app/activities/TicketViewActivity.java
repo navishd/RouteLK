@@ -3,6 +3,7 @@ package com.routelk.app.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +33,7 @@ public class TicketViewActivity extends AppCompatActivity {
         String from = getIntent().getStringExtra("from");
         String to = getIntent().getStringExtra("to");
         String date = getIntent().getStringExtra("date");
+        String time = getIntent().getStringExtra("time");
         String seat = getIntent().getStringExtra("seat"); // Can be "28, 29"
         String bus = getIntent().getStringExtra("bus");
 
@@ -46,6 +48,7 @@ public class TicketViewActivity extends AppCompatActivity {
                 b.setFrom(from != null ? from : "N/A");
                 b.setTo(to != null ? to : "N/A");
                 b.setDate(date != null ? date : "N/A");
+                b.setTime(time != null ? time : "N/A");
                 b.setSeatNo(trimmedSeat);
                 b.setBusName(bus != null ? bus : "N/A");
                 tickets.add(b);
@@ -53,8 +56,37 @@ public class TicketViewActivity extends AppCompatActivity {
         }
 
         ViewPager2 viewPager = findViewById(R.id.viewPagerTickets);
+        TextView tvTicketCounter = findViewById(R.id.tvTicketCounter);
+        ImageView btnPrev = findViewById(R.id.btnPrevTicket);
+        ImageView btnNext = findViewById(R.id.btnNextTicket);
+        
         TicketPagerAdapter adapter = new TicketPagerAdapter(tickets);
         viewPager.setAdapter(adapter);
+
+        // Update counter on swipe
+        if (tvTicketCounter != null) {
+            tvTicketCounter.setText("1/" + tickets.size());
+            
+            if (btnPrev != null) btnPrev.setOnClickListener(v -> viewPager.setCurrentItem(viewPager.getCurrentItem() - 1));
+            if (btnNext != null) btnNext.setOnClickListener(v -> viewPager.setCurrentItem(viewPager.getCurrentItem() + 1));
+
+            viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+                @Override
+                public void onPageSelected(int position) {
+                    super.onPageSelected(position);
+                    tvTicketCounter.setText((position + 1) + "/" + tickets.size());
+                    
+                    if (btnPrev != null) {
+                        btnPrev.setEnabled(position > 0);
+                        btnPrev.setAlpha(position > 0 ? 1.0f : 0.3f);
+                    }
+                    if (btnNext != null) {
+                        btnNext.setEnabled(position < tickets.size() - 1);
+                        btnNext.setAlpha(position < tickets.size() - 1 ? 1.0f : 0.3f);
+                    }
+                }
+            });
+        }
 
         TabLayout tabLayout = findViewById(R.id.tabIndicator);
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {

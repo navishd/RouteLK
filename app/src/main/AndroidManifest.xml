@@ -63,7 +63,8 @@
         <activity
             android:name=".activities.ManageBookingsActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan" />
+
         <activity
             android:name=".MainActivity"
             android:exported="false" /> <!-- Other User Features -->

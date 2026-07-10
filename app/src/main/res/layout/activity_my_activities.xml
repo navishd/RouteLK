@@ -76,6 +76,7 @@
                 android:layout_height="match_parent"
                 android:paddingHorizontal="20dp"
                 android:paddingTop="16dp"
+                android:paddingBottom="100dp"
                 android:clipToPadding="false"
                 tools:listitem="@layout/item_booking" />
 

@@ -42,6 +42,7 @@ public class BusListScreen extends AppCompatActivity {
         String from = getIntent().getStringExtra("FROM");
         String to = getIntent().getStringExtra("TO");
         String date = getIntent().getStringExtra("DATE");
+        String time = getIntent().getStringExtra("TIME");
         String passengers = getIntent().getStringExtra("PASSENGERS");
         boolean isForOthers = getIntent().getBooleanExtra("IS_FOR_OTHERS", false);
 
@@ -53,7 +54,11 @@ public class BusListScreen extends AppCompatActivity {
             routeTitle.setText(from + " → " + to);
         }
         if (date != null) {
-            dateSubtitle.setText(date);
+            String subtitle = date;
+            if (time != null && !time.isEmpty()) {
+                subtitle += " • " + time;
+            }
+            dateSubtitle.setText(subtitle);
         }
         if (passengers != null) {
             tvPassengersCount.setText(passengers);
@@ -62,7 +67,7 @@ public class BusListScreen extends AppCompatActivity {
         // Set adapter
         List<Bus> busList = new ArrayList<>();
         // Note: For actual usage, you would populate this from Firestore
-        BusAdapter busAdapter = new BusAdapter(this, busList);
+        BusAdapter busAdapter = new BusAdapter(this, busList, from, to, date, time);
         busRecyclerView.setAdapter(busAdapter);
 
         // Since BusAdapter is currently for Admin (Edit/Delete), 
@@ -70,6 +75,10 @@ public class BusListScreen extends AppCompatActivity {
         findViewById(R.id.headerCard).setOnClickListener(v -> {
             Intent intent = new Intent(BusListScreen.this, BusDetails.class);
             intent.putExtra("IS_FOR_OTHERS", isForOthers);
+            intent.putExtra("FROM", from);
+            intent.putExtra("TO", to);
+            intent.putExtra("DATE", date);
+            intent.putExtra("TIME", time);
             startActivity(intent);
         });
 

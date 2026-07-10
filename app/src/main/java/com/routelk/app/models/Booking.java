@@ -14,6 +14,7 @@ public class Booking {
     private String busName;
     private String seatNo;
     private String date;
+    private String time;
     private Timestamp timestamp;
 
     public Booking() {
@@ -29,6 +30,7 @@ public class Booking {
                    String busName,
                    String seatNo,
                    String date,
+                   String time,
                    Timestamp timestamp) {
 
         this.id = id;
@@ -41,6 +43,7 @@ public class Booking {
         this.busName = busName;
         this.seatNo = seatNo;
         this.date = date;
+        this.time = time;
         this.timestamp = timestamp;
     }
 
@@ -122,6 +125,14 @@ public class Booking {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public Timestamp getTimestamp() {
