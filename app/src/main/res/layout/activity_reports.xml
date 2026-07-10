@@ -18,7 +18,7 @@
             android:text="Reports Analytics"
             android:textSize="30sp"
             android:textStyle="bold"
-            android:textColor="#0F172A" />
+            android:textColor="#0F172A"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -26,14 +26,17 @@
             android:text="System performance overview"
             android:textSize="15sp"
             android:textColor="#6B7280"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginBottom="20dp"/>
 
         <!-- Row 1 -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+            <!-- Revenue -->
+
             <androidx.cardview.widget.CardView
                 android:layout_width="0dp"
                 android:layout_height="110dp"
@@ -48,19 +51,24 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:text="Rs.250K"
+                        android:id="@+id/tvRevenue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rs.0"
                         android:textSize="22sp"
                         android:textStyle="bold"
-                        android:textColor="#22C55E"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:textColor="#22C55E"/>
 
                     <TextView
-                        android:text="Revenue"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:text="Revenue"/>
+
                 </LinearLayout>
+
             </androidx.cardview.widget.CardView>
+
+            <!-- Bookings -->
 
             <androidx.cardview.widget.CardView
                 android:layout_width="0dp"
@@ -76,18 +84,21 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:text="1200"
+                        android:id="@+id/tvBookings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
                         android:textSize="26sp"
                         android:textStyle="bold"
-                        android:textColor="#2563EB"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:textColor="#2563EB"/>
 
                     <TextView
-                        android:text="Bookings"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:text="Bookings"/>
+
                 </LinearLayout>
+
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
@@ -99,6 +110,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+            <!-- Users -->
+
             <androidx.cardview.widget.CardView
                 android:layout_width="0dp"
                 android:layout_height="110dp"
@@ -113,20 +126,25 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:text="540"
+                        android:id="@+id/tvUsers"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
                         android:textSize="26sp"
                         android:textStyle="bold"
-                        android:textColor="#2563EB"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:textColor="#2563EB"/>
 
                     <TextView
-                        android:text="Users"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:text="Users"/>
+
                 </LinearLayout>
+
             </androidx.cardview.widget.CardView>
 
+            <!-- Buses -->
+
             <androidx.cardview.widget.CardView
                 android:layout_width="0dp"
                 android:layout_height="110dp"
@@ -141,18 +159,96 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:text="25"
+                        android:id="@+id/tvBuses"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
                         android:textSize="26sp"
                         android:textStyle="bold"
-                        android:textColor="#2563EB"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:textColor="#2563EB"/>
 
                     <TextView
-                        android:text="Buses"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:text="Buses"/>
+
                 </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <!-- Row 3 -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Routes -->
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="110dp"
+                android:layout_weight="1"
+                android:layout_margin="6dp"
+                app:cardCornerRadius="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvRoutes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
+                        android:textColor="#2563EB"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Routes"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Schedules -->
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="110dp"
+                android:layout_weight="1"
+                android:layout_margin="6dp"
+                app:cardCornerRadius="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvSchedules"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
+                        android:textColor="#2563EB"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Schedules"/>
+
+                </LinearLayout>
+
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
@@ -172,34 +268,37 @@
                 android:padding="16dp">
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Most Popular Route"
                     android:textStyle="bold"
                     android:textSize="18sp"
-                    android:textColor="#111827"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:textColor="#111827"/>
 
                 <TextView
-                    android:text="Colombo → Kandy"
+                    android:id="@+id/tvPopularRoute"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No Route"
                     android:textSize="16sp"
                     android:textColor="#2563EB"
-                    android:layout_marginTop="6dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_marginTop="6dp"/>
 
                 <TextView
-                    android:text="Today's Bookings : 42"
-                    android:textSize="16sp"
-                    android:layout_marginTop="12dp"
+                    android:id="@+id/tvTodayBookings"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:text="Today's Bookings : 0"
+                    android:textSize="16sp"
+                    android:layout_marginTop="12dp"/>
 
                 <TextView
-                    android:text="Monthly Revenue : Rs.75,000"
-                    android:textSize="16sp"
-                    android:layout_marginTop="6dp"
+                    android:id="@+id/tvMonthlyRevenue"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:text="Monthly Revenue : Rs.0"
+                    android:textSize="16sp"
+                    android:layout_marginTop="6dp"/>
 
             </LinearLayout>
 
