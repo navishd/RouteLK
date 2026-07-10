@@ -17,9 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="20dp"
-            android:paddingTop="20dp"
-            android:paddingBottom="16dp">
+            android:padding="20dp">
 
             <!-- Route -->
             <TextView
@@ -76,28 +74,28 @@
             </RelativeLayout>
 
             <!-- Booking ID Row -->
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="vertical">
+                android:layout_marginTop="8dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Booking ID"
                     android:textColor="@color/text_secondary"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tvBookingId"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
                     android:text="BBK123456"
                     android:textColor="@color/text_primary"
-                    android:textSize="13sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
-            </LinearLayout>
+            </RelativeLayout>
 
         </LinearLayout>
 
@@ -107,18 +105,14 @@
             android:layout_height="1dp"
             android:background="@color/divider" />
 
-        <TextView
+        <Button
             android:id="@+id/btnViewTicket"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="center"
+            android:padding="12dp"
             android:text="View Ticket"
-            android:textColor="@color/primary"
             android:textSize="16sp"
-            android:textStyle="bold" />
-
+            android:textStyle="bold"/>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
