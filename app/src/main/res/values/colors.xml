@@ -18,6 +18,8 @@
     <color name="success_text">#059669</color>
     <color name="logout_bg">#FFF5F5</color>
     <color name="logout_stroke">#FFEBEB</color>
+    <color name="purple_500">#6750A4</color>
+    <color name="green">#22C55E</color>
 
     <!-- Profile Dark Theme -->
     <color name="profile_bg">#121212</color>

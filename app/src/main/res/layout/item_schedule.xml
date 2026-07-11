@@ -78,11 +78,11 @@
         <!-- Operating Days -->
 
         <TextView
-            android:id="@+id/tvOperatingDays"
+            android:id="@+id/tvTravelDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Monday, Tuesday, Wednesday"
+            android:text="Travel Date : 2026-07-11"
             android:textColor="#2563EB"/>
 
         <!-- Buttons -->

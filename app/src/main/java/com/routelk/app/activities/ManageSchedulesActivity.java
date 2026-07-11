@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class ManageSchedulesActivity extends AppCompatActivity {
 
 
@@ -27,8 +28,8 @@ public class ManageSchedulesActivity extends AppCompatActivity {
     private EditText etRouteID;
     private EditText etDeparture;
     private EditText etArrival;
+    private EditText etTravelDate;
     private EditText etPrice;
-    private EditText etOperatingDays;
 
 
     private Button btnAddSchedule;
@@ -39,10 +40,12 @@ public class ManageSchedulesActivity extends AppCompatActivity {
 
     private ScheduleAdapter adapter;
 
+
     private ArrayList<Schedule> scheduleList;
 
 
     private FirebaseFirestore db;
+
 
 
     @Override
@@ -55,19 +58,29 @@ public class ManageSchedulesActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
 
+
         etBusID = findViewById(R.id.etBusID);
+
         etRouteID = findViewById(R.id.etRouteID);
+
         etDeparture = findViewById(R.id.etDeparture);
+
         etArrival = findViewById(R.id.etArrival);
+
+        etTravelDate = findViewById(R.id.etTravelDate);
+
         etPrice = findViewById(R.id.etPrice);
-        etOperatingDays = findViewById(R.id.etOperatingDays);
 
 
-        btnAddSchedule = findViewById(R.id.btnAddSchedule);
+
+        btnAddSchedule =
+                findViewById(R.id.btnAddSchedule);
+
 
 
         scheduleRecyclerView =
                 findViewById(R.id.scheduleRecyclerView);
+
 
 
         scheduleRecyclerView.setLayoutManager(
@@ -75,7 +88,9 @@ public class ManageSchedulesActivity extends AppCompatActivity {
         );
 
 
+
         scheduleList = new ArrayList<>();
+
 
 
         adapter = new ScheduleAdapter(
@@ -85,12 +100,13 @@ public class ManageSchedulesActivity extends AppCompatActivity {
 
                     Toast.makeText(
                             this,
-                            "Selected Schedule : " + schedule.getId(),
+                            "Selected : " + schedule.getId(),
                             Toast.LENGTH_SHORT
                     ).show();
 
                 }
         );
+
 
 
         scheduleRecyclerView.setAdapter(adapter);
@@ -112,6 +128,9 @@ public class ManageSchedulesActivity extends AppCompatActivity {
 
 
 
+
+
+
     private void addSchedule(){
 
 
@@ -121,10 +140,12 @@ public class ManageSchedulesActivity extends AppCompatActivity {
                         .trim();
 
 
+
         String routeID =
                 etRouteID.getText()
                         .toString()
                         .trim();
+
 
 
         String departure =
@@ -133,10 +154,19 @@ public class ManageSchedulesActivity extends AppCompatActivity {
                         .trim();
 
 
+
         String arrival =
                 etArrival.getText()
                         .toString()
                         .trim();
+
+
+
+        String travelDate =
+                etTravelDate.getText()
+                        .toString()
+                        .trim();
+
 
 
         String priceText =
@@ -145,10 +175,6 @@ public class ManageSchedulesActivity extends AppCompatActivity {
                         .trim();
 
 
-        String days =
-                etOperatingDays.getText()
-                        .toString()
-                        .trim();
 
 
 
@@ -156,8 +182,8 @@ public class ManageSchedulesActivity extends AppCompatActivity {
                 || routeID.isEmpty()
                 || departure.isEmpty()
                 || arrival.isEmpty()
-                || priceText.isEmpty()
-                || days.isEmpty()){
+                || travelDate.isEmpty()
+                || priceText.isEmpty()){
 
 
             Toast.makeText(
@@ -166,9 +192,12 @@ public class ManageSchedulesActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT
             ).show();
 
+
             return;
 
         }
+
+
 
 
 
@@ -177,12 +206,16 @@ public class ManageSchedulesActivity extends AppCompatActivity {
 
 
 
+
+
         generateScheduleId(
                 scheduleID -> {
 
 
+
                     Map<String,Object> schedule =
                             new HashMap<>();
+
 
 
                     schedule.put(
@@ -191,10 +224,12 @@ public class ManageSchedulesActivity extends AppCompatActivity {
                     );
 
 
+
                     schedule.put(
                             "busId",
                             busID
                     );
+
 
 
                     schedule.put(
@@ -203,10 +238,12 @@ public class ManageSchedulesActivity extends AppCompatActivity {
                     );
 
 
+
                     schedule.put(
                             "departureTime",
                             departure
                     );
+
 
 
                     schedule.put(
@@ -215,16 +252,21 @@ public class ManageSchedulesActivity extends AppCompatActivity {
                     );
 
 
+
                     schedule.put(
-                            "operatingDays",
-                            days
+                            "travelDate",
+                            travelDate
                     );
+
 
 
                     schedule.put(
                             "price",
                             price
                     );
+
+
+
 
 
 
@@ -238,7 +280,8 @@ public class ManageSchedulesActivity extends AppCompatActivity {
 
                                 Toast.makeText(
                                         this,
-                                        "Schedule Added : "+scheduleID,
+                                        "Schedule Added : "
+                                                + scheduleID,
                                         Toast.LENGTH_SHORT
                                 ).show();
 
@@ -250,7 +293,6 @@ public class ManageSchedulesActivity extends AppCompatActivity {
                                 loadSchedules();
 
 
-
                             });
 
 
@@ -258,8 +300,11 @@ public class ManageSchedulesActivity extends AppCompatActivity {
                 });
 
 
-
     }
+
+
+
+
 
 
 
@@ -293,7 +338,8 @@ public class ManageSchedulesActivity extends AppCompatActivity {
                         nextID = "S001";
 
 
-                    }else{
+                    }
+                    else{
 
 
                         DocumentSnapshot doc =
@@ -310,10 +356,11 @@ public class ManageSchedulesActivity extends AppCompatActivity {
                         if(lastID == null){
 
 
-                            nextID="S001";
+                            nextID = "S001";
 
 
-                        }else{
+                        }
+                        else{
 
 
                             int number =
@@ -322,7 +369,9 @@ public class ManageSchedulesActivity extends AppCompatActivity {
                                     );
 
 
+
                             number++;
+
 
 
 
@@ -332,8 +381,8 @@ public class ManageSchedulesActivity extends AppCompatActivity {
                                             number
                                     );
 
-
                         }
+
 
                     }
 
@@ -354,20 +403,27 @@ public class ManageSchedulesActivity extends AppCompatActivity {
 
 
 
+
+
+
     private void loadSchedules(){
 
 
         db.collection("schedules")
                 .get()
 
+
                 .addOnSuccessListener(snapshot -> {
+
 
 
                     scheduleList.clear();
 
 
 
+
                     for(DocumentSnapshot doc : snapshot){
+
 
 
                         Schedule schedule =
@@ -380,12 +436,15 @@ public class ManageSchedulesActivity extends AppCompatActivity {
                         if(schedule != null){
 
 
+
                             schedule.setId(
                                     doc.getId()
                             );
 
 
+
                             scheduleList.add(schedule);
+
 
                         }
 
@@ -401,8 +460,10 @@ public class ManageSchedulesActivity extends AppCompatActivity {
                 });
 
 
-
     }
+
+
+
 
 
 
@@ -420,12 +481,15 @@ public class ManageSchedulesActivity extends AppCompatActivity {
 
         etArrival.setText("");
 
+        etTravelDate.setText("");
+
         etPrice.setText("");
 
-        etOperatingDays.setText("");
-
-
     }
+
+
+
+
 
 
 
@@ -435,7 +499,6 @@ public class ManageSchedulesActivity extends AppCompatActivity {
         void onGenerated(String scheduleID);
 
     }
-
 
 
 }

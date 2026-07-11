@@ -21,9 +21,11 @@ import java.util.List;
 public class RouteAdapter
         extends RecyclerView.Adapter<RouteAdapter.RouteViewHolder> {
 
+
     private Context context;
     private List<Route> routeList;
     private RouteService routeService;
+
 
     public RouteAdapter(Context context,
                         List<Route> routeList) {
@@ -33,79 +35,125 @@ public class RouteAdapter
         this.routeService = new RouteService();
     }
 
+
     @NonNull
     @Override
     public RouteViewHolder onCreateViewHolder(
             @NonNull ViewGroup parent,
             int viewType) {
 
-        View view =
-                LayoutInflater.from(context)
-                        .inflate(
-                                R.layout.route_item,
-                                parent,
-                                false);
+
+        View view = LayoutInflater.from(context)
+                .inflate(
+                        R.layout.route_item,
+                        parent,
+                        false);
+
 
         return new RouteViewHolder(view);
     }
+
 
     @Override
     public void onBindViewHolder(
             @NonNull RouteViewHolder holder,
             int position) {
 
+
         Route route = routeList.get(position);
 
-        holder.tvRouteName.setText(route.getRouteName());
+
+        // From → To display
+        holder.tvRouteName.setText(
+                route.getFrom() + " → " + route.getTo()
+        );
+
 
         holder.tvFromTo.setText(
-                route.getFrom()
-                        + " → "
-                        + route.getTo());
+                "Route ID : " + route.getRouteId()
+        );
 
-        holder.tvDistance.setText(
-                "Distance : "
-                        + route.getDistance()
-                        + " km");
 
-        holder.tvPrice.setText(
-                "Price : Rs."
-                        + route.getPrice());
+        holder.tvDistance.setVisibility(View.GONE);
 
+        holder.tvPrice.setVisibility(View.GONE);
 
         holder.deleteBtn.setOnClickListener(v -> {
 
+
             new AlertDialog.Builder(context)
+
                     .setTitle("Delete Route")
-                    .setMessage("Are you sure?")
+
+                    .setMessage("Are you sure you want to delete this route?")
+
                     .setPositiveButton(
                             "Delete",
                             (dialog, which) -> {
-                                routeService.deleteRoute(route.getId(), task -> {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(context, "Route deleted", Toast.LENGTH_SHORT).show();
-                                        routeList.remove(position);
-                                        notifyItemRemoved(position);
-                                        notifyItemRangeChanged(position, routeList.size());
-                                    } else {
-                                        Toast.makeText(context, "Failed to delete route", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+
+
+                                routeService.deleteRoute(
+                                        route.getRouteId(),
+
+                                        unused -> {
+
+
+                                            Toast.makeText(
+                                                    context,
+                                                    "Route deleted",
+                                                    Toast.LENGTH_SHORT
+                                            ).show();
+
+
+
+                                            routeList.remove(position);
+
+
+                                            notifyItemRemoved(position);
+
+
+                                            notifyItemRangeChanged(
+                                                    position,
+                                                    routeList.size()
+                                            );
+
+
+                                        }
+
+                                );
+
+
                             })
+
+
                     .setNegativeButton(
                             "Cancel",
-                            null)
+                            null
+                    )
+
                     .show();
+
+
         });
+
+
     }
+
+
 
     @Override
     public int getItemCount() {
+
         return routeList.size();
+
     }
+
+
+
 
     static class RouteViewHolder
             extends RecyclerView.ViewHolder {
+
 
         TextView tvRouteName;
         TextView tvFromTo;
@@ -113,30 +161,41 @@ public class RouteAdapter
         TextView tvPrice;
         Button deleteBtn;
 
+
+
         public RouteViewHolder(
                 @NonNull View itemView) {
 
+
             super(itemView);
+
 
             tvRouteName =
                     itemView.findViewById(
                             R.id.tvRouteName);
 
+
             tvFromTo =
                     itemView.findViewById(
                             R.id.tvFromTo);
+
 
             tvDistance =
                     itemView.findViewById(
                             R.id.tvDistance);
 
+
             tvPrice =
                     itemView.findViewById(
                             R.id.tvPrice);
 
+
             deleteBtn =
                     itemView.findViewById(
                             R.id.deleteBtn);
+
         }
+
     }
+
 }

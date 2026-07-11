@@ -224,12 +224,10 @@
                                 app:tint="@color/primary" />
 
                             <TextView
+                                android:id="@+id/tvDuration"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="@string/duration_placeholder"
-                                android:textColor="@color/text_secondary"
-                                android:textSize="12sp" />
+                                android:text="0h 0m"/>
                         </LinearLayout>
 
                         <LinearLayout

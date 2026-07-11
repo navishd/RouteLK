@@ -100,14 +100,19 @@
                     android:padding="16dp"
                     android:layout_marginBottom="12dp"/>
 
-                <EditText
-                    android:id="@+id/etOperatingDays"
+                <TextView
+                    android:id="@+id/etTravelDate"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
-                    android:hint="Operating Days (Monday,Tuesday,...)"
+                    android:layout_marginBottom="12dp"
                     android:background="@drawable/edittext_bg"
+                    android:gravity="center_vertical"
                     android:padding="16dp"
-                    android:layout_marginBottom="16dp"/>
+                    android:text="Select Travel Date"
+                    android:textColor="#6B7280"
+                    android:textSize="16sp"
+                    android:clickable="true"
+                    android:focusable="true"/>
 
                 <Button
                     android:id="@+id/btnAddSchedule"
@@ -118,7 +123,6 @@
                     android:textStyle="bold"
                     android:textColor="#FFFFFF"
                     android:backgroundTint="#2563EB"/>
-
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>

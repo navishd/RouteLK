@@ -1,38 +1,264 @@
 package com.routelk.app.services;
 
-import com.google.android.gms.tasks.OnCompleteListener;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
+
 import com.routelk.app.models.Route;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
+
 public class RouteService {
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private static final String COLLECTION_NAME = "routes";
 
-    public void getAllRoutes(OnCompleteListener<QuerySnapshot> callback) {
-        db.collection(COLLECTION_NAME)
+
+    private final FirebaseFirestore db;
+
+
+
+    public RouteService(){
+
+        db = FirebaseFirestore.getInstance();
+
+    }
+
+
+
+
+
+
+    // ADD ROUTE
+
+    public void addRoute(Route route){
+
+
+
+        if(route.getId() == null ||
+                route.getId().isEmpty()){
+
+
+            String id =
+                    db.collection("routes")
+                            .document()
+                            .getId();
+
+
+            route.setId(id);
+
+
+        }
+
+
+
+
+        db.collection("routes")
+                .document(route.getId())
+                .set(route);
+
+
+
+    }
+
+
+
+
+
+
+
+
+    // GET ALL ROUTES
+
+    public void getRoutes(
+            OnSuccessListener<List<Route>> listener
+    ){
+
+
+        db.collection("routes")
                 .get()
-                .addOnCompleteListener(callback);
+
+                .addOnSuccessListener(
+                        snapshot -> {
+
+
+                            List<Route> routeList =
+                                    new ArrayList<>();
+
+
+
+                            for(DocumentSnapshot doc : snapshot){
+
+
+                                Route route =
+                                        doc.toObject(Route.class);
+
+
+
+                                if(route != null){
+
+
+                                    route.setId(
+                                            doc.getId()
+                                    );
+
+
+                                    routeList.add(route);
+
+
+                                }
+
+
+                            }
+
+
+
+                            listener.onSuccess(
+                                    routeList
+                            );
+
+
+                        }
+                );
+
+
     }
 
-    public void addRoute(Route route, OnCompleteListener<Void> callback) {
-        db.collection(COLLECTION_NAME)
-                .document(route.getId())
-                .set(route)
-                .addOnCompleteListener(callback);
-    }
 
-    public void updateRoute(Route route, OnCompleteListener<Void> callback) {
-        db.collection(COLLECTION_NAME)
-                .document(route.getId())
-                .set(route)
-                .addOnCompleteListener(callback);
-    }
 
-    public void deleteRoute(String routeId, OnCompleteListener<Void> callback) {
-        db.collection(COLLECTION_NAME)
+
+
+
+
+
+    // GET SINGLE ROUTE
+
+    public void getRouteById(
+            String routeId,
+            OnSuccessListener<Route> listener
+    ){
+
+
+
+        db.collection("routes")
                 .document(routeId)
-                .delete()
-                .addOnCompleteListener(callback);
+
+                .get()
+
+                .addOnSuccessListener(
+                        documentSnapshot -> {
+
+
+                            Route route =
+                                    documentSnapshot
+                                            .toObject(
+                                                    Route.class
+                                            );
+
+
+
+                            if(route != null){
+
+
+                                route.setId(
+                                        documentSnapshot.getId()
+                                );
+
+
+                            }
+
+
+
+                            listener.onSuccess(route);
+
+
+
+                        }
+                );
+
+
+
     }
+
+
+
+
+
+
+
+
+    // UPDATE ROUTE
+
+    public void updateRoute(
+            Route route
+    ){
+
+
+
+        db.collection("routes")
+
+                .document(
+                        route.getId()
+                )
+
+                .set(route);
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+    // DELETE ROUTE WITH CALLBACK
+
+    public void deleteRoute(
+            String routeId,
+            OnSuccessListener<Void> listener
+    ){
+
+
+
+        db.collection("routes")
+
+                .document(routeId)
+
+                .delete()
+
+                .addOnSuccessListener(
+                        listener
+                );
+
+
+    }
+
+
+
+
+
+
+
+    // DELETE ROUTE WITHOUT CALLBACK
+    // (extra support)
+
+    public void deleteRoute(
+            String routeId
+    ){
+
+
+        db.collection("routes")
+                .document(routeId)
+                .delete();
+
+
+    }
+
+
+
 }

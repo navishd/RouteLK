@@ -108,27 +108,20 @@ public class ManageBusesActivity extends AppCompatActivity {
                         .trim();
 
 
-        String totalSeats =
-                totalSeatsEditText.getText()
-                        .toString()
-                        .trim();
+        String totalSeatsText = totalSeatsEditText.getText().toString().trim();
 
-
-
-        if(TextUtils.isEmpty(busName)
+        if (TextUtils.isEmpty(busName)
                 || TextUtils.isEmpty(busNumber)
                 || TextUtils.isEmpty(busType)
-                || TextUtils.isEmpty(totalSeats)){
+                || TextUtils.isEmpty(totalSeatsText)) {
 
-
-            Toast.makeText(
-                    this,
+            Toast.makeText(this,
                     "Please fill all fields",
-                    Toast.LENGTH_SHORT
-            ).show();
-
+                    Toast.LENGTH_SHORT).show();
             return;
         }
+
+        int totalSeats = Integer.parseInt(totalSeatsText);
 
 
 
