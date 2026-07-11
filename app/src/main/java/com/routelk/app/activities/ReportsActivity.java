@@ -11,6 +11,7 @@ import com.routelk.app.R;
 
 import java.util.HashMap;
 
+
 public class ReportsActivity extends AppCompatActivity {
 
 
@@ -18,6 +19,9 @@ public class ReportsActivity extends AppCompatActivity {
     private TextView tvBookings;
     private TextView tvUsers;
     private TextView tvBuses;
+    private TextView tvRoutes;
+    private TextView tvSchedules;
+
     private TextView tvPopularRoute;
     private TextView tvTodayBookings;
     private TextView tvMonthlyRevenue;
@@ -26,23 +30,55 @@ public class ReportsActivity extends AppCompatActivity {
     private FirebaseFirestore db;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_reports);
+
 
 
         db = FirebaseFirestore.getInstance();
 
 
-        tvRevenue = findViewById(R.id.tvRevenue);
-        tvBookings = findViewById(R.id.tvBookings);
-        tvUsers = findViewById(R.id.tvUsers);
-        tvBuses = findViewById(R.id.tvBuses);
-        tvPopularRoute = findViewById(R.id.tvPopularRoute);
-        tvTodayBookings = findViewById(R.id.tvTodayBookings);
-        tvMonthlyRevenue = findViewById(R.id.tvMonthlyRevenue);
+
+        tvRevenue =
+                findViewById(R.id.tvRevenue);
+
+
+        tvBookings =
+                findViewById(R.id.tvBookings);
+
+
+        tvUsers =
+                findViewById(R.id.tvUsers);
+
+
+        tvBuses =
+                findViewById(R.id.tvBuses);
+
+
+        tvRoutes =
+                findViewById(R.id.tvRoutes);
+
+
+        tvSchedules =
+                findViewById(R.id.tvSchedules);
+
+
+        tvPopularRoute =
+                findViewById(R.id.tvPopularRoute);
+
+
+        tvTodayBookings =
+                findViewById(R.id.tvTodayBookings);
+
+
+        tvMonthlyRevenue =
+                findViewById(R.id.tvMonthlyRevenue);
+
 
 
 
@@ -50,32 +86,45 @@ public class ReportsActivity extends AppCompatActivity {
 
         listenBuses();
 
+        listenRoutes();
+
+        listenSchedules();
+
         listenBookings();
+
+
 
     }
 
 
 
-    //================ USERS REAL TIME =================
+
+
+
+
+    //================ USERS =================
+
 
     private void listenUsers(){
 
 
         db.collection("users")
-                .addSnapshotListener((value, error) -> {
+
+                .addSnapshotListener((value,error)->{
 
 
                     if(value != null){
 
 
-                        int count = value.size();
-
-
                         tvUsers.setText(
-                                String.valueOf(count)
+                                String.valueOf(
+                                        value.size()
+                                )
                         );
 
+
                     }
+
 
                 });
 
@@ -86,25 +135,30 @@ public class ReportsActivity extends AppCompatActivity {
 
 
 
-    //================ BUSES REAL TIME =================
+
+
+
+
+    //================ BUSES =================
 
 
     private void listenBuses(){
 
 
         db.collection("buses")
-                .addSnapshotListener((value, error) -> {
+
+                .addSnapshotListener((value,error)->{
 
 
                     if(value != null){
 
 
-                        int count = value.size();
-
-
                         tvBuses.setText(
-                                String.valueOf(count)
+                                String.valueOf(
+                                        value.size()
+                                )
                         );
+
 
                     }
 
@@ -119,26 +173,116 @@ public class ReportsActivity extends AppCompatActivity {
 
 
 
-    //================ BOOKINGS REAL TIME =================
+
+
+
+
+    //================ ROUTES =================
+
+
+    private void listenRoutes(){
+
+
+        db.collection("routes")
+
+                .addSnapshotListener((value,error)->{
+
+
+                    if(value != null){
+
+
+                        tvRoutes.setText(
+                                String.valueOf(
+                                        value.size()
+                                )
+                        );
+
+
+                    }
+
+
+                });
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+    //================ SCHEDULES =================
+
+
+    private void listenSchedules(){
+
+
+        db.collection("schedules")
+
+                .addSnapshotListener((value,error)->{
+
+
+                    if(value != null){
+
+
+                        tvSchedules.setText(
+                                String.valueOf(
+                                        value.size()
+                                )
+                        );
+
+
+                    }
+
+
+                });
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+    //================ BOOKINGS =================
 
 
     private void listenBookings(){
 
 
+
         db.collection("bookings")
-                .addSnapshotListener((value, error) -> {
+
+                .addSnapshotListener((value,error)->{
 
 
 
                     if(value == null)
+
                         return;
 
 
 
-                    int totalBookings = value.size();
+
+
+                    int totalBookings =
+                            value.size();
+
+
 
 
                     double totalRevenue = 0;
+
+
 
 
 
@@ -147,19 +291,29 @@ public class ReportsActivity extends AppCompatActivity {
 
 
 
+
+
+
                     for(QueryDocumentSnapshot document : value){
+
+
 
 
 
                         // Revenue
 
-                        Double price =
+
+                        Number price =
                                 document.getDouble("price");
+
 
 
                         if(price != null){
 
-                            totalRevenue += price;
+
+                            totalRevenue +=
+                                    price.doubleValue();
+
 
                         }
 
@@ -169,12 +323,17 @@ public class ReportsActivity extends AppCompatActivity {
 
                         // Popular Route
 
+
                         String route =
-                                document.getString("routeName");
+                                document.getString(
+                                        "routeName"
+                                );
+
 
 
 
                         if(route != null){
+
 
 
                             if(routeMap.containsKey(route)){
@@ -186,7 +345,8 @@ public class ReportsActivity extends AppCompatActivity {
                                 );
 
 
-                            }else{
+                            }
+                            else{
 
 
                                 routeMap.put(
@@ -197,6 +357,7 @@ public class ReportsActivity extends AppCompatActivity {
 
                             }
 
+
                         }
 
 
@@ -206,15 +367,25 @@ public class ReportsActivity extends AppCompatActivity {
 
 
 
+
+
+
                     tvBookings.setText(
-                            String.valueOf(totalBookings)
+                            String.valueOf(
+                                    totalBookings
+                            )
                     );
+
+
 
 
 
                     tvRevenue.setText(
-                            "Rs. " + totalRevenue
+                            "Rs. "
+                                    + totalRevenue
                     );
+
+
 
 
 
@@ -225,6 +396,8 @@ public class ReportsActivity extends AppCompatActivity {
 
 
 
+
+
                     tvMonthlyRevenue.setText(
                             "Monthly Revenue : Rs. "
                                     + totalRevenue
@@ -232,7 +405,11 @@ public class ReportsActivity extends AppCompatActivity {
 
 
 
-                    calculatePopularRoute(routeMap);
+
+
+                    calculatePopularRoute(
+                            routeMap
+                    );
 
 
 
@@ -240,6 +417,10 @@ public class ReportsActivity extends AppCompatActivity {
 
 
     }
+
+
+
+
 
 
 
@@ -254,7 +435,9 @@ public class ReportsActivity extends AppCompatActivity {
                 "No Route";
 
 
+
         int max = 0;
+
 
 
 
@@ -282,13 +465,14 @@ public class ReportsActivity extends AppCompatActivity {
 
 
 
+
+
         tvPopularRoute.setText(
                 popularRoute
         );
 
 
     }
-
 
 
 
