@@ -192,63 +192,23 @@ public class Home extends AppCompatActivity {
 
         });
 
+        // Date Selection
+        layoutDate.setOnClickListener(v -> {
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                    (view, year, month, dayOfMonth) -> {
+                        calendar.set(Calendar.YEAR, year);
+                        calendar.set(Calendar.MONTH, month);
+                        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-
-
-
-
-
-        // Date Picker
-
-
-        layoutDate.setOnClickListener(v->{
-
-
-
-            DatePickerDialog dialog =
-                    new DatePickerDialog(
-                            this,
-                            (view,year,month,day)->{
-
-
-                                calendar.set(
-                                        year,
-                                        month,
-                                        day
-                                );
-
-
-                                SimpleDateFormat format =
-                                        new SimpleDateFormat(
-                                                "yyyy-MM-dd",
-                                                Locale.getDefault()
-                                        );
-
-
-
-                                tvDate.setText(
-                                        format.format(
-                                                calendar.getTime()
-                                        )
-                                );
-
-
-                            },
-
-
-                            calendar.get(Calendar.YEAR),
-
-                            calendar.get(Calendar.MONTH),
-
-                            calendar.get(Calendar.DAY_OF_MONTH)
-
-                    );
-
-
-
-            dialog.show();
-
-
+                        SimpleDateFormat sdf =
+                                new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());                        tvDate.setText(sdf.format(calendar.getTime()));
+                    }, 
+                    calendar.get(Calendar.YEAR), 
+                    calendar.get(Calendar.MONTH), 
+                    calendar.get(Calendar.DAY_OF_MONTH));
+            
+            datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+            datePickerDialog.show();
         });
 
 
