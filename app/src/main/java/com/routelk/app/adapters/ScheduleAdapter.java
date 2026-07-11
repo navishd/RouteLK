@@ -115,8 +115,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
         );
 
 
-        holder.tvOperatingDays.setText(
-                "Operating Days : " + schedule.getOperatingDays()
+        holder.tvTravelDate.setText(
+                "Travel Date : " + schedule.getTravelDate()
         );
 
 
@@ -241,8 +241,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
         TextView tvDeparture;
         TextView tvArrival;
         TextView tvPrice;
-        TextView tvOperatingDays;
-
+        TextView tvTravelDate;
 
         Button editBtn;
         Button deleteBtn;
@@ -292,9 +291,9 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
                     );
 
 
-            tvOperatingDays =
+            tvTravelDate =
                     itemView.findViewById(
-                            R.id.tvOperatingDays
+                            R.id.tvTravelDate
                     );
 
 

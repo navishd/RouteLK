@@ -56,6 +56,10 @@ public class RouteAdapter
 
         Route route = routeList.get(position);
 
+        holder.tvRouteID.setText(
+                "Route ID : " + route.getRouteID()
+        );
+
         holder.tvRouteName.setText(route.getRouteName());
 
         holder.tvFromTo.setText(
@@ -106,7 +110,7 @@ public class RouteAdapter
 
     static class RouteViewHolder
             extends RecyclerView.ViewHolder {
-
+        TextView tvRouteID;
         TextView tvRouteName;
         TextView tvFromTo;
         TextView tvDistance;
@@ -117,6 +121,11 @@ public class RouteAdapter
                 @NonNull View itemView) {
 
             super(itemView);
+
+            tvRouteID =
+                    itemView.findViewById(
+                            R.id.tvRouteID
+                    );
 
             tvRouteName =
                     itemView.findViewById(

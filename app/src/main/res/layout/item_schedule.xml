@@ -75,16 +75,15 @@
             android:textColor="#16A34A"
             android:textStyle="bold"/>
 
-        <!-- Operating Days -->
+        <!-- Travel Date -->
 
         <TextView
-            android:id="@+id/tvOperatingDays"
+            android:id="@+id/tvTravelDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Monday, Tuesday, Wednesday"
+            android:text="2026-07-15"
             android:textColor="#2563EB"/>
-
         <!-- Buttons -->
 
         <LinearLayout

@@ -17,7 +17,11 @@
         <TextView
             android:id="@+id/tvRouteID"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="Route ID : R001"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#2563EB"/>
 
         <TextView
             android:id="@+id/tvRouteName"

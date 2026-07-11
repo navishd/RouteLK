@@ -101,14 +101,15 @@
                     android:layout_marginBottom="12dp"/>
 
                 <EditText
-                    android:id="@+id/etOperatingDays"
+                    android:id="@+id/etTravelDate"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
-                    android:hint="Operating Days (Monday,Tuesday,...)"
+                    android:hint="Travel Date"
                     android:background="@drawable/edittext_bg"
                     android:padding="16dp"
+                    android:focusable="false"
+                    android:clickable="true"
                     android:layout_marginBottom="16dp"/>
-
                 <Button
                     android:id="@+id/btnAddSchedule"
                     android:layout_width="match_parent"
