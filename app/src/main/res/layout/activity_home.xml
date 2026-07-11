@@ -179,7 +179,7 @@
                                     android:hint="Choose Starting Point"
                                     android:inputType="textCapWords"
                                     android:paddingVertical="8dp"
-                                    android:text="Colombo"
+                                    android:text=""
                                     android:textColor="@color/text_primary"
                                     android:textSize="20sp"
                                     android:textStyle="bold" />
@@ -227,7 +227,7 @@
                                     android:hint="Choose Destination"
                                     android:inputType="textCapWords"
                                     android:paddingVertical="8dp"
-                                    android:text="Kandy"
+                                    android:text=""
                                     android:textColor="@color/text_primary"
                                     android:textSize="20sp"
                                     android:textStyle="bold" />
