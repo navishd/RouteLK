@@ -2,7 +2,6 @@ package com.routelk.app.activities;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -399,8 +398,6 @@ public class ManageBusesActivity extends AppCompatActivity {
 
 
                     }
-
-                    Log.d("BUS_TEST", "List Size = " + busList.size());
                     adapter.notifyDataSetChanged();
 
 
