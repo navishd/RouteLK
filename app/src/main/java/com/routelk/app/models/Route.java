@@ -41,6 +41,7 @@ public class Route {
     }
 
 
+
     public double getDistance() {
         return distance;
     }
@@ -48,6 +49,10 @@ public class Route {
 
     public double getPrice() {
         return price;
+    }
+
+    public String getRouteID() {
+        return routeID;
     }
     public void setRouteID(String routeID){
         this.routeID = routeID;
