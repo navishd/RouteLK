@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:layout_margin="10dp"
+
+    app:cardCornerRadius="16dp"
+    app:cardElevation="5dp">
+
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical"
+        android:padding="18dp">
+
+
+
+        <TextView
+
+            android:id="@+id/tvBusName"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Luxury Express"
+
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#111827"/>
+
+
+
+
+        <TextView
+
+            android:id="@+id/tvBusNumber"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="8dp"
+
+            android:text="Bus No : B001"/>
+
+
+
+
+        <TextView
+
+            android:id="@+id/tvBusType"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Type : AC"/>
+
+
+
+
+
+        <TextView
+
+            android:id="@+id/tvRoute"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Colombo → Kandy"
+
+            android:textStyle="bold"
+
+            android:layout_marginTop="8dp"/>
+
+
+
+
+
+
+        <TextView
+
+            android:id="@+id/tvDeparture"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Departure : 07:30 AM"/>
+
+
+
+
+
+        <TextView
+
+            android:id="@+id/tvArrival"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Arrival : 10:45 AM"/>
+
+
+
+
+
+        <TextView
+
+            android:id="@+id/tvSeats"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Seats : 50"/>
+
+
+
+
+
+        <TextView
+
+            android:id="@+id/tvPrice"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Price : Rs.1200"
+
+            android:textColor="#16A34A"
+
+            android:textStyle="bold"
+
+            android:textSize="18sp"/>
+
+
+
+
+
+
+        <Button
+
+            android:id="@+id/selectSeatBtn"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="50dp"
+
+            android:layout_marginTop="15dp"
+
+            android:text="Select Seat"
+
+            android:textAllCaps="false"
+
+            android:textColor="#FFFFFF"
+
+            android:backgroundTint="#2563EB"/>
+
+
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>
