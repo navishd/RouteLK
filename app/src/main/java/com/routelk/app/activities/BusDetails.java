@@ -1,177 +1,391 @@
 package com.routelk.app.activities;
 
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
 import com.routelk.app.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+
 public class BusDetails extends AppCompatActivity {
 
 
-    TextView tvBusCompany;
-    TextView tvStartTime;
-    TextView tvStartLocation;
-    TextView tvEndTime;
-    TextView tvEndLocation;
-    TextView tvPrice;
+    private TextView tvBusCompany;
+    private TextView tvStartTime;
+    private TextView tvStartLocation;
+
+    private TextView tvEndTime;
+    private TextView tvEndLocation;
+
+    private TextView tvPrice;
+    private TextView tvDuration;
 
 
-    String busId;
-    String routeId;
-    String price;
+    private MaterialButton btnSelectSeats;
+
+
+    private String busId;
+    private String busName;
+
+    private String from;
+    private String to;
+
+    private String departure;
+    private String arrival;
+
+    private String price;
+
+    private String date;
+
+    private int seats;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_bus_details);
 
 
 
-        ImageView btnBack = findViewById(R.id.btnBack);
-        MaterialButton btnSelectSeats = findViewById(R.id.btnSelectSeats);
+        initializeViews();
 
 
-
-        tvBusCompany = findViewById(R.id.tvBusCompany);
-        tvStartTime = findViewById(R.id.tvStartTime);
-        tvStartLocation = findViewById(R.id.tvStartLocation);
-        tvEndTime = findViewById(R.id.tvEndTime);
-        tvEndLocation = findViewById(R.id.tvEndLocation);
-        tvPrice = findViewById(R.id.tvPrice);
+        getIntentData();
 
 
+        updateUI();
 
-        // Receive data from AvailableBusAdapter
-
-        Intent intent = getIntent();
-
-
-        busId = intent.getStringExtra("busId");
-        routeId = intent.getStringExtra("routeId");
-        price = intent.getStringExtra("price");
-
-        String company =
-                intent.getStringExtra("company");
-
-        String departure =
-                intent.getStringExtra("departure");
-
-        String arrival =
-                intent.getStringExtra("arrival");
-
-        String from =
-                intent.getStringExtra("from");
-
-        String to =
-                intent.getStringExtra("to");
-
-
-
-        if(company != null)
-            tvBusCompany.setText(company);
-
-
-
-        if(departure != null)
-            tvStartTime.setText(departure);
-
-
-
-        if(arrival != null)
-            tvEndTime.setText(arrival);
-
-
-
-        if(from != null)
-            tvStartLocation.setText(from);
-
-
-
-        if(to != null)
-            tvEndLocation.setText(to);
-
-
-
-        if(price != null)
-            tvPrice.setText(
-                    "Rs. " + price
-            );
-
-
-
-
-        btnBack.setOnClickListener(v -> finish());
 
 
 
         btnSelectSeats.setOnClickListener(v -> {
 
 
-            Intent seatIntent =
+            Toast.makeText(
+                    this,
+                    "Opening Seat Selection",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+
+
+            /*
+            Intent intent =
                     new Intent(
                             BusDetails.this,
                             SeatSelectionActivity.class
                     );
 
 
-            seatIntent.putExtra(
-                    "busId",
+            intent.putExtra(
+                    "BUS_ID",
                     busId
             );
 
 
-            seatIntent.putExtra(
-                    "routeId",
-                    routeId
+            intent.putExtra(
+                    "DATE",
+                    date
             );
 
 
-            seatIntent.putExtra(
-                    "price",
-                    price
-            );
-
-
-            seatIntent.putExtra(
-                    "departure",
+            intent.putExtra(
+                    "DEPARTURE_TIME",
                     departure
             );
 
 
-            seatIntent.putExtra(
-                    "arrival",
+            intent.putExtra(
+                    "ARRIVAL_TIME",
                     arrival
             );
 
 
-            boolean isForOthers =
-                    getIntent()
-                            .getBooleanExtra(
-                                    "IS_FOR_OTHERS",
-                                    false
-                            );
-
-
-            seatIntent.putExtra(
-                    "IS_FOR_OTHERS",
-                    isForOthers
+            intent.putExtra(
+                    "SEATS",
+                    seats
             );
 
 
-            startActivity(seatIntent);
+            startActivity(intent);
+
+            */
 
 
         });
 
 
+
     }
 
 
-}
+
+
+
+    private void initializeViews(){
+
+
+        tvBusCompany =
+                findViewById(R.id.tvBusCompany);
+
+
+
+        tvStartTime =
+                findViewById(R.id.tvStartTime);
+
+
+
+        tvStartLocation =
+                findViewById(R.id.tvStartLocation);
+
+
+
+        tvEndTime =
+                findViewById(R.id.tvEndTime);
+
+
+
+        tvEndLocation =
+                findViewById(R.id.tvEndLocation);
+
+
+
+        tvPrice =
+                findViewById(R.id.tvPrice);
+
+
+
+        tvDuration =
+                findViewById(R.id.tvDuration);
+
+
+
+        btnSelectSeats =
+                findViewById(R.id.btnSelectSeats);
+
+
+    }
+
+
+
+
+
+    private void getIntentData(){
+
+
+
+        busId =
+                getIntent()
+                        .getStringExtra("BUS_ID");
+
+
+
+        busName =
+                getIntent()
+                        .getStringExtra("BUS_NAME");
+
+
+
+        from =
+                getIntent()
+                        .getStringExtra("FROM");
+
+
+
+        to =
+                getIntent()
+                        .getStringExtra("TO");
+
+
+
+        departure =
+                getIntent()
+                        .getStringExtra("DEPARTURE_TIME");
+
+
+
+        arrival =
+                getIntent()
+                        .getStringExtra("ARRIVAL_TIME");
+
+
+
+        price =
+                getIntent()
+                        .getStringExtra("PRICE");
+
+
+
+        date =
+                getIntent()
+                        .getStringExtra("DATE");
+
+
+
+        seats =
+                getIntent()
+                        .getIntExtra(
+                                "SEATS",
+                                0
+                        );
+
+
+    }
+
+
+
+
+
+    private void updateUI(){
+
+
+
+        tvBusCompany.setText(
+                busName != null
+                        ? busName
+                        : "Bus"
+        );
+
+
+
+        tvStartTime.setText(
+                departure != null
+                        ? departure
+                        : "--"
+        );
+
+
+
+        tvEndTime.setText(
+                arrival != null
+                        ? arrival
+                        : "--"
+        );
+
+
+
+        tvStartLocation.setText(
+                from != null
+                        ? from
+                        : "--"
+        );
+
+
+
+        tvEndLocation.setText(
+                to != null
+                        ? to
+                        : "--"
+        );
+
+
+
+        tvPrice.setText(
+                "Rs. " +
+                        (price != null ? price : "0")
+        );
+
+
+
+        tvDuration.setText(
+                calculateDuration(
+                        departure,
+                        arrival
+                )
+        );
+
+
+    }
+
+
+
+
+
+
+    private String calculateDuration(
+            String start,
+            String end
+    ){
+
+        try {
+
+
+            SimpleDateFormat sdf =
+                    new SimpleDateFormat(
+                            "h.mm a",
+                            Locale.ENGLISH
+                    );
+
+
+            Date startDate =
+                    sdf.parse(start);
+
+
+            Date endDate =
+                    sdf.parse(end);
+
+
+
+            long difference =
+                    endDate.getTime()
+                            -
+                            startDate.getTime();
+
+
+
+            // next day journey
+            if(difference < 0){
+
+                difference +=
+                        24 * 60 * 60 * 1000;
+
+            }
+
+
+
+            long hours =
+                    difference /
+                            (1000 * 60 * 60);
+
+
+
+            long minutes =
+                    (difference /
+                            (1000 * 60))
+                            % 60;
+
+
+
+            return hours +
+                    "h " +
+                    minutes +
+                    "m";
+
+
+        }
+        catch(Exception e){
+
+
+            e.printStackTrace();
+
+            return "--";
+
+        }
+
+    }
+
+
+    }
+

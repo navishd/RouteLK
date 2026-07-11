@@ -1,9 +1,11 @@
 package com.routelk.app.activities;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,33 +27,43 @@ import com.routelk.app.models.Bus;
 import java.util.ArrayList;
 
 
+
 public class BusListScreen extends AppCompatActivity {
 
 
-    RecyclerView busRecyclerView;
 
-    TextView routeTitle;
-    TextView dateSubtitle;
-    TextView tvPassengersCount;
+    private RecyclerView busRecyclerView;
 
 
-    ArrayList<Bus> busList;
+    private TextView routeTitle;
+    private TextView dateSubtitle;
+    private TextView tvPassengersCount;
 
-    AvailableBusAdapter adapter;
 
 
-    FirebaseFirestore db;
+    private ArrayList<Bus> busList;
+
+
+    private AvailableBusAdapter adapter;
+
+
+    private FirebaseFirestore db;
+
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+
         super.onCreate(savedInstanceState);
+
 
         EdgeToEdge.enable(this);
 
+
         setContentView(R.layout.activity_bus_list_screen);
+
 
 
 
@@ -59,10 +71,12 @@ public class BusListScreen extends AppCompatActivity {
                 findViewById(R.id.main),
                 (v, insets) -> {
 
+
                     Insets systemBars =
                             insets.getInsets(
                                     WindowInsetsCompat.Type.systemBars()
                             );
+
 
                     v.setPadding(
                             systemBars.left,
@@ -71,9 +85,13 @@ public class BusListScreen extends AppCompatActivity {
                             systemBars.bottom
                     );
 
+
                     return insets;
+
                 }
         );
+
+
 
 
 
@@ -84,6 +102,7 @@ public class BusListScreen extends AppCompatActivity {
         busRecyclerView.setLayoutManager(
                 new LinearLayoutManager(this)
         );
+
 
 
 
@@ -100,7 +119,7 @@ public class BusListScreen extends AppCompatActivity {
 
 
 
-        // Receive search data
+
 
         final String from =
                 getIntent().getStringExtra("FROM");
@@ -125,24 +144,41 @@ public class BusListScreen extends AppCompatActivity {
 
 
 
+
         routeTitle.setText(
-                from + " → " + to
+                safe(from)
+                        +
+                        " → "
+                        +
+                        safe(to)
         );
+
 
 
         dateSubtitle.setText(
-                date + " • " + time
+                safe(date)
+                        +
+                        " • "
+                        +
+                        safe(time)
         );
+
 
 
         tvPassengersCount.setText(
-                passengers
+                safe(passengers)
         );
 
 
 
 
-        busList = new ArrayList<>();
+
+
+
+        busList =
+                new ArrayList<>();
+
+
 
 
         adapter =
@@ -158,13 +194,18 @@ public class BusListScreen extends AppCompatActivity {
                 );
 
 
+
         busRecyclerView.setAdapter(adapter);
+
+
 
 
 
 
         db =
                 FirebaseFirestore.getInstance();
+
+
 
 
 
@@ -176,7 +217,10 @@ public class BusListScreen extends AppCompatActivity {
 
 
 
+
     }
+
+
 
 
 
@@ -187,6 +231,7 @@ public class BusListScreen extends AppCompatActivity {
             String to,
             String date
     ){
+
 
 
         db.collection("schedules")
@@ -221,6 +266,7 @@ public class BusListScreen extends AppCompatActivity {
 
 
 
+
                         if(
                                 scheduleDate == null ||
                                         busId == null ||
@@ -233,7 +279,7 @@ public class BusListScreen extends AppCompatActivity {
 
 
 
-                        // Check date
+
 
                         if(
                                 !scheduleDate.equals(date)
@@ -247,6 +293,7 @@ public class BusListScreen extends AppCompatActivity {
 
 
 
+
                         db.collection("routes")
                                 .document(routeId)
                                 .get()
@@ -254,16 +301,30 @@ public class BusListScreen extends AppCompatActivity {
 
 
 
-                                    String busFrom =
+                                    if(!routeDoc.exists()){
+
+                                        return;
+
+                                    }
+
+
+
+
+
+
+                                    final String busFrom =
                                             routeDoc.getString(
                                                     "from"
                                             );
 
 
-                                    String busTo =
+
+                                    final String busTo =
                                             routeDoc.getString(
                                                     "to"
                                             );
+
+
 
 
 
@@ -281,132 +342,195 @@ public class BusListScreen extends AppCompatActivity {
 
 
 
+
                                     if(
-                                            busFrom.equalsIgnoreCase(from)
-                                                    &&
-                                                    busTo.equalsIgnoreCase(to)
+                                            !busFrom.equalsIgnoreCase(
+                                                    from
+                                            )
+                                                    ||
+                                                    !busTo.equalsIgnoreCase(
+                                                            to
+                                                    )
                                     ){
 
-
-
-                                        db.collection("buses")
-                                                .document(busId)
-                                                .get()
-                                                .addOnSuccessListener(busDoc -> {
-
-
-
-                                                    if(busDoc.exists()){
-
-
-                                                        Bus bus =
-                                                                new Bus();
-
-
-
-                                                        bus.setBusID(
-                                                                busId
-                                                        );
-
-
-                                                        bus.setBusName(
-                                                                busDoc.getString("busName")
-                                                        );
-
-
-                                                        bus.setBusNumber(
-                                                                busDoc.getString("busNumber")
-                                                        );
-
-
-                                                        bus.setBusType(
-                                                                busDoc.getString("busType")
-                                                        );
-
-
-                                                        Long seats =
-                                                                busDoc.getLong(
-                                                                        "seatCount"
-                                                                );
-
-
-                                                        if(seats != null){
-
-                                                            bus.setSeatCount(
-                                                                    seats.intValue()
-                                                            );
-
-                                                        }
-
-
-
-                                                        bus.setFrom(
-                                                                busFrom
-                                                        );
-
-
-                                                        bus.setTo(
-                                                                busTo
-                                                        );
-
-
-
-                                                        bus.setRouteId(
-                                                                routeId
-                                                        );
-
-
-                                                        bus.setScheduleId(
-                                                                scheduleDoc.getId()
-                                                        );
-
-
-
-                                                        bus.setDepartureTime(
-                                                                scheduleDoc.getString(
-                                                                        "departureTime"
-                                                                )
-                                                        );
-
-
-                                                        bus.setArrivalTime(
-                                                                scheduleDoc.getString(
-                                                                        "arrivalTime"
-                                                                )
-                                                        );
-
-
-
-                                                        String price =
-                                                                String.valueOf(
-                                                                        scheduleDoc.getLong("price")
-                                                                );
-
-
-                                                        bus.setPrice(
-                                                                price
-                                                        );
-
-
-
-
-
-                                                        busList.add(bus);
-
-
-                                                        adapter.notifyDataSetChanged();
-
-
-
-                                                    }
-
-
-
-                                                });
-
-
+                                        return;
 
                                     }
+
+
+
+
+
+
+
+
+
+                                    db.collection("buses")
+                                            .document(busId)
+                                            .get()
+                                            .addOnSuccessListener(busDoc -> {
+
+
+
+                                                if(
+                                                        !busDoc.exists()
+                                                ){
+
+                                                    return;
+
+                                                }
+
+
+
+
+
+                                                Bus bus =
+                                                        new Bus();
+
+
+
+
+
+                                                bus.setBusID(
+                                                        busId
+                                                );
+
+
+
+                                                bus.setBusName(
+                                                        busDoc.getString(
+                                                                "busName"
+                                                        )
+                                                );
+
+
+
+                                                bus.setBusNumber(
+                                                        busDoc.getString(
+                                                                "busNumber"
+                                                        )
+                                                );
+
+
+
+                                                bus.setBusType(
+                                                        busDoc.getString(
+                                                                "busType"
+                                                        )
+                                                );
+
+
+
+
+
+                                                Long seat =
+                                                        busDoc.getLong(
+                                                                "seatCount"
+                                                        );
+
+
+
+                                                if(seat != null){
+
+                                                    bus.setSeatCount(
+                                                            seat.intValue()
+                                                    );
+
+                                                }
+
+
+
+
+
+
+                                                bus.setFrom(
+                                                        busFrom
+                                                );
+
+
+
+                                                bus.setTo(
+                                                        busTo
+                                                );
+
+
+
+
+                                                bus.setRouteId(
+                                                        routeId
+                                                );
+
+
+
+                                                bus.setScheduleId(
+                                                        scheduleDoc.getId()
+                                                );
+
+
+
+
+
+
+                                                bus.setDepartureTime(
+                                                        scheduleDoc.getString(
+                                                                "departureTime"
+                                                        )
+                                                );
+
+
+
+                                                bus.setArrivalTime(
+                                                        scheduleDoc.getString(
+                                                                "arrivalTime"
+                                                        )
+                                                );
+
+
+
+
+
+
+                                                Long price =
+                                                        scheduleDoc.getLong(
+                                                                "price"
+                                                        );
+
+
+
+                                                if(price != null){
+
+                                                    bus.setPrice(
+                                                            String.valueOf(price)
+                                                    );
+
+                                                }
+                                                else{
+
+                                                    bus.setPrice(
+                                                            "0"
+                                                    );
+
+                                                }
+
+
+
+
+
+
+                                                busList.add(bus);
+
+
+
+                                                adapter.notifyItemInserted(
+                                                        busList.size()-1
+                                                );
+
+
+
+
+
+                                            });
+
 
 
 
@@ -415,14 +539,17 @@ public class BusListScreen extends AppCompatActivity {
 
 
 
-                    }
 
+
+
+                    }
 
 
 
 
                 })
                 .addOnFailureListener(e -> {
+
 
 
                     Toast.makeText(
@@ -432,10 +559,30 @@ public class BusListScreen extends AppCompatActivity {
                     ).show();
 
 
+
                 });
 
 
+
+
     }
+
+
+
+
+
+
+
+
+    private String safe(String value){
+
+
+        return value == null ? "" : value;
+
+
+    }
+
+
 
 
 
