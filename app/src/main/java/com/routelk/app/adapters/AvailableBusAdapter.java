@@ -1,5 +1,6 @@
 package com.routelk.app.adapters;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -8,15 +9,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import com.routelk.app.R;
-import com.routelk.app.activities.BusDetailsActivity;
+import com.routelk.app.activities.BusDetails;
 import com.routelk.app.models.Bus;
 
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 public class AvailableBusAdapter extends RecyclerView.Adapter<AvailableBusAdapter.BusViewHolder> {
 
 
@@ -141,7 +144,7 @@ public class AvailableBusAdapter extends RecyclerView.Adapter<AvailableBusAdapte
             Intent intent =
                     new Intent(
                             context,
-                            BusDetailsActivity.class
+                            BusDetails.class
                     );
 
 
