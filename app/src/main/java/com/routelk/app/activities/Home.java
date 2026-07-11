@@ -4,13 +4,13 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -25,95 +25,171 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+
 public class Home extends AppCompatActivity {
 
+
     private EditText etFrom, etTo;
-    private TextView tvDate, tvTime, tvPassengers;
-    private MaterialCardView btnSwap, btnNotification;
-    private LinearLayout layoutDate, layoutTime, layoutPassengers;
-    private com.google.android.material.switchmaterial.SwitchMaterial switchBookingForOthers;
+
+    private TextView tvDate;
+    private TextView tvTime;
+    private TextView tvPassengers;
+
+
+    private MaterialCardView btnSwap;
+    private MaterialCardView btnNotification;
+
+
+    private LinearLayout layoutDate;
+    private LinearLayout layoutTime;
+    private LinearLayout layoutPassengers;
+
+
     private MaterialButton btnSearch;
+
+
     private Calendar calendar;
+
+
+
+    private com.google.android.material.switchmaterial.SwitchMaterial switchBookingForOthers;
+
+
+
     private BottomNavigationView bottomNavigationView;
-    private androidx.core.widget.NestedScrollView nestedScrollView;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
+
+
         EdgeToEdge.enable(this);
+
+
         setContentView(R.layout.activity_home);
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets bars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(bars.left, bars.top, bars.right, bars.bottom);
-            return insets;
-        });
 
-        // Initialize UI components
+
+        ViewCompat.setOnApplyWindowInsetsListener(
+                findViewById(R.id.main),
+                (v,insets)->{
+
+
+                    Insets systemBars =
+                            insets.getInsets(
+                                    WindowInsetsCompat.Type.systemBars()
+                            );
+
+
+                    v.setPadding(
+                            systemBars.left,
+                            systemBars.top,
+                            systemBars.right,
+                            systemBars.bottom
+                    );
+
+
+                    return insets;
+
+                });
+
+
+
         etFrom = findViewById(R.id.etFrom);
+
         etTo = findViewById(R.id.etTo);
+
+
+
         tvDate = findViewById(R.id.tvDate);
+
         tvTime = findViewById(R.id.tvTime);
-        btnSwap = findViewById(R.id.btnSwap);
-        btnNotification = findViewById(R.id.btnNotification);
-        layoutDate = findViewById(R.id.layoutDate);
-        layoutTime = findViewById(R.id.layoutTime);
-        layoutPassengers = findViewById(R.id.layoutPassengers);
+
         tvPassengers = findViewById(R.id.tvPassengers);
-        switchBookingForOthers = findViewById(R.id.switchBookingForOthers);
-        btnSearch = findViewById(R.id.btnSearchBuses);
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        nestedScrollView = findViewById(R.id.nestedScrollView);
-        com.google.android.material.appbar.AppBarLayout appBarLayout = findViewById(R.id.appBarLayout);
-        
+
+
+
+        btnSwap = findViewById(R.id.btnSwap);
+
+        btnNotification = findViewById(R.id.btnNotification);
+
+
+
+        layoutDate = findViewById(R.id.layoutDate);
+
+        layoutTime = findViewById(R.id.layoutTime);
+
+        layoutPassengers =
+                findViewById(R.id.layoutPassengers);
+
+
+
+        btnSearch =
+                findViewById(R.id.btnSearchBuses);
+
+
+
+        switchBookingForOthers =
+                findViewById(R.id.switchBookingForOthers);
+
+
+
+        bottomNavigationView =
+                findViewById(R.id.bottomNavigationView);
+
+
+
         calendar = Calendar.getInstance();
 
-        // Fix: Collapse AppBar when focusing on inputs to ensure visibility
-        View.OnFocusChangeListener focusChangeListener = (v, hasFocus) -> {
-            if (hasFocus && appBarLayout != null) {
-                appBarLayout.setExpanded(false, true);
-            }
-        };
-        etFrom.setOnFocusChangeListener(focusChangeListener);
-        etTo.setOnFocusChangeListener(focusChangeListener);
 
-        findViewById(R.id.fabVoiceAssistant).setOnClickListener(v -> 
-            Toast.makeText(this, "Voice Assistant coming soon", Toast.LENGTH_SHORT).show());
 
-        // Bottom Navigation
-        bottomNavigationView.setSelectedItemId(R.id.nav_home);
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            int id = item.getItemId();
-            if (id == R.id.nav_home) {
-                // Scroll to top when Home is clicked while already on Home
-                nestedScrollView.smoothScrollTo(0, 0);
-                return true;
-            } else if (id == R.id.nav_activities) {
-                startActivity(new Intent(this, MyActivitiesActivity.class));
-                return true;
-            } else if (id == R.id.nav_tickets) {
-                startActivity(new Intent(this, ManageBookingsActivity.class));
-                return true;
-            } else if (id == R.id.nav_account) {
-                startActivity(new Intent(this, ProfileActivity.class));
-                return true;
-            }
-            return false;
-        });
+        // Default date
 
-        // Notification Click
-        btnNotification.setOnClickListener(v -> {
-            Intent intent = new Intent(Home.this, NotificationsActivity.class);
-            startActivity(intent);
-        });
+        SimpleDateFormat sdf =
+                new SimpleDateFormat(
+                        "yyyy-MM-dd",
+                        Locale.getDefault()
+                );
 
-        // Swap From <-> To
-        btnSwap.setOnClickListener(v -> {
-            String from = etFrom.getText().toString();
-            String to = etTo.getText().toString();
+
+        tvDate.setText(
+                sdf.format(calendar.getTime())
+        );
+
+
+
+        tvTime.setText("Select Time");
+
+        tvPassengers.setText("1 Adult");
+
+
+
+
+
+        // Swap button
+
+        btnSwap.setOnClickListener(v->{
+
+
+            String from =
+                    etFrom.getText().toString();
+
+
+            String to =
+                    etTo.getText().toString();
+
+
+
             etFrom.setText(to);
+
             etTo.setText(from);
-            Toast.makeText(this, "Locations swapped", Toast.LENGTH_SHORT).show();
+
+
+
         });
 
         // Date Selection
@@ -135,59 +211,217 @@ public class Home extends AppCompatActivity {
             datePickerDialog.show();
         });
 
-        // Time Selection
-        layoutTime.setOnClickListener(v -> {
-            TimePickerDialog timePickerDialog = new TimePickerDialog(this,
-                    (view, hourOfDay, minute) -> {
-                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                        calendar.set(Calendar.MINUTE, minute);
-                        
-                        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a", Locale.getDefault());
-                        tvTime.setText(sdf.format(calendar.getTime()));
-                    },
-                    calendar.get(Calendar.HOUR_OF_DAY),
-                    calendar.get(Calendar.MINUTE),
-                    false);
-            timePickerDialog.show();
+
+
+
+
+
+
+
+        // Time Picker
+
+
+        layoutTime.setOnClickListener(v->{
+
+
+
+            TimePickerDialog dialog =
+                    new TimePickerDialog(
+                            this,
+                            (view,hour,minute)->{
+
+
+                                String time =
+                                        String.format(
+                                                Locale.getDefault(),
+                                                "%02d:%02d",
+                                                hour,
+                                                minute
+                                        );
+
+
+                                tvTime.setText(time);
+
+
+                            },
+
+
+                            calendar.get(Calendar.HOUR_OF_DAY),
+
+                            calendar.get(Calendar.MINUTE),
+
+                            true
+
+                    );
+
+
+
+            dialog.show();
+
+
+
         });
 
-        // Passenger Selection
-        layoutPassengers.setOnClickListener(v -> {
-            String[] passengerOptions = {"1 Adult", "2 Adults", "3 Adults", "4 Adults", "5 Adults", "Group (6+)"};
-            new androidx.appcompat.app.AlertDialog.Builder(this)
-                    .setTitle("Number of Passengers")
-                    .setItems(passengerOptions, (dialog, which) -> tvPassengers.setText(passengerOptions[which]))
+
+
+
+
+
+
+
+
+        // Passenger
+
+
+        layoutPassengers.setOnClickListener(v->{
+
+
+
+            String[] list={
+
+                    "1 Adult",
+                    "2 Adults",
+                    "3 Adults",
+                    "4 Adults",
+                    "5 Adults"
+
+            };
+
+
+
+            new AlertDialog.Builder(this)
+
+                    .setTitle("Passengers")
+
+                    .setItems(
+                            list,
+                            (dialog,which)->{
+
+
+                                tvPassengers.setText(
+                                        list[which]
+                                );
+
+
+                            })
+
                     .show();
+
+
         });
 
-        // Search Button
-        btnSearch.setOnClickListener(v -> {
 
-            String from = etFrom.getText().toString().trim();
-            String to = etTo.getText().toString().trim();
 
-            if (from.isEmpty() || to.isEmpty()) {
+
+
+
+
+
+
+        // Search
+
+
+        btnSearch.setOnClickListener(v->{
+
+
+
+            String from =
+                    etFrom.getText()
+                            .toString()
+                            .trim();
+
+
+
+            String to =
+                    etTo.getText()
+                            .toString()
+                            .trim();
+
+
+
+
+
+            if(from.isEmpty()
+                    ||
+                    to.isEmpty()){
+
 
                 Toast.makeText(
-                        Home.this,
-                        "Please enter both origin and destination",
+                        this,
+                        "Enter From and To",
                         Toast.LENGTH_SHORT
                 ).show();
 
-            } else {
 
-                Intent intent = new Intent(Home.this, BusListScreen.class);
+                return;
 
-                // Send data to BusListScreen directly
-                intent.putExtra("FROM", from);
-                intent.putExtra("TO", to);
-                intent.putExtra("DATE", tvDate.getText().toString());
-                intent.putExtra("TIME", tvTime.getText().toString());
-                intent.putExtra("PASSENGERS", tvPassengers.getText().toString());
-                intent.putExtra("IS_FOR_OTHERS", switchBookingForOthers.isChecked());
-
-                startActivity(intent);
             }
+
+
+
+
+
+
+
+            Intent intent =
+                    new Intent(
+                            Home.this,
+                            BusListScreen.class
+                    );
+
+
+
+            intent.putExtra(
+                    "FROM",
+                    from
+            );
+
+
+            intent.putExtra(
+                    "TO",
+                    to
+            );
+
+
+            intent.putExtra(
+                    "DATE",
+                    tvDate.getText()
+                            .toString()
+            );
+
+
+            intent.putExtra(
+                    "TIME",
+                    tvTime.getText()
+                            .toString()
+            );
+
+
+            intent.putExtra(
+                    "PASSENGERS",
+                    tvPassengers.getText()
+                            .toString()
+            );
+
+
+
+            intent.putExtra(
+                    "IS_FOR_OTHERS",
+                    switchBookingForOthers.isChecked()
+            );
+
+
+
+            startActivity(intent);
+
+
+
         });
+
+
+
+
     }
+
+
 }
