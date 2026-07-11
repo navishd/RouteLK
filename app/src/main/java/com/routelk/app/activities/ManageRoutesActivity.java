@@ -254,7 +254,7 @@ public class ManageRoutesActivity extends AppCompatActivity {
 
 
                             route.setRouteID(
-                                    doc.getId()
+                                    doc.getString("routeID")
                             );
 
 
