@@ -14,7 +14,7 @@ public class Schedule {
     private String arrivalTime;
 
     private String date;
-    private String operatingDays;
+    private String travelDate;
 
     private int price;
 
@@ -34,7 +34,7 @@ public class Schedule {
                     String departureTime,
                     String arrivalTime,
                     String date,
-                    String operatingDays,
+                    String travelDate,
                     int price) {
 
         this.id = id;
@@ -46,7 +46,7 @@ public class Schedule {
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
         this.date = date;
-        this.operatingDays = operatingDays;
+        this.travelDate = travelDate;
         this.price = price;
 
     }
@@ -142,15 +142,15 @@ public class Schedule {
     }
 
 
-    public String getOperatingDays() {
-        return operatingDays;
+    public String getTravelDate() {
+
+        return travelDate;
     }
 
+    public void setTravelDate(String travelDate) {
 
-    public void setOperatingDays(String operatingDays) {
-        this.operatingDays = operatingDays;
+        this.travelDate = travelDate;
     }
-
 
     public int getPrice() {
         return price;
