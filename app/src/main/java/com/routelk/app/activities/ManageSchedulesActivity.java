@@ -117,11 +117,46 @@ public class ManageSchedulesActivity extends AppCompatActivity {
                 scheduleList,
                 schedule -> {
 
+
                     Toast.makeText(
                             this,
-                            "Selected Schedule : " + schedule.getId(),
+                            "Edit : " + schedule.getId(),
                             Toast.LENGTH_SHORT
                     ).show();
+
+
+
+                    etBusID.setText(
+                            schedule.getBusId()
+                    );
+
+
+                    etRouteID.setText(
+                            schedule.getRouteId()
+                    );
+
+
+                    etDeparture.setText(
+                            schedule.getDepartureTime()
+                    );
+
+
+                    etArrival.setText(
+                            schedule.getArrivalTime()
+                    );
+
+
+                    etPrice.setText(
+                            String.valueOf(
+                                    schedule.getPrice()
+                            )
+                    );
+
+
+                    etTravelDate.setText(
+                            schedule.getTravelDate()
+                    );
+
 
                 }
         );
