@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,17 +63,14 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.BusViewHolder> {
 
     @NonNull
     @Override
-    public BusViewHolder onCreateViewHolder(
-            @NonNull ViewGroup parent,
-            int viewType) {
+    public BusViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
+        Log.d("BUS_TEST", "ViewHolder Created");
 
         View view = LayoutInflater.from(context)
                 .inflate(R.layout.item_bus, parent, false);
 
-
         return new BusViewHolder(view);
-
     }
 
 
@@ -82,6 +80,7 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.BusViewHolder> {
             @NonNull BusViewHolder holder,
             int position) {
 
+        Log.d("BUS_TEST", "Binding Position : " + position);
 
         Bus bus = busList.get(position);
 
@@ -395,9 +394,8 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.BusViewHolder> {
 
     @Override
     public int getItemCount() {
-
+        Log.d("BUS_TEST", "Adapter Count = " + busList.size());
         return busList.size();
-
     }
 
 
