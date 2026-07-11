@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8FAFC">
+    android:background="#F8FAFC"
+    android:fillViewport="true">
+
 
     <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="20dp">
+
+
 
         <!-- Title -->
 
@@ -22,6 +29,8 @@
             android:textStyle="bold"
             android:textColor="#111827"/>
 
+
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,117 +40,251 @@
             android:layout_marginTop="4dp"
             android:layout_marginBottom="20dp"/>
 
+
+
+
+
         <!-- Add Schedule Card -->
 
+
         <androidx.cardview.widget.CardView
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             app:cardCornerRadius="16dp"
             app:cardElevation="4dp">
 
+
+
             <LinearLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:orientation="vertical"
                 android:padding="18dp">
 
+
+
+
+
                 <TextView
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+
                     android:text="Add New Schedule"
+
                     android:textStyle="bold"
+
                     android:textSize="22sp"
+
                     android:textColor="#111827"
+
                     android:layout_marginBottom="16dp"/>
+
+
+
+
+
 
                 <EditText
                     android:id="@+id/etBusID"
+
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
+
                     android:hint="Bus ID (B001)"
+
                     android:background="@drawable/edittext_bg"
+
                     android:padding="16dp"
+
                     android:layout_marginBottom="12dp"/>
+
+
+
+
 
                 <EditText
                     android:id="@+id/etRouteID"
+
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
+
                     android:hint="Route ID (R001)"
+
                     android:background="@drawable/edittext_bg"
+
                     android:padding="16dp"
+
                     android:layout_marginBottom="12dp"/>
+
+
+
+
+
 
                 <EditText
                     android:id="@+id/etDeparture"
+
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
+
                     android:hint="Departure Time"
+
                     android:background="@drawable/edittext_bg"
+
                     android:padding="16dp"
+
                     android:layout_marginBottom="12dp"/>
+
+
+
+
+
 
                 <EditText
                     android:id="@+id/etArrival"
+
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
+
                     android:hint="Arrival Time"
+
                     android:background="@drawable/edittext_bg"
+
                     android:padding="16dp"
+
                     android:layout_marginBottom="12dp"/>
+
+
+
+
+
 
                 <EditText
                     android:id="@+id/etPrice"
+
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
+
                     android:hint="Ticket Price"
+
                     android:inputType="number"
+
                     android:background="@drawable/edittext_bg"
+
                     android:padding="16dp"
+
                     android:layout_marginBottom="12dp"/>
 
+
+
+
+
+
                 <EditText
+
                     android:id="@+id/etTravelDate"
+
                     android:layout_width="match_parent"
+
                     android:layout_height="55dp"
+
                     android:hint="Travel Date"
+
                     android:background="@drawable/edittext_bg"
+
                     android:padding="16dp"
+
                     android:focusable="false"
+
                     android:clickable="true"
+
                     android:layout_marginBottom="16dp"/>
+
+
+
+
+
+
                 <Button
+
                     android:id="@+id/btnAddSchedule"
+
                     android:layout_width="match_parent"
+
                     android:layout_height="55dp"
+
                     android:text="Add Schedule"
+
                     android:textAllCaps="false"
+
                     android:textStyle="bold"
+
                     android:textColor="#FFFFFF"
+
                     android:backgroundTint="#2563EB"/>
+
+
+
+
 
             </LinearLayout>
 
+
         </androidx.cardview.widget.CardView>
+
+
+
+
+
+
 
         <!-- Current Schedules -->
 
+
         <TextView
+
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
+
             android:text="Current Schedules"
+
             android:textSize="22sp"
+
             android:textStyle="bold"
+
             android:textColor="#111827"
+
             android:layout_marginTop="20dp"
+
             android:layout_marginBottom="12dp"/>
 
+
+
+
+
+
+
         <androidx.recyclerview.widget.RecyclerView
+
             android:id="@+id/scheduleRecyclerView"
+
             android:layout_width="match_parent"
+
             android:layout_height="wrap_content"
+
             android:nestedScrollingEnabled="false"/>
+
+
+
+
 
     </LinearLayout>
 
-</ScrollView>
+
+</androidx.core.widget.NestedScrollView>
