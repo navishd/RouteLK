@@ -285,8 +285,7 @@ public class ManageBusesActivity extends AppCompatActivity {
                     busList.clear();
 
 
-                    for(DocumentSnapshot document :
-                            queryDocumentSnapshots){
+                    for(DocumentSnapshot document : queryDocumentSnapshots){
 
 
                         Bus bus =
@@ -296,10 +295,22 @@ public class ManageBusesActivity extends AppCompatActivity {
                         if(bus != null){
 
 
-                            // Firestore document id = B001
                             bus.setBusID(
                                     document.getId()
                             );
+
+
+                            Long seats =
+                                    document.getLong("seatCount");
+
+
+                            if(seats != null){
+
+                                bus.setSeatCount(
+                                        seats.intValue()
+                                );
+
+                            }
 
 
                             busList.add(bus);
