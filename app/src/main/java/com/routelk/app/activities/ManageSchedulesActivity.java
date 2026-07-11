@@ -1,5 +1,7 @@
 package com.routelk.app.activities;
 
+import android.app.DatePickerDialog;
+import java.util.Calendar;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,7 +30,7 @@ public class ManageSchedulesActivity extends AppCompatActivity {
     private EditText etDeparture;
     private EditText etArrival;
     private EditText etPrice;
-    private EditText etOperatingDays;
+    private EditText etTravelDate;
 
 
     private Button btnAddSchedule;
@@ -60,8 +62,40 @@ public class ManageSchedulesActivity extends AppCompatActivity {
         etDeparture = findViewById(R.id.etDeparture);
         etArrival = findViewById(R.id.etArrival);
         etPrice = findViewById(R.id.etPrice);
-        etOperatingDays = findViewById(R.id.etOperatingDays);
+        etTravelDate = findViewById(R.id.etTravelDate);
 
+        etTravelDate.setOnClickListener(v -> {
+
+            Calendar calendar = Calendar.getInstance();
+
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+
+            DatePickerDialog dialog =
+                    new DatePickerDialog(
+                            ManageSchedulesActivity.this,
+                            (view, selectedYear, selectedMonth, selectedDay) -> {
+
+                                String date =
+                                        selectedYear + "-" +
+                                                String.format("%02d", selectedMonth + 1) + "-" +
+                                                String.format("%02d", selectedDay);
+
+
+                                etTravelDate.setText(date);
+
+                            },
+                            year,
+                            month,
+                            day
+                    );
+
+
+            dialog.show();
+
+        });
 
         btnAddSchedule = findViewById(R.id.btnAddSchedule);
 
@@ -145,8 +179,8 @@ public class ManageSchedulesActivity extends AppCompatActivity {
                         .trim();
 
 
-        String days =
-                etOperatingDays.getText()
+        String travelDate =
+                etTravelDate.getText()
                         .toString()
                         .trim();
 
@@ -157,7 +191,7 @@ public class ManageSchedulesActivity extends AppCompatActivity {
                 || departure.isEmpty()
                 || arrival.isEmpty()
                 || priceText.isEmpty()
-                || days.isEmpty()){
+                || travelDate.isEmpty()){
 
 
             Toast.makeText(
@@ -216,8 +250,8 @@ public class ManageSchedulesActivity extends AppCompatActivity {
 
 
                     schedule.put(
-                            "operatingDays",
-                            days
+                            "travelDate",
+                            travelDate
                     );
 
 
@@ -422,7 +456,7 @@ public class ManageSchedulesActivity extends AppCompatActivity {
 
         etPrice.setText("");
 
-        etOperatingDays.setText("");
+        etTravelDate.setText("");
 
 
     }
