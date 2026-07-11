@@ -1,5 +1,7 @@
 package com.routelk.app.activities;
 
+import android.app.DatePickerDialog;
+import java.util.Calendar;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -71,6 +73,38 @@ public class ManageSchedulesActivity extends AppCompatActivity {
 
         etPrice = findViewById(R.id.etPrice);
 
+        etTravelDate.setOnClickListener(v -> {
+
+            Calendar calendar = Calendar.getInstance();
+
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+
+            DatePickerDialog dialog =
+                    new DatePickerDialog(
+                            ManageSchedulesActivity.this,
+                            (view, selectedYear, selectedMonth, selectedDay) -> {
+
+                                String date =
+                                        selectedYear + "-" +
+                                                String.format("%02d", selectedMonth + 1) + "-" +
+                                                String.format("%02d", selectedDay);
+
+
+                                etTravelDate.setText(date);
+
+                            },
+                            year,
+                            month,
+                            day
+                    );
+
+
+            dialog.show();
+
+        });
 
 
         btnAddSchedule =

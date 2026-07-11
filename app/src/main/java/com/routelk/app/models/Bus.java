@@ -14,6 +14,7 @@ public class Bus {
 
 
     private int seatCount;
+    private String totalSeats;
 
 
     private String departureTime;

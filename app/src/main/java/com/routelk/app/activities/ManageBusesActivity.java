@@ -29,9 +29,11 @@ public class ManageBusesActivity extends AppCompatActivity {
     private EditText busNameEditText;
     private EditText busNumberEditText;
     private EditText busTypeEditText;
-    private EditText totalSeatsEditText;
+    private EditText seatCountEditText;
+
 
     private Button addBusBtn;
+
 
     private RecyclerView busRecyclerView;
 
@@ -40,41 +42,76 @@ public class ManageBusesActivity extends AppCompatActivity {
 
 
     private List<Bus> busList;
+
     private BusAdapter adapter;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_manage_buses);
+
 
 
         db = FirebaseFirestore.getInstance();
 
 
-        busNameEditText = findViewById(R.id.busNameEditText);
-        busNumberEditText = findViewById(R.id.busNumberEditText);
-        busTypeEditText = findViewById(R.id.busTypeEditText);
-        totalSeatsEditText = findViewById(R.id.totalSeatsEditText);
 
-        addBusBtn = findViewById(R.id.addBusBtn);
+        busNameEditText =
+                findViewById(R.id.busNameEditText);
 
 
-        busRecyclerView = findViewById(R.id.busRecyclerView);
+        busNumberEditText =
+                findViewById(R.id.busNumberEditText);
+
+
+        busTypeEditText =
+                findViewById(R.id.busTypeEditText);
+
+
+        seatCountEditText =
+                findViewById(R.id.seatCountEditText);
+
+
+
+        addBusBtn =
+                findViewById(R.id.addBusBtn);
+
+
+
+        busRecyclerView =
+                findViewById(R.id.busRecyclerView);
+
+
+
+        busRecyclerView =
+                findViewById(R.id.busRecyclerView);
+
 
         busRecyclerView.setLayoutManager(
                 new LinearLayoutManager(this)
         );
 
 
+        busRecyclerView.setHasFixedSize(true);
+
+
+        busRecyclerView.setNestedScrollingEnabled(true);
+
         busList = new ArrayList<>();
+
 
         adapter = new BusAdapter(
                 this,
                 busList
         );
 
+
         busRecyclerView.setAdapter(adapter);
+
 
 
         loadBuses();
@@ -83,7 +120,11 @@ public class ManageBusesActivity extends AppCompatActivity {
 
         addBusBtn.setOnClickListener(v -> saveBus());
 
+
     }
+
+
+
 
 
 
@@ -108,80 +149,108 @@ public class ManageBusesActivity extends AppCompatActivity {
                         .trim();
 
 
-        String totalSeatsText = totalSeatsEditText.getText().toString().trim();
+        String seatText =
+                seatCountEditText.getText()
+                        .toString()
+                        .trim();
+
+
 
         if (TextUtils.isEmpty(busName)
                 || TextUtils.isEmpty(busNumber)
                 || TextUtils.isEmpty(busType)
-                || TextUtils.isEmpty(totalSeatsText)) {
+                || TextUtils.isEmpty(seatText)){
 
             Toast.makeText(this,
                     "Please fill all fields",
-                    Toast.LENGTH_SHORT).show();
+                    Toast.LENGTH_SHORT
+            ).show();
+
+
             return;
+
         }
 
         int totalSeats = Integer.parseInt(totalSeatsText);
 
 
 
-        generateNextBusId(new BusIdCallback() {
 
-            @Override
-            public void onGenerated(String busId) {
-
-
-                Map<String,Object> bus =
-                        new HashMap<>();
-
-
-                bus.put("busId", busId);
-                bus.put("busName", busName);
-                bus.put("busNumber", busNumber);
-                bus.put("busType", busType);
-                bus.put("totalSeats", totalSeats);
-
-
-
-                // Save using B001 as document ID
-
-                db.collection("buses")
-                        .document(busId)
-                        .set(bus)
-
-                        .addOnSuccessListener(unused -> {
-
-
-                            Toast.makeText(
-                                    ManageBusesActivity.this,
-                                    "Bus Added : " + busId,
-                                    Toast.LENGTH_SHORT
-                            ).show();
+        int seatCount =
+                Integer.parseInt(seatText);
 
 
 
 
+        generateNextBusId(busId -> {
 
 
-                            loadBuses();
+
+            Map<String,Object> bus =
+                    new HashMap<>();
 
 
-                        })
 
-                        .addOnFailureListener(e -> {
-
-
-                            Toast.makeText(
-                                    ManageBusesActivity.this,
-                                    e.getMessage(),
-                                    Toast.LENGTH_LONG
-                            ).show();
+            bus.put(
+                    "busId",
+                    busId
+            );
 
 
-                        });
+            bus.put(
+                    "busName",
+                    busName
+            );
 
-            }
+
+            bus.put(
+                    "busNumber",
+                    busNumber
+            );
+
+
+            bus.put(
+                    "busType",
+                    busType
+            );
+
+
+            // ONLY seatCount
+            bus.put(
+                    "seatCount",
+                    seatCount
+            );
+
+
+
+            db.collection("buses")
+                    .document(busId)
+                    .set(bus)
+
+
+                    .addOnSuccessListener(unused -> {
+
+
+                        Toast.makeText(
+                                this,
+                                "Bus Added : " + busId,
+                                Toast.LENGTH_SHORT
+                        ).show();
+
+
+
+                        clearFields();
+
+
+                        loadBuses();
+
+
+
+                    });
+
+
         });
+
 
 
     }
@@ -190,21 +259,30 @@ public class ManageBusesActivity extends AppCompatActivity {
 
 
 
-    private void generateNextBusId(BusIdCallback callback){
+
+
+    private void generateNextBusId(
+            BusIdCallback callback){
+
 
 
         db.collection("buses")
+
                 .orderBy(
                         "busId",
                         Query.Direction.DESCENDING
                 )
+
                 .limit(1)
+
                 .get()
 
                 .addOnSuccessListener(snapshot -> {
 
 
+
                     String nextId;
+
 
 
                     if(snapshot.isEmpty()){
@@ -213,43 +291,38 @@ public class ManageBusesActivity extends AppCompatActivity {
                         nextId = "B001";
 
 
-                    }else{
+                    }
+                    else{
 
 
-                        DocumentSnapshot document =
+                        DocumentSnapshot doc =
                                 snapshot.getDocuments()
                                         .get(0);
 
 
 
                         String lastId =
-                                document.getString("busId");
+                                doc.getString("busId");
 
 
 
-                        if(lastId == null){
-
-                            nextId = "B001";
-
-                        }else{
-
-
-                            int number =
-                                    Integer.parseInt(
-                                            lastId.substring(1)
-                                    );
+                        int number =
+                                Integer.parseInt(
+                                        lastId.substring(1)
+                                );
 
 
-                            number++;
+
+                        number++;
 
 
-                            nextId =
-                                    String.format(
-                                            "B%03d",
-                                            number
-                                    );
 
-                        }
+                        nextId =
+                                String.format(
+                                        "B%03d",
+                                        number
+                                );
+
 
                     }
 
@@ -261,7 +334,12 @@ public class ManageBusesActivity extends AppCompatActivity {
 
                 });
 
+
+
     }
+
+
+
 
 
 
@@ -271,53 +349,77 @@ public class ManageBusesActivity extends AppCompatActivity {
 
         db.collection("buses")
                 .get()
-
-                .addOnSuccessListener(queryDocumentSnapshots -> {
+                .addOnSuccessListener(snapshot -> {
 
 
                     busList.clear();
 
+                    android.util.Log.d("BUS_TEST", "Documents = " + snapshot.size());
+                    for(DocumentSnapshot document : snapshot){
 
-                    for(DocumentSnapshot document :
-                            queryDocumentSnapshots){
-
-
-                        Bus bus =
-                                document.toObject(Bus.class);
+                        android.util.Log.d("BUS_TEST", document.getId());
+                        Bus bus = new Bus();
 
 
-                        if(bus != null){
+                        bus.setBusID(
+                                document.getId()
+                        );
 
 
-                            // Firestore document id = B001
-                            bus.setBusID(
-                                    document.getId()
+                        bus.setBusName(
+                                document.getString("busName")
+                        );
+
+
+                        bus.setBusNumber(
+                                document.getString("busNumber")
+                        );
+
+
+                        bus.setBusType(
+                                document.getString("busType")
+                        );
+
+
+                        Long seats =
+                                document.getLong("seatCount");
+
+
+                        if(seats != null){
+
+                            bus.setSeatCount(
+                                    seats.intValue()
                             );
-
-
-                            busList.add(bus);
 
                         }
 
+
+                        busList.add(bus);
+
+
                     }
-
-
                     adapter.notifyDataSetChanged();
 
-
-                })
-
-                .addOnFailureListener(e -> {
-
-                    Toast.makeText(
-                            this,
-                            "Failed to load buses : " + e.getMessage(),
-                            Toast.LENGTH_SHORT
-                    ).show();
 
                 });
 
     }
+    private void clearFields(){
+
+
+        busNameEditText.setText("");
+
+        busNumberEditText.setText("");
+
+        busTypeEditText.setText("");
+
+        seatCountEditText.setText("");
+
+    }
+
+
+
+
 
 
     interface BusIdCallback{
@@ -325,5 +427,6 @@ public class ManageBusesActivity extends AppCompatActivity {
         void onGenerated(String busId);
 
     }
+
 
 }

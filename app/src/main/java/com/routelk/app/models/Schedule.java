@@ -126,6 +126,7 @@ public class Schedule {
 
     }
 
+    public void setTravelDate(String travelDate) {
 
     public void setTravelDate(String travelDate){
 
