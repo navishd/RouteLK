@@ -45,6 +45,7 @@ public class Home extends AppCompatActivity {
 
     private MaterialCardView btnSwap;
     private MaterialCardView btnNotification;
+    private MaterialCardView fabVoiceAssistant;
 
 
     private LinearLayout layoutDate;
@@ -124,7 +125,10 @@ public class Home extends AppCompatActivity {
 
         btnNotification = findViewById(R.id.btnNotification);
 
-
+        fabVoiceAssistant = findViewById(R.id.fabVoiceAssistant);
+        fabVoiceAssistant.setOnClickListener(v -> {
+            startActivity(new Intent(Home.this, ChatAssistantActivity.class));
+        });
 
         layoutDate = findViewById(R.id.layoutDate);
 
