@@ -141,7 +141,7 @@ public class Home extends AppCompatActivity {
         bottomNavigationView =
                 findViewById(R.id.bottomNavigationView);
 
-
+        setupBottomNavigation();
 
         calendar = Calendar.getInstance();
 
@@ -447,6 +447,75 @@ public class Home extends AppCompatActivity {
 
 
     }
+    private void setupBottomNavigation() {
 
+
+        bottomNavigationView.setSelectedItemId(R.id.nav_home);
+
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+
+
+            int id = item.getItemId();
+
+
+            if(id == R.id.nav_home){
+
+                return true;
+
+            }
+
+
+            else if(id == R.id.nav_activities){
+
+
+                startActivity(
+                        new Intent(
+                                Home.this,
+                                MyActivitiesActivity.class
+                        )
+                );
+
+                return true;
+
+            }
+
+
+            else if(id == R.id.nav_tickets){
+
+
+                startActivity(
+                        new Intent(
+                                Home.this,
+                                TicketsActivity.class
+                        )
+                );
+
+                return true;
+
+            }
+
+
+            else if(id == R.id.nav_account){
+
+
+                startActivity(
+                        new Intent(
+                                Home.this,
+                                ProfileActivity.class
+                        )
+                );
+
+                return true;
+
+            }
+
+
+            return false;
+
+        });
+
+
+    }
 
 }
