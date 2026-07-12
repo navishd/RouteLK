@@ -9,6 +9,7 @@ public class Booking {
     private String userName;
     private String passengerName;
     private String passengerPhone;
+    private String passengerEmail;
     private String from;
     private String to;
     private String busName;
@@ -29,6 +30,7 @@ public class Booking {
                    String userName,
                    String passengerName,
                    String passengerPhone,
+                   String passengerEmail,
                    String from,
                    String to,
                    String busName,
@@ -44,6 +46,7 @@ public class Booking {
         this.userName = userName;
         this.passengerName = passengerName;
         this.passengerPhone = passengerPhone;
+        this.passengerEmail = passengerEmail;
         this.from = from;
         this.to = to;
         this.busName = busName;
@@ -93,6 +96,14 @@ public class Booking {
 
     public void setPassengerPhone(String passengerPhone) {
         this.passengerPhone = passengerPhone;
+    }
+
+    public String getPassengerEmail() {
+        return passengerEmail;
+    }
+
+    public void setPassengerEmail(String passengerEmail) {
+        this.passengerEmail = passengerEmail;
     }
 
     public String getFrom() {

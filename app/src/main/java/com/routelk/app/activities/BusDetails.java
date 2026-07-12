@@ -48,6 +48,8 @@ public class BusDetails extends AppCompatActivity {
 
     private int seats;
 
+    private boolean isForOthers;
+
 
 
     @Override
@@ -124,7 +126,7 @@ public class BusDetails extends AppCompatActivity {
                     departure
             );
 
-
+            intent.putExtra("IS_FOR_OTHERS", isForOthers);
 
             double busPrice = 0;
 
@@ -273,7 +275,7 @@ public class BusDetails extends AppCompatActivity {
                                 0
                         );
 
-
+        isForOthers = getIntent().getBooleanExtra("IS_FOR_OTHERS", false);
     }
 
 

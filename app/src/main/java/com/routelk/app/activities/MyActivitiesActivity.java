@@ -169,55 +169,13 @@ public class MyActivitiesActivity extends AppCompatActivity {
                         Intent intent =
                                 new Intent(
                                         MyActivitiesActivity.this,
-                                        ManageBookingsActivity.class
+                                        TicketViewActivity.class
                                 );
 
 
                         intent.putExtra(
-                                "booking_id",
+                                "BOOKING_ID",
                                 booking.getId()
-                        );
-
-
-                        intent.putExtra(
-                                "from",
-                                booking.getFrom()
-                        );
-
-
-                        intent.putExtra(
-                                "to",
-                                booking.getTo()
-                        );
-
-
-                        intent.putExtra(
-                                "date",
-                                booking.getDate()
-                        );
-
-
-                        intent.putExtra(
-                                "time",
-                                booking.getTime()
-                        );
-
-
-                        intent.putExtra(
-                                "seat",
-                                booking.getSeatNo()
-                        );
-
-
-                        intent.putExtra(
-                                "bus",
-                                booking.getBusName()
-                        );
-
-
-                        intent.putExtra(
-                                "passenger_phone",
-                                booking.getPassengerPhone()
                         );
 
 

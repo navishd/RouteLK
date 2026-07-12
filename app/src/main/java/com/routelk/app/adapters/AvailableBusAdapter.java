@@ -31,6 +31,7 @@ public class AvailableBusAdapter extends RecyclerView.Adapter<AvailableBusAdapte
     private String date;
     private String time;
     private String passengers;
+    private boolean isForOthers;
 
 
 
@@ -42,7 +43,7 @@ public class AvailableBusAdapter extends RecyclerView.Adapter<AvailableBusAdapte
             String date,
             String time,
             String passengers,
-            String extra
+            boolean isForOthers
     ){
 
         this.context = context;
@@ -53,7 +54,7 @@ public class AvailableBusAdapter extends RecyclerView.Adapter<AvailableBusAdapte
         this.date = date;
         this.time = time;
         this.passengers = passengers;
-
+        this.isForOthers = isForOthers;
     }
 
 
@@ -226,7 +227,7 @@ public class AvailableBusAdapter extends RecyclerView.Adapter<AvailableBusAdapte
                     date
             );
 
-
+            intent.putExtra("IS_FOR_OTHERS", isForOthers);
 
             context.startActivity(intent);
 

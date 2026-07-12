@@ -2,8 +2,6 @@ package com.routelk.app.activities;
 
 import android.os.Bundle;
 import android.content.Intent;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -16,9 +14,15 @@ import com.routelk.app.R;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.routelk.app.models.User;
 import java.util.ArrayList;
 
 public class PassengerDetailsScreen extends AppCompatActivity {
+
+    private FirebaseAuth auth;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,22 +45,36 @@ public class PassengerDetailsScreen extends AppCompatActivity {
         String to = incomingIntent.getStringExtra("TO");
         String date = incomingIntent.getStringExtra("DATE");
         String time = incomingIntent.getStringExtra("TIME");
+        double price = incomingIntent.getDoubleExtra("PRICE", 0.0);
         
+        auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
         EditText fullNameEditText = findViewById(R.id.fullNameEditText);
         EditText phoneEditText = findViewById(R.id.phoneEditText);
+        EditText emailEditText = findViewById(R.id.emailEditText);
         TextView passengerLabel = findViewById(R.id.passengerLabel);
 
         if (isForOthers) {
             passengerLabel.setText("Passenger Details");
             fullNameEditText.setText(""); // Clear default value
             phoneEditText.setText(""); // Clear default value
+            emailEditText.setText("");
+        } else {
+            // Fetch current user details
+            if (auth.getCurrentUser() != null) {
+                db.collection("users").document(auth.getCurrentUser().getUid())
+                        .get()
+                        .addOnSuccessListener(documentSnapshot -> {
+                            User user = documentSnapshot.toObject(User.class);
+                            if (user != null) {
+                                fullNameEditText.setText(user.getFullName());
+                                phoneEditText.setText(user.getPhone());
+                                emailEditText.setText(user.getEmail());
+                            }
+                        });
+            }
         }
-
-        // Initialize ID Type Dropdown
-        String[] idTypes = {"NIC", "Passport", "Driving License"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, idTypes);
-        AutoCompleteTextView idTypeDropdown = findViewById(R.id.idTypeDropdown);
-        idTypeDropdown.setAdapter(adapter);
 
         // Back button click listener
         findViewById(R.id.backButton).setOnClickListener(v -> finish());
@@ -65,9 +83,16 @@ public class PassengerDetailsScreen extends AppCompatActivity {
         findViewById(R.id.nextButton).setOnClickListener(v -> {
             String pName = fullNameEditText.getText().toString().trim();
             String pPhone = phoneEditText.getText().toString().trim();
+            String pEmail = emailEditText.getText().toString().trim();
 
-            if (pName.isEmpty() || pPhone.isEmpty()) {
+            if (pName.isEmpty() || pPhone.isEmpty() || pEmail.isEmpty()) {
                 Toast.makeText(this, "Please fill all details", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Simple email validation
+            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(pEmail).matches()) {
+                Toast.makeText(this, "Please enter a valid email", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -80,8 +105,10 @@ public class PassengerDetailsScreen extends AppCompatActivity {
             intent.putExtra("TO", to);
             intent.putExtra("DATE", date);
             intent.putExtra("TIME", time);
+            intent.putExtra("PRICE", price);
             intent.putExtra("PASSENGER_NAME", pName);
             intent.putExtra("PASSENGER_PHONE", pPhone);
+            intent.putExtra("PASSENGER_EMAIL", pEmail);
             startActivity(intent);
         });
     }
