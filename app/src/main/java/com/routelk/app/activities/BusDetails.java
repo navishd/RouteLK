@@ -81,7 +81,7 @@ public class BusDetails extends AppCompatActivity {
 
 
 
-            /*
+
             Intent intent =
                     new Intent(
                             BusDetails.this,
@@ -96,8 +96,32 @@ public class BusDetails extends AppCompatActivity {
 
 
             intent.putExtra(
+                    "BUS_NAME",
+                    busName
+            );
+
+
+            intent.putExtra(
+                    "FROM",
+                    from
+            );
+
+
+            intent.putExtra(
+                    "TO",
+                    to
+            );
+
+
+            intent.putExtra(
                     "DATE",
                     date
+            );
+
+
+            intent.putExtra(
+                    "TIME",
+                    departure
             );
 
 
@@ -113,6 +137,25 @@ public class BusDetails extends AppCompatActivity {
             );
 
 
+            double busPrice = 0;
+
+            try {
+
+                busPrice = Double.parseDouble(price);
+
+            }
+            catch(Exception e){
+
+                busPrice = 0;
+
+            }
+
+
+            intent.putExtra(
+                    "PRICE",
+                    busPrice
+            );
+
             intent.putExtra(
                     "SEATS",
                     seats
@@ -121,7 +164,7 @@ public class BusDetails extends AppCompatActivity {
 
             startActivity(intent);
 
-            */
+
 
 
         });
