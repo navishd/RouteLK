@@ -4,7 +4,8 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.EditText;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,17 +20,23 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.routelk.app.R;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 
 public class Home extends AppCompatActivity {
 
 
-    private EditText etFrom, etTo;
+    private AutoCompleteTextView etFrom, etTo;
 
     private TextView tvDate;
     private TextView tvTime;
@@ -136,7 +143,7 @@ public class Home extends AppCompatActivity {
         switchBookingForOthers =
                 findViewById(R.id.switchBookingForOthers);
 
-
+        loadRoutes();
 
         bottomNavigationView =
                 findViewById(R.id.bottomNavigationView);
@@ -447,6 +454,30 @@ public class Home extends AppCompatActivity {
 
 
     }
+    private void loadRoutes() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("routes").get().addOnSuccessListener(queryDocumentSnapshots -> {
+            Set<String> fromList = new HashSet<>();
+            Set<String> toList = new HashSet<>();
+
+            for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                String from = document.getString("from");
+                String to = document.getString("to");
+                if (from != null) fromList.add(from);
+                if (to != null) toList.add(to);
+            }
+
+            setupAdapter(etFrom, new ArrayList<>(fromList));
+            setupAdapter(etTo, new ArrayList<>(toList));
+        });
+    }
+
+    private void setupAdapter(AutoCompleteTextView view, List<String> list) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, list);
+        view.setAdapter(adapter);
+        view.setOnClickListener(v -> view.showDropDown());
+    }
+
     private void setupBottomNavigation() {
 
 

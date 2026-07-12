@@ -171,18 +171,21 @@
                                     android:textStyle="bold"
                                     android:textAllCaps="true"/>
 
-                                <EditText
+                                <AutoCompleteTextView
                                     android:id="@+id/etFrom"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@android:color/transparent"
                                     android:hint="Choose Starting Point"
-                                    android:inputType="textCapWords"
+                                    android:inputType="none"
+                                    android:focusable="false"
+                                    android:clickable="true"
                                     android:paddingVertical="8dp"
                                     android:text=""
                                     android:textColor="@color/text_primary"
                                     android:textSize="20sp"
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"
+                                    android:completionThreshold="0"/>
                             </LinearLayout>
                         </LinearLayout>
 
@@ -219,18 +222,21 @@
                                     android:textStyle="bold"
                                     android:textAllCaps="true"/>
 
-                                <EditText
+                                <AutoCompleteTextView
                                     android:id="@+id/etTo"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@android:color/transparent"
                                     android:hint="Choose Destination"
-                                    android:inputType="textCapWords"
+                                    android:inputType="none"
+                                    android:focusable="false"
+                                    android:clickable="true"
                                     android:paddingVertical="8dp"
                                     android:text=""
                                     android:textColor="@color/text_primary"
                                     android:textSize="20sp"
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"
+                                    android:completionThreshold="0"/>
                             </LinearLayout>
                         </LinearLayout>
 
