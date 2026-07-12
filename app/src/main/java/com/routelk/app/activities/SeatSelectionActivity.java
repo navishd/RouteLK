@@ -1,5 +1,6 @@
 package com.routelk.app.activities;
 
+
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -9,11 +10,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+
 import androidx.appcompat.app.AppCompatActivity;
+
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+
 import com.routelk.app.R;
+
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -21,17 +27,27 @@ import java.util.List;
 import java.util.Set;
 
 
+
 public class SeatSelectionActivity extends AppCompatActivity {
 
 
     private Button continueButton;
 
-    private Set<String> selectedSeats = new HashSet<>();
-
-    private List<Button> seatButtons = new ArrayList<>();
 
     private FirebaseFirestore db;
 
+
+
+    private Set<String> selectedSeats =
+            new HashSet<>();
+
+
+    private List<Button> seatButtons =
+            new ArrayList<>();
+
+
+    public static Set<String> reservedSeats =
+            new HashSet<>();
 
 
     private String busId;
@@ -44,64 +60,42 @@ public class SeatSelectionActivity extends AppCompatActivity {
 
 
 
-    public static final Set<String> reservedSeats =
-            new HashSet<>();
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_seat_selection);
+
+        setContentView(
+                R.layout.activity_seat_selection
+        );
 
 
-        db = FirebaseFirestore.getInstance();
+
+        db =
+                FirebaseFirestore.getInstance();
+
+
 
 
         continueButton =
-                findViewById(R.id.continueButton);
-
-
-
-        Intent intent = getIntent();
-
-
-        busId =
-                intent.getStringExtra("BUS_ID");
-
-
-        busName =
-                intent.getStringExtra("BUS_NAME");
-
-
-        from =
-                intent.getStringExtra("FROM");
-
-
-        to =
-                intent.getStringExtra("TO");
-
-
-        date =
-                intent.getStringExtra("DATE");
-
-
-        time =
-                intent.getStringExtra("TIME");
-
-
-        price =
-                intent.getDoubleExtra(
-                        "PRICE",
-                        0
+                findViewById(
+                        R.id.continueButton
                 );
 
 
 
+        getIntentData();
+
+
+
+
         ViewGroup root =
-                findViewById(R.id.seatSelectionRoot);
+                findViewById(
+                        R.id.seatSelectionRoot
+                );
 
 
 
@@ -109,7 +103,10 @@ public class SeatSelectionActivity extends AppCompatActivity {
 
 
 
+
         fetchReservedSeats();
+
+
 
 
 
@@ -122,18 +119,21 @@ public class SeatSelectionActivity extends AppCompatActivity {
 
                 Toast.makeText(
                         this,
-                        "Select seat first",
+                        "Please select seat",
                         Toast.LENGTH_SHORT
                 ).show();
 
 
                 return;
 
+
             }
 
 
 
-            Intent next =
+
+
+            Intent intent =
                     new Intent(
                             SeatSelectionActivity.this,
                             Payment.class
@@ -141,56 +141,60 @@ public class SeatSelectionActivity extends AppCompatActivity {
 
 
 
-            next.putStringArrayListExtra(
+            intent.putStringArrayListExtra(
                     "SELECTED_SEATS",
                     new ArrayList<>(selectedSeats)
             );
 
 
-            next.putExtra(
+
+            intent.putExtra(
                     "BUS_ID",
                     busId
             );
 
 
-            next.putExtra(
+
+            intent.putExtra(
                     "BUS_NAME",
                     busName
             );
 
 
-            next.putExtra(
+
+            intent.putExtra(
                     "FROM",
                     from
             );
 
 
-            next.putExtra(
+
+            intent.putExtra(
                     "TO",
                     to
             );
 
 
-            next.putExtra(
+
+            intent.putExtra(
                     "DATE",
                     date
             );
 
 
-            next.putExtra(
+
+            intent.putExtra(
+                    "PRICE",
+                    price
+            );
+
+            intent.putExtra(
                     "TIME",
                     time
             );
 
 
-            next.putExtra(
-                    "PRICE",
-                    price
-            );
-
-
-
-            startActivity(next);
+            startActivity(intent);
 
 
 
@@ -204,14 +208,83 @@ public class SeatSelectionActivity extends AppCompatActivity {
 
 
 
+
+
+
+    private void getIntentData(){
+
+
+
+        Intent intent =
+                getIntent();
+
+
+
+        busId =
+                intent.getStringExtra(
+                        "BUS_ID"
+                );
+
+
+
+        busName =
+                intent.getStringExtra(
+                        "BUS_NAME"
+                );
+
+
+
+        from =
+                intent.getStringExtra(
+                        "FROM"
+                );
+
+
+
+        to =
+                intent.getStringExtra(
+                        "TO"
+                );
+
+
+
+        date =
+                intent.getStringExtra(
+                        "DATE"
+                );
+
+
+
+        price =
+                intent.getDoubleExtra(
+                        "PRICE",
+                        0
+                );
+
+        time =
+                intent.getStringExtra("TIME");
+
+    }
+
+
+
+
+
+
+
+
+
     @Override
     protected void onResume(){
 
         super.onResume();
 
+
         fetchReservedSeats();
 
+
     }
+
 
 
 
@@ -225,6 +298,7 @@ public class SeatSelectionActivity extends AppCompatActivity {
 
         if(busName == null || date == null){
 
+
             refreshSeats();
 
             return;
@@ -233,41 +307,62 @@ public class SeatSelectionActivity extends AppCompatActivity {
 
 
 
+
+
+
         db.collection("bookings")
+
 
                 .whereEqualTo(
                         "busName",
                         busName
                 )
 
+
                 .whereEqualTo(
                         "date",
                         date
                 )
 
+
                 .get()
 
+
                 .addOnSuccessListener(snapshot -> {
+
 
 
                     reservedSeats.clear();
 
 
 
+
                     for(QueryDocumentSnapshot doc : snapshot){
 
 
-                        String seat =
-                                doc.getString("seatNo");
+
+                        String seatNo =
+                                doc.getString(
+                                        "seatNo"
+                                );
 
 
-                        if(seat != null){
 
-                            reservedSeats.add(seat);
+                        if(seatNo != null){
+
+
+                            reservedSeats.add(
+                                    seatNo
+                            );
+
 
                         }
 
+
+
                     }
+
+
 
 
 
@@ -275,9 +370,28 @@ public class SeatSelectionActivity extends AppCompatActivity {
 
 
 
+                })
+
+
+
+                .addOnFailureListener(e -> {
+
+
+
+                    Toast.makeText(
+                            this,
+                            "Seat loading failed",
+                            Toast.LENGTH_SHORT
+                    ).show();
+
+
+
                 });
 
+
+
     }
+
 
 
 
@@ -290,7 +404,10 @@ public class SeatSelectionActivity extends AppCompatActivity {
 
 
 
-        for(int i=0;i<parent.getChildCount();i++){
+        for(int i=0;
+            i < parent.getChildCount();
+            i++){
+
 
 
             View child =
@@ -298,43 +415,51 @@ public class SeatSelectionActivity extends AppCompatActivity {
 
 
 
+
             if(child instanceof Button){
 
 
-                Button btn =
-                        (Button)child;
+
+                Button button =
+                        (Button) child;
 
 
 
                 String text =
-                        btn.getText().toString();
+                        button.getText()
+                                .toString();
 
 
 
                 if(text.matches("\\d+")){
 
 
-                    seatButtons.add(btn);
+                    seatButtons.add(
+                            button
+                    );
 
 
                 }
 
 
-            }
 
+            }
 
             else if(child instanceof ViewGroup){
 
 
+
                 collectAllSeats(
-                        (ViewGroup)child
+                        (ViewGroup) child
                 );
 
 
             }
 
 
+
         }
+
 
 
     }
@@ -350,18 +475,24 @@ public class SeatSelectionActivity extends AppCompatActivity {
     private void refreshSeats(){
 
 
+
         for(Button seat : seatButtons){
 
 
+
             String number =
-                    seat.getText().toString();
+                    seat.getText()
+                            .toString();
+
 
 
 
             if(reservedSeats.contains(number)){
 
 
-                setSeatReserved(seat);
+
+                setReserved(seat);
+
 
 
             }
@@ -369,7 +500,9 @@ public class SeatSelectionActivity extends AppCompatActivity {
             else if(selectedSeats.contains(number)){
 
 
-                setSeatSelected(seat);
+
+                setSelected(seat);
+
 
 
             }
@@ -377,13 +510,20 @@ public class SeatSelectionActivity extends AppCompatActivity {
             else{
 
 
-                setSeatAvailable(seat);
+                setAvailable(seat);
+
 
 
             }
 
 
+
         }
+
+
+
+        updateButton();
+
 
 
     }
@@ -402,18 +542,23 @@ public class SeatSelectionActivity extends AppCompatActivity {
     ){
 
 
+
         if(selectedSeats.contains(number)){
 
 
-            selectedSeats.remove(number);
+
+            selectedSeats.remove(
+                    number
+            );
 
 
         }
-
         else{
 
 
-            selectedSeats.add(number);
+            selectedSeats.add(
+                    number
+            );
 
 
         }
@@ -424,11 +569,44 @@ public class SeatSelectionActivity extends AppCompatActivity {
 
 
 
-        continueButton.setText(
-                "Continue ("+
-                        selectedSeats.size()
-                        +" Selected)"
-        );
+    }
+
+
+
+
+
+
+
+
+
+    private void updateButton(){
+
+
+
+        if(selectedSeats.isEmpty()){
+
+
+            continueButton.setText(
+                    "Continue"
+            );
+
+
+        }
+        else{
+
+
+            continueButton.setText(
+                    "Continue ("
+                            +
+                            selectedSeats.size()
+                            +
+                            " Selected)"
+            );
+
+
+        }
+
+
 
     }
 
@@ -439,11 +617,13 @@ public class SeatSelectionActivity extends AppCompatActivity {
 
 
 
-    private void setSeatAvailable(Button seat){
+
+    private void setAvailable(Button seat){
 
 
 
         seat.setEnabled(true);
+
 
 
         seat.setBackgroundTintList(
@@ -453,6 +633,7 @@ public class SeatSelectionActivity extends AppCompatActivity {
         );
 
 
+
         seat.setTextColor(
                 Color.BLACK
         );
@@ -460,11 +641,14 @@ public class SeatSelectionActivity extends AppCompatActivity {
 
 
         seat.setOnClickListener(v ->
+
                 toggleSeat(
                         seat,
                         seat.getText().toString()
                 )
+
         );
+
 
 
     }
@@ -476,7 +660,9 @@ public class SeatSelectionActivity extends AppCompatActivity {
 
 
 
-    private void setSeatSelected(Button seat){
+
+    private void setSelected(Button seat){
+
 
 
         seat.setEnabled(true);
@@ -490,6 +676,7 @@ public class SeatSelectionActivity extends AppCompatActivity {
         );
 
 
+
         seat.setTextColor(
                 Color.WHITE
         );
@@ -497,10 +684,12 @@ public class SeatSelectionActivity extends AppCompatActivity {
 
 
         seat.setOnClickListener(v ->
+
                 toggleSeat(
                         seat,
                         seat.getText().toString()
                 )
+
         );
 
 
@@ -513,7 +702,8 @@ public class SeatSelectionActivity extends AppCompatActivity {
 
 
 
-    private void setSeatReserved(Button seat){
+
+    private void setReserved(Button seat){
 
 
 
@@ -528,9 +718,11 @@ public class SeatSelectionActivity extends AppCompatActivity {
         );
 
 
+
         seat.setTextColor(
                 Color.WHITE
         );
+
 
 
         seat.setOnClickListener(null);

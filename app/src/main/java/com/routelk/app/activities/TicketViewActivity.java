@@ -1,112 +1,412 @@
 package com.routelk.app.activities;
 
-import android.content.Intent;
+
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+
+
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+
 import com.routelk.app.R;
 import com.routelk.app.adapters.TicketPagerAdapter;
 import com.routelk.app.models.Booking;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class TicketViewActivity extends AppCompatActivity {
+
+
+
+    private ViewPager2 viewPager;
+
+    private TextView tvTicketCounter;
+
+    private ImageView btnPrevTicket;
+    private ImageView btnNextTicket;
+
+    private TabLayout tabIndicator;
+
+
+    private FirebaseFirestore db;
+
+
+
+    private ArrayList<Booking> tickets =
+            new ArrayList<>();
+
+
+    private String bookingId;
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ticket_view);
 
-        ImageView btnBack = findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(v -> navigateToHome());
 
-        // Get data
-        String bookingId = getIntent().getStringExtra("booking_id");
-        String from = getIntent().getStringExtra("from");
-        String to = getIntent().getStringExtra("to");
-        String date = getIntent().getStringExtra("date");
-        String time = getIntent().getStringExtra("time");
-        String seat = getIntent().getStringExtra("seat"); // Can be "28, 29"
-        String bus = getIntent().getStringExtra("bus");
+        setContentView(
+                R.layout.activity_ticket_view
+        );
 
-        List<Booking> tickets = new ArrayList<>();
-        if (seat != null) {
-            String[] seats = seat.split(",");
-            for (String s : seats) {
-                String trimmedSeat = s.trim();
-                // Create a separate booking object for each ticket to be displayed
-                Booking b = new Booking();
-                b.setId(bookingId + "-" + trimmedSeat);
-                b.setFrom(from != null ? from : "N/A");
-                b.setTo(to != null ? to : "N/A");
-                b.setDate(date != null ? date : "N/A");
-                b.setTime(time != null ? time : "N/A");
-                b.setSeatNo(trimmedSeat);
-                b.setBusName(bus != null ? bus : "N/A");
-                tickets.add(b);
-            }
+
+
+        db =
+                FirebaseFirestore.getInstance();
+
+
+
+        initializeViews();
+
+
+
+        bookingId =
+                getIntent()
+                        .getStringExtra(
+                                "BOOKING_ID"
+                        );
+
+
+
+        if(bookingId == null){
+
+
+            Toast.makeText(
+                    this,
+                    "Booking ID missing",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+
+            finish();
+
+            return;
+
         }
 
-        ViewPager2 viewPager = findViewById(R.id.viewPagerTickets);
-        TextView tvTicketCounter = findViewById(R.id.tvTicketCounter);
-        ImageView btnPrev = findViewById(R.id.btnPrevTicket);
-        ImageView btnNext = findViewById(R.id.btnNextTicket);
-        
-        TicketPagerAdapter adapter = new TicketPagerAdapter(tickets);
-        viewPager.setAdapter(adapter);
 
-        // Update counter on swipe
-        if (tvTicketCounter != null) {
-            tvTicketCounter.setText("1/" + tickets.size());
-            
-            if (btnPrev != null) btnPrev.setOnClickListener(v -> viewPager.setCurrentItem(viewPager.getCurrentItem() - 1));
-            if (btnNext != null) btnNext.setOnClickListener(v -> viewPager.setCurrentItem(viewPager.getCurrentItem() + 1));
 
-            viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-                @Override
-                public void onPageSelected(int position) {
-                    super.onPageSelected(position);
-                    tvTicketCounter.setText((position + 1) + "/" + tickets.size());
-                    
-                    if (btnPrev != null) {
-                        btnPrev.setEnabled(position > 0);
-                        btnPrev.setAlpha(position > 0 ? 1.0f : 0.3f);
+        loadTicket();
+
+
+
+        ImageView btnBack =
+                findViewById(R.id.btnBack);
+
+
+
+        if(btnBack != null){
+
+
+            btnBack.setOnClickListener(
+                    v -> finish()
+            );
+
+
+        }
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+    private void initializeViews(){
+
+
+
+        viewPager =
+                findViewById(
+                        R.id.viewPagerTickets
+                );
+
+
+
+        tvTicketCounter =
+                findViewById(
+                        R.id.tvTicketCounter
+                );
+
+
+
+        btnPrevTicket =
+                findViewById(
+                        R.id.btnPrevTicket
+                );
+
+
+
+        btnNextTicket =
+                findViewById(
+                        R.id.btnNextTicket
+                );
+
+
+
+        tabIndicator =
+                findViewById(
+                        R.id.tabIndicator
+                );
+
+
+    }
+
+
+
+
+
+
+
+
+
+    private void loadTicket(){
+
+
+
+        db.collection("bookings")
+                .whereGreaterThanOrEqualTo(
+                        "id",
+                        bookingId
+                )
+                .get()
+                .addOnSuccessListener(snapshot -> {
+
+
+
+                    tickets.clear();
+
+
+
+                    for(QueryDocumentSnapshot doc : snapshot){
+
+
+
+                        String id =
+                                doc.getString(
+                                        "id"
+                                );
+
+
+
+                        if(id != null &&
+                                id.startsWith(bookingId)){
+
+
+
+                            Booking booking =
+                                    doc.toObject(
+                                            Booking.class
+                                    );
+
+
+
+                            tickets.add(
+                                    booking
+                            );
+
+
+                        }
+
+
+
                     }
-                    if (btnNext != null) {
-                        btnNext.setEnabled(position < tickets.size() - 1);
-                        btnNext.setAlpha(position < tickets.size() - 1 ? 1.0f : 0.3f);
+
+
+
+
+                    if(tickets.isEmpty()){
+
+
+                        Toast.makeText(
+                                this,
+                                "Ticket not found",
+                                Toast.LENGTH_SHORT
+                        ).show();
+
+
+                        return;
+
                     }
+
+
+
+
+                    setupPager();
+
+
+
+                })
+                .addOnFailureListener(e -> {
+
+
+                    Toast.makeText(
+                            this,
+                            "Loading failed",
+                            Toast.LENGTH_SHORT
+                    ).show();
+
+
+                });
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+    private void setupPager(){
+
+
+
+        TicketPagerAdapter adapter =
+                new TicketPagerAdapter(
+                        tickets
+                );
+
+
+
+        viewPager.setAdapter(
+                adapter
+        );
+
+
+
+        tvTicketCounter.setText(
+                "1/" + tickets.size()
+        );
+
+
+
+        new TabLayoutMediator(
+                tabIndicator,
+                viewPager,
+                (tab, position) -> {
+
                 }
-            });
-        }
 
-        TabLayout tabLayout = findViewById(R.id.tabIndicator);
-        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
-            // Dots are handled by the custom tab background in XML if needed
-        }).attach();
+        ).attach();
 
-        findViewById(R.id.btnDownload).setOnClickListener(v -> 
-            Toast.makeText(this, "Downloading all " + tickets.size() + " tickets...", Toast.LENGTH_SHORT).show());
+
+
+
+
+        viewPager.registerOnPageChangeCallback(
+                new ViewPager2.OnPageChangeCallback() {
+
+
+                    @Override
+                    public void onPageSelected(
+                            int position
+                    ) {
+
+
+                        super.onPageSelected(position);
+
+
+
+                        tvTicketCounter.setText(
+                                (position + 1)
+                                        +
+                                        "/"
+                                        +
+                                        tickets.size()
+                        );
+
+
+
+                    }
+
+
+                }
+
+        );
+
+
+
+
+
+        btnPrevTicket.setOnClickListener(v -> {
+
+
+            int current =
+                    viewPager.getCurrentItem();
+
+
+
+            if(current > 0){
+
+
+                viewPager.setCurrentItem(
+                        current - 1
+                );
+
+
+            }
+
+
+        });
+
+
+
+
+
+        btnNextTicket.setOnClickListener(v -> {
+
+
+            int current =
+                    viewPager.getCurrentItem();
+
+
+
+            if(current < tickets.size()-1){
+
+
+                viewPager.setCurrentItem(
+                        current + 1
+                );
+
+
+            }
+
+
+        });
+
+
+
     }
 
-    private void navigateToHome() {
-        Intent intent = new Intent(TicketViewActivity.this, Home.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
-    }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        navigateToHome();
-    }
+
+
 }
