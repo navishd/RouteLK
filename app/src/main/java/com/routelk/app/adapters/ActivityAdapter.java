@@ -69,7 +69,7 @@ public class ActivityAdapter
         } else {
             holder.layoutForOthers.setVisibility(View.GONE);
         }
-        
+
         if (isCompleted) {
             holder.tvStatus.setText("Completed");
             holder.tvStatus.setBackgroundResource(R.drawable.status_confirmed_bg);

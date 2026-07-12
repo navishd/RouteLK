@@ -134,11 +134,12 @@ public class SeatSelectionActivity extends AppCompatActivity {
 
 
 
-            Intent intent =
-                    new Intent(
-                            SeatSelectionActivity.this,
-                            PassengerDetailsScreen.class
-                    );
+            Intent intent;
+            if (isForOthers) {
+                intent = new Intent(SeatSelectionActivity.this, PassengerDetailsScreen.class);
+            } else {
+                intent = new Intent(SeatSelectionActivity.this, Payment.class);
+            }
 
             intent.putExtra("IS_FOR_OTHERS", isForOthers);
 

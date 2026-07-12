@@ -354,6 +354,12 @@ public class Payment extends AppCompatActivity {
 
                     if(user != null){
                         currentUserName = user.getFullName();
+                        // If booking for self, use logged-in user details as passenger details
+                        if (passengerName == null || passengerName.isEmpty()) {
+                            passengerName = user.getFullName();
+                            passengerPhone = user.getPhone();
+                            passengerEmail = user.getEmail();
+                        }
                     }
 
                     createBooking(uid, currentUserName);
