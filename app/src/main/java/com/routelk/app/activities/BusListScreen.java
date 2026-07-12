@@ -215,8 +215,7 @@ public class BusListScreen extends AppCompatActivity {
                 date
         );
 
-
-
+        findViewById(R.id.backButton).setOnClickListener(v -> finish());
 
     }
 
