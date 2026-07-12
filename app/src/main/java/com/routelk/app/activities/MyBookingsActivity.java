@@ -58,7 +58,7 @@ public class MyBookingsActivity extends AppCompatActivity {
                 finish();
                 return true;
             } else if (id == R.id.nav_tickets) {
-                startActivity(new Intent(this, ManageBookingsActivity.class));
+                startActivity(new Intent(this, TicketsActivity.class));
                 finish();
                 return true;
             } else if (id == R.id.nav_account) {
@@ -82,16 +82,9 @@ public class MyBookingsActivity extends AppCompatActivity {
             bookingList = new ArrayList<>();
             adapter = new BookingAdapter(bookingList);
             adapter.setOnViewTicketClickListener(booking -> {
-                // Navigate to ManageBookingsActivity for verification
-                Intent intent = new Intent(MyBookingsActivity.this, ManageBookingsActivity.class);
-                intent.putExtra("booking_id", booking.getId());
-                intent.putExtra("from", booking.getFrom());
-                intent.putExtra("to", booking.getTo());
-                intent.putExtra("date", booking.getDate());
-                intent.putExtra("time", booking.getTime());
-                intent.putExtra("seat", booking.getSeatNo());
-                intent.putExtra("bus", booking.getBusName());
-                intent.putExtra("passenger_phone", booking.getPassengerPhone());
+                // Navigate directly to TicketViewActivity
+                Intent intent = new Intent(MyBookingsActivity.this, TicketViewActivity.class);
+                intent.putExtra("BOOKING_ID", booking.getId());
                 startActivity(intent);
             });
             recyclerView.setAdapter(adapter);

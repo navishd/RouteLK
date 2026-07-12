@@ -68,10 +68,9 @@ public class Payment extends AppCompatActivity {
 
 
 
-    private String userName;
-    private String userPhone;
-
-
+    private String passengerName;
+    private String passengerPhone;
+    private String passengerEmail;
 
     private String bookingId;
 
@@ -241,7 +240,9 @@ public class Payment extends AppCompatActivity {
                         0
                 );
 
-
+        passengerName = intent.getStringExtra("PASSENGER_NAME");
+        passengerPhone = intent.getStringExtra("PASSENGER_PHONE");
+        passengerEmail = intent.getStringExtra("PASSENGER_EMAIL");
     }
 
 
@@ -345,33 +346,17 @@ public class Payment extends AppCompatActivity {
                 .get()
                 .addOnSuccessListener(snapshot -> {
 
-
-
+                    String currentUserName = "";
                     User user =
                             snapshot.toObject(
                                     User.class
                             );
 
-
-
                     if(user != null){
-
-
-                        userName =
-                                user.getFullName();
-
-
-                        userPhone =
-                                user.getPhone();
-
-
+                        currentUserName = user.getFullName();
                     }
 
-
-
-                    createBooking(uid);
-
-
+                    createBooking(uid, currentUserName);
 
                 });
 
@@ -387,106 +372,49 @@ public class Payment extends AppCompatActivity {
 
 
 
-    private void createBooking(String uid){
-
-
+    private void createBooking(String uid, String currentUserName){
 
         if(selectedSeats == null ||
                 selectedSeats.isEmpty()){
-
-
             Toast.makeText(
                     this,
                     "No seat selected",
                     Toast.LENGTH_SHORT
             ).show();
-
-
             return;
-
         }
-
-
-
-
 
         bookingId =
                 UUID.randomUUID()
                         .toString();
 
-
-
-
-
-
         for(String seat : selectedSeats){
-
-
 
             String documentId =
                     bookingId + "-" + seat;
 
-
-
-
-            Booking booking =
-                    new Booking(
-
-
-                            documentId,
-
-
-                            uid,
-
-
-                            userName,
-
-
-                            userName,
-
-
-                            userPhone,
-
-
-                            from,
-
-
-                            to,
-
-
-                            busName,
-
-
-                            seat,
-
-
-                            date,
-
-
-                            Timestamp.now(),
-
-
-                            "CONFIRMED",
-
-
-                            price,
-
-
-                            time
-
-
-                    );
-
-
-
-
+                    Booking booking =
+                            new Booking(
+                                    documentId,
+                                    uid,
+                                    currentUserName,
+                                    passengerName,
+                                    passengerPhone,
+                                    passengerEmail,
+                                    from,
+                                    to,
+                                    busName,
+                                    seat,
+                                    date,
+                                    Timestamp.now(),
+                                    "CONFIRMED",
+                                    price,
+                                    time
+                            );
 
             db.collection("bookings")
                     .document(documentId)
                     .set(booking);
-
-
-
         }
 
 

@@ -57,6 +57,7 @@ public class SeatSelectionActivity extends AppCompatActivity {
     private String date;
     private double price;
     private String time;
+    private boolean isForOthers;
 
 
 
@@ -136,8 +137,10 @@ public class SeatSelectionActivity extends AppCompatActivity {
             Intent intent =
                     new Intent(
                             SeatSelectionActivity.this,
-                            Payment.class
+                            PassengerDetailsScreen.class
                     );
+
+            intent.putExtra("IS_FOR_OTHERS", isForOthers);
 
 
 
@@ -264,6 +267,7 @@ public class SeatSelectionActivity extends AppCompatActivity {
         time =
                 intent.getStringExtra("TIME");
 
+        isForOthers = intent.getBooleanExtra("IS_FOR_OTHERS", false);
     }
 
 

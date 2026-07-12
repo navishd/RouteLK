@@ -61,6 +61,14 @@ public class ActivityAdapter
         holder.tvDate.setText(dateText.isEmpty() ? "Date & Time" : dateText);
 
         holder.tvBookingId.setText(booking.getId());
+
+        // Show "For Others" badge if passenger name is different from user name
+        if (booking.getUserName() != null && booking.getPassengerName() != null &&
+                !booking.getUserName().equalsIgnoreCase(booking.getPassengerName())) {
+            holder.layoutForOthers.setVisibility(View.VISIBLE);
+        } else {
+            holder.layoutForOthers.setVisibility(View.GONE);
+        }
         
         if (isCompleted) {
             holder.tvStatus.setText("Completed");
@@ -116,7 +124,7 @@ public class ActivityAdapter
                 tvStatus,
                 btnActionLeft,
                 btnActionRight;
-        View btnDivider;
+        View btnDivider, layoutForOthers;
 
         public ActivityViewHolder(
                 @NonNull View itemView) {
@@ -132,6 +140,7 @@ public class ActivityAdapter
             btnActionLeft = itemView.findViewById(R.id.btnActionLeft);
             btnActionRight = itemView.findViewById(R.id.btnActionRight);
             btnDivider = itemView.findViewById(R.id.btnDivider);
+            layoutForOthers = itemView.findViewById(R.id.layoutForOthers);
         }
     }
 }

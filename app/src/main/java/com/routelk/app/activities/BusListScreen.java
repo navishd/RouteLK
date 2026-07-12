@@ -140,10 +140,8 @@ public class BusListScreen extends AppCompatActivity {
         final String passengers =
                 getIntent().getStringExtra("PASSENGERS");
 
-
-
-
-
+        final boolean isForOthers =
+                getIntent().getBooleanExtra("IS_FOR_OTHERS", false);
 
         routeTitle.setText(
                 safe(from)
@@ -190,7 +188,7 @@ public class BusListScreen extends AppCompatActivity {
                         date,
                         time,
                         passengers,
-                        ""
+                        isForOthers
                 );
 
 
