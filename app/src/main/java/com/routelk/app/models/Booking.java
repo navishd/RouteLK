@@ -12,7 +12,7 @@ public class Booking {
     private String from;
     private String to;
     private String busName;
-    private String seat;
+    private String seatNo;
     private String date;
     private Timestamp timestamp;
     private String documentId;
@@ -47,7 +47,7 @@ public class Booking {
         this.from = from;
         this.to = to;
         this.busName = busName;
-        this.seat = seatNo;
+        this.seatNo = seatNo;
         this.date = date;
         this.timestamp = timestamp;
         this.status = status;
@@ -120,11 +120,11 @@ public class Booking {
     }
 
     public String getSeatNo() {
-        return seat;
+        return seatNo;
     }
 
     public void setSeatNo(String seatNo) {
-        this.seat = seatNo;
+        this.seatNo = seatNo;
     }
 
     public String getDate() {

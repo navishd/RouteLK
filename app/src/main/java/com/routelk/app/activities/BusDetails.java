@@ -125,17 +125,6 @@ public class BusDetails extends AppCompatActivity {
             );
 
 
-            intent.putExtra(
-                    "DEPARTURE_TIME",
-                    departure
-            );
-
-
-            intent.putExtra(
-                    "ARRIVAL_TIME",
-                    arrival
-            );
-
 
             double busPrice = 0;
 
