@@ -20,6 +20,7 @@ public class Booking {
     private String status;
     private double price;
     private String time;
+    private boolean forOthers;
 
 
     public Booking() {
@@ -56,6 +57,41 @@ public class Booking {
         this.status = status;
         this.price = price;
         this.time = time;
+    }
+
+    public Booking(String id,
+                   String userId,
+                   String userName,
+                   String passengerName,
+                   String passengerPhone,
+                   String passengerEmail,
+                   String from,
+                   String to,
+                   String busName,
+                   String seatNo,
+                   String date,
+                   Timestamp timestamp,
+                   String status,
+                   double price,
+                   String time,
+                   boolean forOthers) {
+
+        this.id = id;
+        this.userId = userId;
+        this.userName = userName;
+        this.passengerName = passengerName;
+        this.passengerPhone = passengerPhone;
+        this.passengerEmail = passengerEmail;
+        this.from = from;
+        this.to = to;
+        this.busName = busName;
+        this.seatNo = seatNo;
+        this.date = date;
+        this.timestamp = timestamp;
+        this.status = status;
+        this.price = price;
+        this.time = time;
+        this.forOthers = forOthers;
     }
 
     public String getId() {
@@ -184,5 +220,13 @@ public class Booking {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public boolean isForOthers() {
+        return forOthers;
+    }
+
+    public void setForOthers(boolean forOthers) {
+        this.forOthers = forOthers;
     }
 }

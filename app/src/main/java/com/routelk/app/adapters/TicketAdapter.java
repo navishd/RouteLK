@@ -134,10 +134,15 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
 
 
         // Booking ID
-
         holder.tvBookingCode.setText(
-                "BOOK-" + booking.getId()
+                "BOOK-" + (booking.getId() != null ? booking.getId() : "")
         );
+
+        if (booking.isForOthers()) {
+            holder.badgeForOthers.setVisibility(View.VISIBLE);
+        } else {
+            holder.badgeForOthers.setVisibility(View.GONE);
+        }
 
     }
 
@@ -182,6 +187,8 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
 
 
         TextView tvBookingCode;
+
+        View badgeForOthers;
 
 
 
@@ -254,6 +261,11 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
             tvBookingCode =
                     itemView.findViewById(
                             R.id.tvBookingCode
+                    );
+
+            badgeForOthers =
+                    itemView.findViewById(
+                            R.id.badgeForOthers
                     );
 
 
