@@ -110,6 +110,10 @@
         <activity
             android:name=".activities.TicketsActivity"
             android:exported="false" />
+        <activity
+            android:name=".activities.ChatAssistantActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
 
     </application>
 
