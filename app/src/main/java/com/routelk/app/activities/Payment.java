@@ -74,6 +74,8 @@ public class Payment extends AppCompatActivity {
 
     private String bookingId;
 
+    private boolean isForOthers;
+
 
 
     @Override
@@ -243,6 +245,7 @@ public class Payment extends AppCompatActivity {
         passengerName = intent.getStringExtra("PASSENGER_NAME");
         passengerPhone = intent.getStringExtra("PASSENGER_PHONE");
         passengerEmail = intent.getStringExtra("PASSENGER_EMAIL");
+        isForOthers = intent.getBooleanExtra("IS_FOR_OTHERS", false);
     }
 
 
@@ -346,19 +349,27 @@ public class Payment extends AppCompatActivity {
                 .get()
                 .addOnSuccessListener(snapshot -> {
 
-                    String currentUserName = "";
+                    String currentUserName;
                     User user =
                             snapshot.toObject(
                                     User.class
                             );
 
                     if(user != null){
-                        currentUserName = user.getFullName();
+                        currentUserName = user.getFullName() != null ? user.getFullName() : "";
                         // If booking for self, use logged-in user details as passenger details
                         if (passengerName == null || passengerName.isEmpty()) {
-                            passengerName = user.getFullName();
-                            passengerPhone = user.getPhone();
-                            passengerEmail = user.getEmail();
+                            passengerName = user.getFullName() != null ? user.getFullName() : "Guest";
+                            passengerPhone = user.getPhone() != null ? user.getPhone() : "N/A";
+                            passengerEmail = user.getEmail() != null ? user.getEmail() : "N/A";
+                        }
+                    } else {
+                        // Fallback if user profile is not found in Firestore
+                        currentUserName = currentUser.getDisplayName() != null ? currentUser.getDisplayName() : "User";
+                        if (passengerName == null || passengerName.isEmpty()) {
+                            passengerName = currentUserName;
+                            passengerPhone = "N/A";
+                            passengerEmail = currentUser.getEmail() != null ? currentUser.getEmail() : "N/A";
                         }
                     }
 
@@ -415,7 +426,8 @@ public class Payment extends AppCompatActivity {
                                     Timestamp.now(),
                                     "CONFIRMED",
                                     price,
-                                    time
+                                    time,
+                                    isForOthers
                             );
 
             db.collection("bookings")
