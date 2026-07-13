@@ -19,6 +19,7 @@ public class BookingSuccess extends AppCompatActivity {
     private Button btnGoHome;
 
     private TextView tvBookingId;
+    private TextView tvBookingDetailsSummary;
 
 
     private String bookingId;
@@ -46,6 +47,9 @@ public class BookingSuccess extends AppCompatActivity {
         tvBookingId =
                 findViewById(R.id.tvBookingId);
 
+        tvBookingDetailsSummary =
+                findViewById(R.id.tvBookingDetailsSummary);
+
 
         btnViewTicket =
                 findViewById(R.id.btnViewTicket);
@@ -63,6 +67,15 @@ public class BookingSuccess extends AppCompatActivity {
         tvBookingId.setText(
                 bookingId
         );
+
+        if (tvBookingDetailsSummary != null) {
+            String summary = String.format("%s to %s\n%s at %s", 
+                    from != null ? from : "", 
+                    to != null ? to : "", 
+                    date != null ? date : "", 
+                    time != null ? time : "");
+            tvBookingDetailsSummary.setText(summary);
+        }
 
 
 
